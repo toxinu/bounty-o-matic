@@ -24,7 +24,7 @@ And open `https://localhost:8000`. (**https !**)
 ```
 rm db.sqlite3
 rm headhunter/*/migrations/*.py
-./manage.py syncdb
 ./manage.py makemigrations
+./manage.py syncdb
 ./manage.py migrate
 ```
