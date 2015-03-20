@@ -18,8 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '2x6-a)1w=%mlo)vkb$rg^!ddrpfi3bcp47bkfly3)wvf537)4('
 
-CORS_ORIGIN_ALLOW_ALL = True
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -53,7 +51,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'memoize',
     'sslserver',
-    'corsheaders',
     'social.apps.django_app.default',
     'headhunter.accounts',
     'headhunter.bounties',
