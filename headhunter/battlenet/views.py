@@ -15,7 +15,9 @@ class PlayerCharactersAPIView(View):
 
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated():
-            return HttpResponseBadRequest()
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': 'need an authenticated user'}),
+                content_type="application/json")
         return HttpResponse(
             json.dumps(get_player_characters(
                 self.request.user,
@@ -28,7 +30,9 @@ class PlayerBattleTagAPIView(View):
 
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated():
-            return HttpResponseBadRequest()
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': 'need an authenticated user'}),
+                content_type="application/json")
         return HttpResponse(
             json.dumps(get_player_battletag(self.request.user)),
             content_type="application/json")
