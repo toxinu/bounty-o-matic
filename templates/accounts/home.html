@@ -2,9 +2,41 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-	<ul>
-		<li>username: {{ user.username }}</li>
-		<li>characters: {{ characters }}</li>
+	<button id="load-player">Load your battlenet informations</button>
+	<ul id="player-informations">
+		<li style="display:none" class="player-informations-loading">Loading...</li>
+		<li style="display:none" class="player-battletag"></li>
+		<ul style="display:none" class="player-characters"></ul>
 	</ul>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $("button#load-player").click(function(){
+    			$("li.player-informations-loading").css("display", "block");
+
+		    	$.getJSON('/api/player-characters.json', function(data) {
+		    			console.log('SUCCESS');
+		    			$("li.player-informations-loading").css("display", "none");
+		    			$("ul.player-characters").css("display", "block");
+		    			$.each(data, function(key, val) {
+				        	$("ul.player-characters").append(
+				        		"<li>" + val.name + " (" + val.level + ") - " + val.realm + "</li>");
+				        });
+		    	})
+		    		.fail(function(data) {
+		    			console.log('ERROR', data);
+		    		})
+		    	$.getJSON('/api/player-battletag.json', function(data) {
+		    			console.log('SUCCESS');
+		    			$("li.player-informations-loading").css("display", "none");
+		    			$("li.player-battletag").css("display", "block");
+			        	$("li.player-battletag").html(data);
+		    	})
+		    		.fail(function(data) {
+		    			console.log('ERROR', data);
+		    		})
+		    	});
+	    	});
+	</script>
 {% endif %}
 {% endblock %}

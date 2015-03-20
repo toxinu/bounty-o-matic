@@ -20,7 +20,7 @@ def get_realms(region):
     return realms
 
 
-@memoize(timeout=60 * 2)
+@memoize(timeout=60 * 5)
 def is_character_exists(region, realm, character):
     r = requests.get('http://%s.battle.net/api/wow/character/%s/%s' % (
         region, realm, character))
@@ -30,18 +30,27 @@ def is_character_exists(region, realm, character):
 
 
 @memoize(timeout=60 * 5)
+def is_player_character(user, character, regions=None):
+    characters = get_player_characters(user, regions)
+    for c in characters:
+        if '%s-%s' % (c['name'], c['realm']) == character:
+            return True
+    return False
+
+
+@memoize(timeout=60 * 5)
 def get_player_characters(user, regions=None):
     characters = []
     if not user.social_auth.exists():
         return characters
     if regions is None:
-        regions = get_regions()
+        regions = [r['slug'] for r in get_regions()]
     if not isinstance(regions, list):
-        regions = []
+        regions = [regions]
     for region in regions:
         kwargs = {}
-        base_url = 'http://%s.battle.net/api' % region['slug']
-        if region['slug'] == 'cn':
+        base_url = 'http://%s.battle.net/api' % region
+        if region == 'cn':
             kwargs = {'verify': False}
             base_url = 'http://www.battlenet.com.cn/api'
         r = requests.get(
@@ -56,3 +65,19 @@ def get_player_characters(user, regions=None):
         except ValueError:
             continue
     return characters
+
+
+@memoize(timeout=60 * 30)
+def get_player_battletag(user):
+    if not user.social_auth.exists():
+        return None
+    r = requests.get(
+        'http://eu.battle.net/api/account/user/battletag',
+        params={'access_token': user.social_auth.first().access_token})
+    try:
+        if r.json().get('status') == 'nok':
+            return None
+        else:
+            return r.json().get('battletag')
+    except ValueError:
+        return None
