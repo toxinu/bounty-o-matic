@@ -16,6 +16,9 @@ urlpatterns = patterns(
     url(r'^bounties/$', bounties_views.BountyListView.as_view(), name='bounties-list'),
     url(r'^bounties/add/$',
         bounties_views.BountyCreateView.as_view(), name='bounties-add'),
+
+    url(r'^api/bounty',
+        bounties_views.BountyListAPIView.as_view(), name='api-bounty-list'),
     url(r'^api/regions.json',
         battlenet_views.RegionsAPIView.as_view(), name='api-regions'),
     url(r'^api/realms.json', battlenet_views.RealmsAPIView.as_view(), name='api-realms'),
