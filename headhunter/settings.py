@@ -76,6 +76,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+LOGIN_REDIRECT_URL = "/"
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
