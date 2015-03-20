@@ -1,10 +1,10 @@
 import requests
 from memoize import memoize
 
-from ..bounties.models import Bounty
-
 
 def get_regions():
+    from ..bounties.models import Bounty
+
     regions = []
     for slug, name in Bounty.REGION_CHOICES:
         regions.append({'slug': slug, 'name': name})
@@ -30,10 +30,10 @@ def is_character_exists(region, realm, character):
 
 
 @memoize(timeout=60 * 5)
-def is_player_character(user, character, regions=None):
+def is_player_character(user, character, realm, regions=None):
     characters = get_player_characters(user, regions)
     for c in characters:
-        if '%s-%s' % (c['name'], c['realm']) == character:
+        if character == c['name'] and realm == c['normalized_realm']:
             return True
     return False
 
@@ -61,7 +61,12 @@ def get_player_characters(user, regions=None):
             if r.json().get('status') == 'nok':
                 continue
             else:
-                characters += r.json().get('characters')
+                for character in r.json().get('characters'):
+                    normalized_realm = get_normalized_realm(
+                        character.get('realm'), region)
+                    character.update({
+                        'normalized_realm': normalized_realm, 'region': region})
+                    characters.append(character)
         except ValueError:
             continue
     return characters
@@ -81,3 +86,16 @@ def get_player_battletag(user):
             return r.json().get('battletag')
     except ValueError:
         return None
+
+
+def get_normalized_realm(realm, region=None):
+    if region is None:
+        regions = [r['slug'] for r in get_regions()]
+    else:
+        regions = [region]
+
+    for region in regions:
+        realms = get_realms(region)
+        for r in realms:
+            if realm == r['name']:
+                return r['slug']
