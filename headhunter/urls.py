@@ -4,6 +4,7 @@ from django.conf.urls import url
 from django.conf.urls import include
 from django.conf.urls import patterns
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from headhunter.bounties import views as bounties_views
 from headhunter.accounts import views as accounts_views
@@ -15,6 +16,8 @@ urlpatterns = patterns(
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^$', accounts_views.HomeView.as_view(), name='home'),
     url(r'^logout/$', accounts_views.LogoutView.as_view(), name='logout'),
+    url(r'^bounty/$',
+        TemplateView.as_view(template_name="bounties/list.html"), name='bounty-list'),
     # API
     url(r'^api/bounty',
         bounties_views.BountyListAPIView.as_view(), name='api-bounty-list'),

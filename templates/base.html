@@ -6,9 +6,13 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.1/react.js"></script>
 	{% include "header.html" %}
     {% block content %}{% endblock %}
     {% include "footer.html" %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.1/react.js"></script>
+	<script src="{% static "headhunter/js/components/logged-as.js" %}"></script>
+	{% block javascripts %}{% endblock %}
 </body>
 </html>
