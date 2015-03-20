@@ -41,7 +41,7 @@ def is_player_character(user, character, regions=None):
 @memoize(timeout=60 * 5)
 def get_player_characters(user, regions=None):
     characters = []
-    if not user.social_auth.exists():
+    if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return characters
     if regions is None:
         regions = [r['slug'] for r in get_regions()]
