@@ -4,11 +4,15 @@
 <head>
     <title>HeadHunter</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "headhunter/css/custom.css" %}">
 </head>
 <body>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.1/react.js"></script>
-	{% include "header.html" %}
-    {% block content %}{% endblock %}
-    {% include "footer.html" %}
+    <div class="container">
+        {% include "header.html" %}
+        {% block content %}{% endblock %}
+        {% include "footer.html" %}
+    </div>
 </body>
 </html>
