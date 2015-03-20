@@ -15,9 +15,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Bounty',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('amount', models.PositiveIntegerField()),
-                ('region', models.CharField(max_length=2, default='eu', choices=[('eu', 'Europe'), ('us', 'US'), ('kr', 'Korea'), ('tw', 'Taiwan')])),
+                ('region', models.CharField(choices=[('eu', 'Europe'), ('us', 'US'), ('kr', 'Korea'), ('tw', 'Taiwan')], default='eu', max_length=2)),
                 ('source', models.CharField(max_length=200)),
                 ('destination', models.CharField(max_length=200)),
                 ('added_date', models.DateTimeField(auto_now_add=True)),
