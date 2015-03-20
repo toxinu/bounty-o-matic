@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Bounties</h1>
+<ul>
+{% for bounty in object_list %}
+    <li>{{ bounty.added_date|date }} - {{ bounty.source_url }} | {{ bounty.target_url }} - {{ bounty.amount }} - {{ bounty.user }}</li>
+{% empty %}
+    <li>No bounties yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}

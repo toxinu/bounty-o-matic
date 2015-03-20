@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <title>HeadHunter</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+	{% include "header.html" %}
+    {% block content %}{% endblock %}
+    {% include "footer.html" %}
+</body>
+</html>
