@@ -15,13 +15,11 @@ class Bounty(models.Model):
 
     amount = models.PositiveIntegerField()
     user = models.ForeignKey(User)
+    region = models.CharField(
+        max_length=2, choices=REGION_CHOICES, default=REGION_EU)
 
-    source_name = models.CharField(max_length=200)
-    source_region = models.CharField(
-        max_length=2, choices=REGION_CHOICES, default=REGION_EU)
-    destination_name = models.CharField(max_length=200)
-    destination_region = models.CharField(
-        max_length=2, choices=REGION_CHOICES, default=REGION_EU)
+    source = models.CharField(max_length=200)
+    destination = models.CharField(max_length=200)
 
     added_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

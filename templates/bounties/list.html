@@ -2,9 +2,10 @@
 
 {% block content %}
 <h1>Bounties</h1>
+<a href="{% url "bounties-add" %}">add a bounty</a>
 <ul>
 {% for bounty in object_list %}
-    <li>{{ bounty.added_date|date }} - {{ bounty.source_url }} | {{ bounty.target_url }} - {{ bounty.amount }} - {{ bounty.user }}</li>
+    <li>{{ bounty.added_date|date }} - {{ bounty.source }} | {{ bounty.destination }} - {{ bounty.amount }} gold</li>
 {% empty %}
     <li>No bounties yet.</li>
 {% endfor %}

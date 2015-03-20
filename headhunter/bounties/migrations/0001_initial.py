@@ -15,12 +15,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Bounty',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
                 ('amount', models.PositiveIntegerField()),
-                ('source_name', models.CharField(max_length=200)),
-                ('source_region', models.CharField(choices=[('eu', 'Europe')], max_length=2, default='eu')),
-                ('destination_name', models.CharField(max_length=200)),
-                ('destination_region', models.CharField(choices=[('eu', 'Europe')], max_length=2, default='eu')),
+                ('region', models.CharField(max_length=2, default='eu', choices=[('eu', 'Europe'), ('us', 'US'), ('kr', 'Korea'), ('tw', 'Taiwan')])),
+                ('source', models.CharField(max_length=200)),
+                ('destination', models.CharField(max_length=200)),
                 ('added_date', models.DateTimeField(auto_now_add=True)),
                 ('updated_date', models.DateTimeField(auto_now=True)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
