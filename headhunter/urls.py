@@ -1,7 +1,9 @@
 from django.contrib import admin
+from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls import include
 from django.conf.urls import patterns
+from django.conf.urls.static import static
 
 from headhunter.bounties import views as bounties_views
 from headhunter.accounts import views as accounts_views
@@ -25,3 +27,6 @@ urlpatterns = patterns(
     url(r'^api/player-characters',
         battlenet_views.PlayerCharactersAPIView.as_view(), name='api-player-characters'),
 )
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
