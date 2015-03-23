@@ -3,7 +3,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <div id="data"></div>
     <script type="text/javascript" src="{% static "headhunter/js/app.js" %}"></script>
+    <div ui-view></div>
 {% endif %}
 {% endblock %}

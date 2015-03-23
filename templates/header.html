@@ -2,13 +2,16 @@
     <nav>
         <ul class="nav nav-pills pull-right">
             <li role="presentation">
-                <a href="{% url 'home' %}">Home</a>
+                <a ui-sref="bounties">Home</a>
             </li>
             {% if not user.is_authenticated %}
                 <li role="presentation">
                     <a href="{% url 'social:begin' 'battlenet-oauth2' %}">Sign in</a>
                 </li>
             {% else %}
+                <li role="presentation">
+                    <a ui-sref="create">Create</a>
+                </li>
                 <li role="presentation">
                     <a href="{% url 'logout' %}">Logout</a>
                 </li>

@@ -1,0 +1,113 @@
+<div clas="row">
+    <div class="col-md-12">
+
+        <div class="row">
+            <div class="col-xs-12 text-center well">
+                <h2 style="margin-top:0; margin-bottom:25px;">Create a bounty</h2>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <span class="badge badge-black" ng-class="{'badge-active': currentStep == 1}">1</span>
+                        <p><a href="" ng-click="currentStep = 1">YOU</a></p>
+                    </div>
+                    <div class="col-xs-4">
+                        <span class="badge badge-black" ng-class="{'badge-active': currentStep == 2}">2</span>
+                        <p><a href="" ng-click="currentStep = 2">TARGET</a></p>
+                    </div>
+                    <div class="col-xs-4">
+                        <span class="badge badge-black" ng-class="{'badge-active': currentStep == 3}">3</span>
+                        <p><a href="" ng-click="currentStep = 3">REWARD</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form-horizontal">
+                    <div class="form-group" ng-show="currentStep == 1">
+                        <label class="col-sm-3 control-label">Your character</label>
+                        <div class="col-sm-9">
+                            <ui-select ng-model="sCharacter.selected" theme="selectize" ng-disabled="disabled">
+                                <ui-select-match placeholder="">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="character in characters | filter: $select.search">
+                                    <span ng-bind-html="character.name | highlight: $select.search"></span>
+                                    <!-- <span><img ng-src="http://{{character.region}}.battle.net/static-render/{{character.region}}/{{character.thumbnail}}" alt=""></span> -->
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right" ng-show="currentStep == 1">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" ng-disabled="!sCharacter.selected" ng-click="currentStep = 2">Next step</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="currentStep == 2">
+                        <label class="col-sm-3 control-label">Target server</label>
+                        <div class="col-sm-9">
+                            <ui-select ng-model="sRegion.selected" theme="selectize" ng-disabled="disabled">
+                                <ui-select-match placeholder="">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="region in regions | filter: $select.search">
+                                    <span ng-bind-html="region.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="currentStep == 2 && sRegion.selected">
+                        <label class="col-sm-3 control-label">Target realm</label>
+                        <div class="col-sm-9">
+                            <ui-select ng-model="sRealm.selected" theme="selectize" >
+                                <ui-select-match placeholder="">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="realm in realms | filter: $select.search">
+                                    <span ng-bind-html="realm.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="currentStep == 2 && sRealm.selected">
+                        <label class="col-sm-3 control-label">Target name</label>
+                        <div class="col-sm-9">
+                            <input ng-model="sTarget" type="text" class="form-control" placeholder="" >
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right" ng-show="currentStep == 2">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" ng-click="currentStep = 3" ng-disabled="!sTarget">Next step</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="currentStep == 3">
+                        <label class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea ng-model="sDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="currentStep == 3">
+                        <label class="col-sm-3 control-label">Reward</label>
+                        <div class="col-sm-9">
+                            <input ng-model="sReward" type="text" class="form-control" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right" ng-show="currentStep == 3">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-success" ng-disabled="!sReward" ng-click="process()">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>Char: <pre>{{sCharacter.selected}}</pre></p>
+<p>Region: <pre>{{sRegion.selected}}</pre></p>
+<p>Realm: <pre>{{sRealm.selected}}</pre></p>
+<p>Target name: <pre>{{sTarget}}</pre></p>
+<p>Description: <pre>{{sDescription}}</pre></p>
+<p>Reward: <pre>{{sReward}}</pre></p>

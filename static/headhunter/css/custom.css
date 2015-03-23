@@ -77,3 +77,10 @@ body {
     border-bottom: 0;
   }
 }
+
+.badge.badge-black {
+  background-color: #000;
+}
+.badge.badge-active {
+  background-color: #5CB85C;
+}
