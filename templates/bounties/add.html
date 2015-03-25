@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<form method="post">
+  <!-- Player Character -->
+  <label
+        id="player-characters-label"
+        for="player-characters"
+        style="display:none">
+      You character: 
+  </label>
+  <select
+      id="player-characters"
+      style="display:none">
+    <option value="">---</option>
+  </select>
+  <!-- End block -->
+
+  <!-- Realm -->
+  <label
+        id="realms-label"
+        for="realms"
+        style="display:none">
+      Realm: 
+  </label>
+  <select
+      id="realms"
+      style="display:none">
+    <option value="">---</option>
+  </select>
+  <!-- End block -->
+  
+  <!-- Destination character -->
+  <label
+        id="destination-character-label"
+        for="realms"
+        style="display:none">
+      Destination character: 
+  </label>
+  <input
+      id="destination-character"
+      style="display:none"
+      type="text" />
+  <label
+	    for="reward"
+	    id="reward-label"
+	    style="display:none">
+	  Reward:
+	</label>
+	<textarea
+	    id="reward"
+	    style="display:none"
+	    rows="4"
+	    cols="50"></textarea>
+	<label
+	    for="description"
+	    id="description-label"
+	    style="display:none">
+	  Description:
+	</label>
+	<textarea
+	    id="description"
+	    style="display:none"
+	    rows="4"
+	    cols="50"></textarea>
+
+	<button
+	    id="save"
+	    onclick="saveBounty()"
+	    style="display:none">
+	  Save
+	</button>
+</form>	
+<!-- End block -->
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+  var selectedRegion = null;
+  var selectedSourceRealm = null;
+  var selectedSourceCharacter = null;
+  var selectedDestinationRealm = null;
+  var selectedDestinationCharacter = null;
+  var reward = 'test';
+  var description = 'test';
+
+  function getPlayerCharacters() {
+    $.ajax({
+      url: "/api/player-characters",
+      dataType: 'json',
+      success: function(data) {
+        $.map(data, function(val) {
+          $("select#player-characters").append(
+            "<option value=\"" + val.region + "|" + val.normalized_realm +
+            "|"  + val.name + "\">" + val.name + " - " + val.realm +
+            " (" + val.level + ") </option>");
+        });
+        $("select#player-characters").css("display", "block");
+        $("label#player-characters-label").css("display", "block");
+      },
+      error: function(xhr, status, err) {
+        console.error("/api/player-characters", status, err.toString());
+      }
+    });  
+  };
+
+  function getRealms(region) {
+    $.ajax({
+      url: "/api/realms?region=" + region,
+      dataType: 'json',
+      success: function(data) {
+        $.map(data, function(val) {
+          $("select#realms").append(
+            "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+        });
+        $("select#realms").css("display", "block");
+        $("label#realms-label").css("display", "block");
+        $("input#destination-character").css("display", "block");
+        $("label#destination-character-label").css("display", "block");
+        $("textarea#reward").css("display", "block");
+        $("label#reward-label").css("display", "block");
+        $("textarea#description").css("display", "block");
+        $("label#description-label").css("display", "block");
+        $("button#save").css("display", "block");
+      },
+      error: function(xhr, status, err) {
+        console.error("/api/realms?region=" + region, status, err.toString());
+      }
+    }); 
+  };
+
+  function saveBounty() {
+    selectedDestinationCharacter = $("input#destination-character").val();
+    reward = $("textarea#reward").val();
+    description = $("textarea#description").val();
+
+    var errorMessage = '';
+    if (!selectedRegion)
+      errorMessage += '\nMissing region';
+    if (!selectedSourceRealm)
+      errorMessage += '\nMissing source realm';
+    if (!selectedSourceCharacter)
+      errorMessage += '\nMissing source character';
+    if (!selectedDestinationRealm)
+      errorMessage += '\nMissing destination realm';
+    if (!selectedDestinationCharacter )
+      errorMessage += '\nMissing destination character';
+    if (!reward)
+      errorMessage += '\nMissing reward';
+    if (!description)
+      errorMessage += '\nMissing description';
+
+    if (errorMessage) {
+      alert(errorMessage);
+      return;
+    }
+
+    var bounty = {
+      region: selectedRegion,
+      source_realm: selectedSourceRealm,
+      source_character: selectedSourceCharacter,
+      destination_realm: selectedDestinationRealm,
+      destination_character: selectedDestinationCharacter,
+      description: description,
+      reward: reward
+    }
+    $.ajax({
+      url: "/api/bounty",
+      dataType: 'json',
+      type: 'POST',
+      data: bounty,
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(xhr, status, err) {
+        console.error("/api/bounty", status, err.toString());
+      }
+    }); 
+  };
+
+$(function() {
+  // When select character
+  $("select#player-characters").change(function() {
+    var character = $("select#player-characters").val()
+    selectedRegion = character.split('|')[0];
+    selectedSourceRealm = character.split('|')[1];
+    selectedSourceCharacter = character.split('|')[2];
+    console.log("selectedRegion:", selectedRegion);
+    console.log("selectedSourceCharacter:", selectedSourceCharacter);
+    console.log("selectedSourceRealm:", selectedSourceRealm);
+    getRealms(selectedRegion);
+  });
+  // When select realm
+  $("select#realms").change(function() {
+    selectedDestinationRealm = $("select#realms").val();
+    console.log("selectedDestinationRealm:", selectedDestinationRealm);
+  });
+
+  getPlayerCharacters();
+});
+</script>
+{% endblock %}
