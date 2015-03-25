@@ -3,8 +3,14 @@
 
 {% block content %}
 {% if bounty %}
+
   <div class="page-header">
-    <h1>Bounty <small>on {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</small></h1>
+    <h1>
+      Bounty <small>on {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</small>
+      {% if bounty.user == user.pk %}
+        <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">Edit</a>
+      {% endif %}
+    </h1>
   </div>
 
   <div class="panel panel-primary">
