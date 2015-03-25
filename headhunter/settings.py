@@ -21,7 +21,7 @@ SECRET_KEY = '2x6-a)1w=%mlo)vkb$rg^!ddrpfi3bcp47bkfly3)wvf537)4('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),)
@@ -33,7 +33,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
     "social.apps.django_app.context_processors.backends",
     "social.apps.django_app.context_processors.login_redirect",
 )
@@ -55,6 +54,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'headhunter.accounts',
     'headhunter.bounties',
+    'headhunter.battlenet',
 )
 
 MIDDLEWARE_CLASSES = (
