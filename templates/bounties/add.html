@@ -2,19 +2,21 @@
 {% load staticfiles %}
 
 {% block content %}
-<form method="post">
+<form id="bounty-for">
   <!-- Player Character -->
   <label
         id="player-characters-label"
         for="player-characters"
         style="display:none">
-      You character: 
+      Your character
   </label>
   <select
+  		class="form-control"
       id="player-characters"
       style="display:none">
     <option value="">---</option>
   </select>
+  <br>
   <!-- End block -->
 
   <!-- Realm -->
@@ -22,13 +24,15 @@
         id="realms-label"
         for="realms"
         style="display:none">
-      Realm: 
+      Target realm
   </label>
   <select
+  		class="form-control"
       id="realms"
       style="display:none">
     <option value="">---</option>
   </select>
+  <br>
   <!-- End block -->
   
   <!-- Destination character -->
@@ -36,38 +40,49 @@
         id="destination-character-label"
         for="realms"
         style="display:none">
-      Destination character: 
+      Target name 
   </label>
   <input
       id="destination-character"
       style="display:none"
+      class="form-control"
       type="text" />
+  <br>
   <label
 	    for="reward"
 	    id="reward-label"
 	    style="display:none">
-	  Reward:
+	  Reward
 	</label>
+  <small class="help" style="display:none">
+    <p class="help-block">Markdown allowed</p>
+  </small>
 	<textarea
+			class="form-control"
 	    id="reward"
 	    style="display:none"
 	    rows="4"
 	    cols="50"></textarea>
+  <br>
 	<label
 	    for="description"
 	    id="description-label"
 	    style="display:none">
-	  Description:
+	  Description
 	</label>
+  <small class="help" style="display:none">
+    <p class="help-block">Markdown allowed</p>
+  </small>
 	<textarea
+			class="form-control"
 	    id="description"
 	    style="display:none"
 	    rows="4"
 	    cols="50"></textarea>
-
+	<br>
 	<button
+			class="btn btn-success"
 	    id="save"
-	    onclick="saveBounty()"
 	    style="display:none">
 	  Save
 	</button>
@@ -125,6 +140,7 @@
         $("textarea#description").css("display", "block");
         $("label#description-label").css("display", "block");
         $("button#save").css("display", "block");
+        $(".help").css("display", "block");
       },
       error: function(xhr, status, err) {
         console.error("/api/realms?region=" + region, status, err.toString());
@@ -139,22 +155,20 @@
 
     var errorMessage = '';
     if (!selectedRegion)
-      errorMessage += '\nMissing region';
-    if (!selectedSourceRealm)
-      errorMessage += '\nMissing source realm';
-    if (!selectedSourceCharacter)
-      errorMessage += '\nMissing source character';
+      errorMessage += '\n- Missing region';
+    if (!selectedSourceRealm || !selectedSourceCharacter)
+      errorMessage += '\n- Your character is missing';
     if (!selectedDestinationRealm)
-      errorMessage += '\nMissing destination realm';
+      errorMessage += '\n- Missing target realm';
     if (!selectedDestinationCharacter )
-      errorMessage += '\nMissing destination character';
+      errorMessage += '\n- Missing target name';
     if (!reward)
-      errorMessage += '\nMissing reward';
+      errorMessage += '\n- Missing reward';
     if (!description)
-      errorMessage += '\nMissing description';
+      errorMessage += '\n- Missing description';
 
     if (errorMessage) {
-      alert(errorMessage);
+      alert("Form is incomplet:\n" + errorMessage);
       return;
     }
 
@@ -165,7 +179,7 @@
       destination_realm: selectedDestinationRealm,
       destination_character: selectedDestinationCharacter,
       description: description,
-      reward: reward
+      reward: reward,
     }
     $.ajax({
       url: "/api/bounty",
@@ -173,15 +187,35 @@
       type: 'POST',
       data: bounty,
       success: function(data) {
-        console.log(data);
+        window.location = "/bounty/" + data.id;
       },
       error: function(xhr, status, err) {
+        var jsonResponse = $.parseJSON(xhr.responseText)
+        var errorMessage = '';
+        if (jsonResponse.reasons) {
+          $.map(jsonResponse.reasons, function(val) {
+            errorMessage += '\n- ' + val;
+          })
+        }
+        if (!errorMessage)
+          errorMessage = '\n- Unknown error';
+
+        alert("Bounty is incorrect:\n" + errorMessage);
         console.error("/api/bounty", status, err.toString());
       }
     }); 
   };
 
 $(function() {
+	$("form#bounty-form").submit(function(e) {
+		e.preventDefault();
+		saveBounty();
+	});
+	$("button#save").click(function(e) {
+		e.preventDefault();
+		saveBounty();
+	});
+
   // When select character
   $("select#player-characters").change(function() {
     var character = $("select#player-characters").val()

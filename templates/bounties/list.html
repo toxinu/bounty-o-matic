@@ -2,37 +2,47 @@
 {% load staticfiles %}
 
 {% block content %}
-  <ul
-      id="bounty-list"
-      style="display:none">
+  <ul class="list-group">
   {% for bounty in bounties %}
-    <li>{{ bounty }}</li>
+    <li class="list-group-item">
+    [<strong>{{ bounty.region_display }}</strong>] {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} <span class="label label-default">by {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
+    <a class="pull-right btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">View</a>
+    </li>
   {% endfor %}
   </ul>
+
+<nav>
+  <ul class="pagination">
+    {% if has_previous %}
+      <li>
+        <a href="?page={{ previous_page_number }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="disabled">
+        <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+    {% endif %}
+    <li>
+      <span class="current">Page {{ page }} of {{ num_pages }}</span>
+    </li>
+    {% if has_next %}
+      <li>
+        <a href="?page={{ next_page_number }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="disabled">
+        <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    {% endif %}
+    </li>
+  </ul>
+</nav>
 {% endblock %}
 
 {% block javascripts %}
-<script>
-  function getBounties() {
-    $.ajax({
-      url: "/api/bounty",
-      dataType: 'json',
-      success: function(data) {
-        $.map(data.objects, function(val) {
-          $("ul#bounty-list").append(
-            "<li>" + "[" + val.region_display + "] " +
-            val.destination_character + " - " +
-            val.destination_realm_display + "</li>");
-        });
-        $("ul#bounty-list").css("display", "block");
-      },
-      error: function(xhr, status, err) {
-        console.error("/api/bounty", status, err.toString());
-      }
-    });  
-  };
-$(function() {
-  getBounties();
-});
-</script>
 {% endblock %}
