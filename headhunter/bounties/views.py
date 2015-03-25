@@ -51,6 +51,7 @@ class BountySerializerMixin:
 
         return {
             'id': bounty.pk,
+            'user': bounty.user.pk,
             'region': bounty.region,
             'region_display': bounty.get_region_display(),
             'status': bounty.status,
