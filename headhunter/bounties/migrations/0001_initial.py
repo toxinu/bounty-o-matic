@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Bounty',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('reward', models.TextField()),
                 ('description', models.TextField()),
                 ('status', models.PositiveSmallIntegerField(default=1, choices=[(1, 'Open'), (2, 'Closed')])),
-                ('region', models.CharField(default='eu', choices=[('eu', 'Europe'), ('us', 'US'), ('kr', 'Korea'), ('tw', 'Taiwan')], max_length=2)),
+                ('region', models.CharField(default='eu', max_length=2, choices=[('eu', 'Europe'), ('us', 'US'), ('kr', 'Korea'), ('tw', 'Taiwan')])),
                 ('source_realm', models.CharField(max_length=50)),
                 ('source_character', models.CharField(max_length=50)),
                 ('destination_realm', models.CharField(max_length=50)),
@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name_plural': 'bounties',
                 'ordering': ['-updated_date'],
+                'verbose_name_plural': 'bounties',
             },
             bases=(models.Model,),
         ),
