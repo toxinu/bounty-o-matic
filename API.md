@@ -3,7 +3,7 @@
 Need to be authenticated with a BattleNet account.  
 Return Battletag.
 
-`Jambon#1000`
+`{"battletag": "Jambon#1000"}`
 
 ## GET /api/player-characters
 
