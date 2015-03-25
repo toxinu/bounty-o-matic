@@ -20,9 +20,11 @@ class Bounty(models.Model):
 
     STATUS_OPEN = 1
     STATUS_CLOSE = 2
+    STATUS_CANCELLED = 3
     STATUS_CHOICES = (
         (STATUS_OPEN, 'Open'),
-        (STATUS_CLOSE, 'Closed'),)
+        (STATUS_CLOSE, 'Closed'),
+        (STATUS_CANCELLED, 'Cancelled'),)
 
     reward = models.TextField()
     description = models.TextField()

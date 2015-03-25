@@ -5,6 +5,7 @@ from django.core.paginator import EmptyPage
 from django.views.generic import View
 from django.views.generic import TemplateView
 from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
 from django.core.exceptions import ValidationError
 
@@ -25,6 +26,7 @@ class BountySerializerMixin:
 
             objects.append({
                 'id': bounty.pk,
+                'user': bounty.user.pk,
                 'region': bounty.region,
                 'region_display': bounty.get_region_display(),
                 'status': bounty.status,
@@ -114,6 +116,56 @@ class BountyListAPIView(BountySerializerMixin, CSRFExemptMixin, View):
             content_type="application/json")
 
 
+class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
+    http_method_names = ['get', 'post']
+    model = Bounty
+    fields = ['description', 'reward', 'status']
+
+    def get(self, request, *args, **kwargs):
+        try:
+            bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
+        except ValueError:
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': 'Invalid bounty id'}),
+                content_type="application/json")
+        except Bounty.DoesNotExist:
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': 'Bounty does not exist'}),
+                content_type="application/json")
+        return HttpResponse(json.dumps(
+            self.get_serializable_bounty_detail(bounty)),
+            content_type="application/json")
+
+    def post(self, request, *args, **kwargs):
+        try:
+            bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
+        except ValueError:
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': 'Invalid bounty id'}),
+                content_type="application/json")
+        except Bounty.DoesNotExist:
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': 'Bounty does not exist'}),
+                content_type="application/json")
+
+        if bounty.user != self.request.user:
+            return HttpResponseForbidden(
+                json.dumps({'status': 'nok', 'reason': 'Bounty is not your'}),
+                content_type="application/json")
+
+        modified = False
+        for field in self.fields:
+            value = request.POST.get(field, None)
+            if value and value != getattr(bounty, field):
+                setattr(bounty, field, value)
+                modified = True
+        if modified:
+            bounty.save()
+        return HttpResponse(json.dumps(
+            self.get_serializable_bounty_detail(bounty)),
+            content_type="application/json")
+
+
 class BountyDetailView(BountySerializerMixin, TemplateView):
     template_name = "bounties/detail.html"
 
@@ -134,8 +186,8 @@ class BountyListView(BountySerializerMixin, TemplateView):
     template_name = "bounties/list.html"
     model = Bounty
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
         try:
             page = int(self.request.GET.get('page', 1))
