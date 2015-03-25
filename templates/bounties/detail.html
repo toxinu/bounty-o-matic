@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+{% if bounty %}
+  <div class="page-header">
+    <h1>Bounty <small>on {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</small></h1>
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Details</h3>
+    </div>
+    <div class="panel-body">
+      <dl class="dl-horizontal">
+        <dt>Added</dt>
+        <dd>{{ bounty.added_date|date:"D d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
+        <dt>Updated</dt>
+        <dd>{{ bounty.updated_date|date:"D d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
+        <dt>Region</dt>
+        <dd>{{ bounty.region_display }}</dd>
+        <dt>Status</dt>
+        <dd>{{ bounty.status_display }}</dd>
+        <dt>Author</dt>
+        <dd>{{ bounty.source_character }} - {{ bounty.source_realm_display }}</dd>
+        <dt>Target</dt>
+        <dd>{{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Reward</h3>
+    </div>
+    <div class="panel-body" id="bounty-reward">{{ bounty.reward }}</div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Description</h3>
+    </div>
+    <div class="panel-body" id="bounty-description">{{ bounty.description }}</div>
+  </div>
+{% else %}
+  <p>Bounty not found.</p>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  <script>
+    $(function() {
+      var converter = new Showdown.converter();
+      $("#bounty-description").html(converter.makeHtml($("#bounty-description").text()));
+      $("#bounty-reward").html(converter.makeHtml($("#bounty-reward").text()));
+    });
+  </script>
+{% endblock %}
