@@ -18,12 +18,11 @@
       url: "/api/bounty",
       dataType: 'json',
       success: function(data) {
-        $.map(data, function(val) {
-          console.log(val);
+        $.map(data.objects, function(val) {
           $("ul#bounty-list").append(
-            "<li>" + "[" + val.fields.region + "] " +
-            val.fields.destination_character + " - " +
-            val.fields.destination_realm + "</li>");
+            "<li>" + "[" + val.region_display + "] " +
+            val.destination_character + " - " +
+            val.destination_realm_display + "</li>");
         });
         $("ul#bounty-list").css("display", "block");
       },
