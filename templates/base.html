@@ -2,17 +2,32 @@
 {% load staticfiles %}
 <html lang="en">
 <head>
-    <title>HeadHunter</title>
-    <meta charset="UTF-8">
+  <title>HeadHunter</title>
+  <meta charset="UTF-8">
 </head>
 <body>
 	{% include "header.html" %}
-    {% block content %}{% endblock %}
-    {% include "footer.html" %}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.1/react.js"></script>
-	<script src="{% static "headhunter/js/components/logged-as.js" %}"></script>
+  {% block content %}{% endblock %}
+  {% include "footer.html" %}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	{% block javascripts %}{% endblock %}
+  <script>
+    $(function() {
+      $.ajax({
+        url: "/api/player-battletag",
+        dataType: 'json',
+        success: function(data) {
+          console.log(data);
+          var battletag = $("li.battletag");
+          battletag.text(data.battletag);
+          battletag.css('display', '');
+        },
+        error: function(xhr, status, err) {
+          console.error("/api/player-battletag", status, err.toString());
+        },
+      });
+    });      
+  </script>
 </body>
 </html>

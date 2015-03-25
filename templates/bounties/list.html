@@ -2,9 +2,38 @@
 {% load staticfiles %}
 
 {% block content %}
-	<div id="bounty-box"></div>
+  <ul
+      id="bounty-list"
+      style="display:none">
+  {% for bounty in bounties %}
+    <li>{{ bounty }}</li>
+  {% endfor %}
+  </ul>
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{% static "headhunter/js/components/bounty.js" %}"></script>
+<script>
+  function getBounties() {
+    $.ajax({
+      url: "/api/bounty",
+      dataType: 'json',
+      success: function(data) {
+        $.map(data, function(val) {
+          console.log(val);
+          $("ul#bounty-list").append(
+            "<li>" + "[" + val.fields.region + "] " +
+            val.fields.destination_character + " - " +
+            val.fields.destination_realm + "</li>");
+        });
+        $("ul#bounty-list").css("display", "block");
+      },
+      error: function(xhr, status, err) {
+        console.error("/api/bounty", status, err.toString());
+      }
+    });  
+  };
+$(function() {
+  getBounties();
+});
+</script>
 {% endblock %}

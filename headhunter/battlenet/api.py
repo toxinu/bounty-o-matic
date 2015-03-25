@@ -11,7 +11,7 @@ def get_regions():
     return regions
 
 
-@memoize(timeout=60 * 30)
+@memoize(timeout=60 * 24 * 1)
 def get_realms(region):
     r = requests.get('http://%s.battle.net/api/wow/realm/status' % region)
     realms = []
@@ -29,7 +29,7 @@ def is_character_exists(region, realm, character):
     return True, r.json()
 
 
-@memoize(timeout=60 * 5)
+@memoize(timeout=60 * 30)
 def is_player_character(user, character, realm, regions=None):
     characters = get_player_characters(user, regions)
     for c in characters:
@@ -38,7 +38,7 @@ def is_player_character(user, character, realm, regions=None):
     return False
 
 
-@memoize(timeout=60 * 5)
+@memoize(timeout=60 * 30)
 def get_player_characters(user, regions=None):
     characters = []
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
@@ -72,7 +72,7 @@ def get_player_characters(user, regions=None):
     return characters
 
 
-@memoize(timeout=60 * 30)
+@memoize(timeout=60 * 24 * 30)
 def get_player_battletag(user):
     if not user.social_auth.exists():
         return None
