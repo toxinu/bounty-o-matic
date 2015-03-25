@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'memoize',
+    'cachalot',
     'sslserver',
     'social.apps.django_app.default',
     'headhunter.accounts',
