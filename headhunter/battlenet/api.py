@@ -99,3 +99,16 @@ def get_normalized_realm(realm, region=None):
         for r in realms:
             if realm == r['name']:
                 return r['slug']
+
+
+def get_pretty_realm(realm, region=None):
+    if region is None:
+        regions = [r['slug'] for r in get_regions()]
+    else:
+        regions = [region]
+
+    for region in regions:
+        realms = get_realms(region)
+        for r in realms:
+            if realm == r['slug']:
+                return r['name']
