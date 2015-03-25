@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from ..battlenet.api import get_pretty_realm
 from ..battlenet.api import is_player_character
 from ..battlenet.api import is_character_exists
 
@@ -61,3 +62,9 @@ class Bounty(models.Model):
         if not is_player_character(
                 self.user, self.source_character, self.source_realm, self.region):
             raise ValidationError("source is not owned by user")
+
+    def get_source_realm_display(self):
+        return get_pretty_realm(self.source_realm)
+
+    def get_destination_realm_display(self):
+        return get_pretty_realm(self.destination_realm)
