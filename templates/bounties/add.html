@@ -190,6 +190,7 @@ $("select#player-characters option").filter(function() {
       url: "/api/realms?region=" + region,
       dataType: 'json',
       success: function(data) {
+        $("select#realms").text('');
         $.map(data, function(val) {
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");

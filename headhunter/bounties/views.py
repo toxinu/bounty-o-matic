@@ -195,7 +195,22 @@ class BountyListView(BountySerializerMixin, TemplateView):
         except ValueError:
             page = 1
 
-        p = Paginator(self.model.objects.all(), 50)
+        filter_kwargs = {}
+        region = self.request.GET.get('region', None)
+        status = self.request.GET.get('status', None)
+        realm = self.request.GET.get('realm', None)
+        destination_character = self.request.GET.get('destination', None)
+        if region:
+            filter_kwargs.update({'region': region})
+        if status:
+            filter_kwargs.update({'status': status})
+        if realm:
+            filter_kwargs.update({'destination_realm': realm})
+        if destination_character:
+            filter_kwargs.update(
+                {'destination_character__icontains':  destination_character})
+
+        p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         try:
             bounties = self.get_serializable_bounty_list(p.page(page), as_datetime=True)
         except EmptyPage:

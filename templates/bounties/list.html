@@ -2,10 +2,74 @@
 {% load staticfiles %}
 
 {% block content %}
+  <label
+        id="bounty-status-label"
+        for="status">
+      Status
+  </label>
+  <select
+      class="form-control"
+      id="status">
+    <option value="1" selected>Open</option>
+    <option value="2">Closed</option>
+    <option value="3">Cancelled</option>
+  </select>
+  <br>
+  <label
+        id="regions-label"
+        for="region"
+        style="display:none">
+      Region
+  </label>
+  <select
+      class="form-control"
+      id="regions"
+      style="display:none">
+  </select>
+  <br>
+  <label
+        id="realms-label"
+        for="realms"
+        style="display:none">
+      Target realm
+  </label>
+  <select
+      class="form-control"
+      id="realms"
+      style="display:none">
+    <option value="">---</option>
+  </select>
+  <br>
+  <label
+        id="destination-character-label"
+        for="realms">
+      Target name 
+  </label>
+  <input
+      id="destination-character"
+      class="form-control"
+      type="text" />
+  <br>
+
+  <button
+      class="btn btn-default btn-lg btn-block"
+      id="search">
+    Search me bounties !
+  </button>
+
+  <hr>
+
   <ul class="list-group">
   {% for bounty in bounties %}
     <li class="list-group-item">
     [<strong>{{ bounty.region_display }}</strong>] {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} <span class="label label-default">by {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
+    {% if bounty.status == 1 %}
+      <span class="label label-danger">{{ bounty.status_display }}</span>
+    {% elif bounty.status == 2 %}
+      <span class="label label-success">{{ bounty.status_display }}</span>
+    {% elif bounty.status == 3 %}
+      <span class="label label-default">{{ bounty.status_display }}</span>
+    {% endif %}
     <div class="pull-right">
       {% if bounty.user == user.id %}
         <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">Edit</a>
@@ -50,4 +114,106 @@
 {% endblock %}
 
 {% block javascripts %}
+<script>
+  var selectedStatus = 1;
+  var selectedRegion = null;
+  var selectedRealm = null;
+
+  function getRegions(callback) {
+    $.ajax({
+        url: "/api/regions",
+        dataType: 'json',
+        success: function(data) {
+          $.map(data, function(val) {
+            $("select#regions").append(
+              "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+          });
+          $("select#regions").css("display", "block");
+          $("label#regions-label").css("display", "block");
+          if (callback)
+            callback();
+        },
+        error: function(xhr, status, err) {
+          console.error("/api/regions", status, err.toString());
+        }
+      }); 
+  }
+
+  function getRealms(region, callback) {
+    $.ajax({
+      url: "/api/realms?region=" + region,
+      dataType: 'json',
+      success: function(data) {
+        $("select#realms").text('');
+        $.map(data, function(val) {
+          $("select#realms").append(
+            "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+        });
+        $("select#realms").css("display", "block");
+        $("label#realms-label").css("display", "block");
+        if (callback)
+          callback();
+      },
+      error: function(xhr, status, err) {
+        console.error("/api/realms?region=" + region, status, err.toString());
+      }
+    }); 
+  };
+
+
+  function updateBounties() {
+    selectedStatus = $("select#status").val();
+    selectedRegion = $("select#regions").val();
+    selectedRealm = $("select#realms").val();
+    destinationCharacter = $("input#destination-character").val();
+
+    var url = '?'
+    if (selectedRegion)
+      url += 'region=' + selectedRegion;
+    if (selectedStatus)
+      url += '&status=' + selectedStatus;
+    if (selectedRealm)
+      url += '&realm=' + selectedRealm;
+    if (destinationCharacter)
+      url += '&destination=' + destinationCharacter;
+    window.location = "/bounty" + url;
+  }
+
+  $(function() {
+    if (getUrlParameter('status')) {
+      $("select#status option").filter(function() {
+        return $(this).val() == getUrlParameter('status'); 
+      }).prop('selected', true);
+    };
+    if (getUrlParameter('destination')) {
+      $("input#destination-character").val(getUrlParameter('destination'));
+    };
+
+    getRegions(function() {
+      if (getUrlParameter('region')) {
+        $("select#regions option").filter(function() {
+              return $(this).val() == getUrlParameter('region'); 
+          }).prop('selected', true);
+        getRealms(getUrlParameter('region'), function() {
+          if (getUrlParameter('realm')) {
+            $("select#realms option").filter(function() {
+              return $(this).val() == getUrlParameter('realm'); 
+            }).prop('selected', true);  
+          };
+        });
+      }
+    });
+    $("select#regions").change(function() {
+      getRealms($("select#regions").val());
+    });
+    $("button#search").on('click', function() {
+      updateBounties();
+    });
+    $(document).keypress(function(e) {
+      if(e.which == 13) {
+        updateBounties();
+      }
+    });
+  });
+</script>
 {% endblock %}
