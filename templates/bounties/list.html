@@ -145,6 +145,7 @@
       dataType: 'json',
       success: function(data) {
         $("select#realms").text('');
+        $("select#realms").append("<option value=\"\">---</option>");
         $.map(data, function(val) {
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
@@ -194,14 +195,14 @@
         $("select#regions option").filter(function() {
               return $(this).val() == getUrlParameter('region'); 
           }).prop('selected', true);
-        getRealms(getUrlParameter('region'), function() {
+      }
+      getRealms(getUrlParameter('region') || $("select#regions").val(), function() {
           if (getUrlParameter('realm')) {
             $("select#realms option").filter(function() {
               return $(this).val() == getUrlParameter('realm'); 
             }).prop('selected', true);  
           };
         });
-      }
     });
     $("select#regions").change(function() {
       getRealms($("select#regions").val());

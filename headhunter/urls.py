@@ -25,7 +25,7 @@ urlpatterns = patterns(
     # API
     url(r'^api/bounty/(?P<bounty_id>\d+)$',
         bounties_views.BountyDetailAPIView.as_view(), name='api-bounty-detail'),
-    url(r'^api/bounty/$',
+    url(r'^api/bounty',
         bounties_views.BountyListAPIView.as_view(), name='api-bounty-list'),
     url(r'^api/regions',
         battlenet_views.RegionsAPIView.as_view(), name='api-regions'),

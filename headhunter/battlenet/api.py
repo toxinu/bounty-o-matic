@@ -74,7 +74,7 @@ def get_player_characters(user, regions=None):
 
 @memoize(timeout=60 * 24 * 30)
 def get_player_battletag(user):
-    if not user.social_auth.exists():
+    if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return None
     r = requests.get(
         'http://eu.battle.net/api/account/user/battletag',
