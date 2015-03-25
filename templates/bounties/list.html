@@ -6,7 +6,12 @@
   {% for bounty in bounties %}
     <li class="list-group-item">
     [<strong>{{ bounty.region_display }}</strong>] {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} <span class="label label-default">by {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
-    <a class="pull-right btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">View</a>
+    <div class="pull-right">
+      {% if bounty.user == user.id %}
+        <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">Edit</a>
+      {% endif %}
+      <a class="btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">View</a>
+    </div>
     </li>
   {% endfor %}
   </ul>

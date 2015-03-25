@@ -3,6 +3,22 @@
 
 {% block content %}
 <form id="bounty-for">
+  <label
+        id="bounty-status-label"
+        for="bounty-status"
+        style="display:none">
+      Status
+  </label>
+  <select
+      class="form-control"
+      id="bounty-status"
+      style="display:none">
+    <option value="1">Open</option>
+    <option value="2">Closed</option>
+    <option value="3">Cancelled</option>
+  </select>
+  <br>
+
   <!-- Player Character -->
   <label
         id="player-characters-label"
@@ -94,15 +110,60 @@
 
 {% block javascripts %}
 <script>
+  var selectedStatus = null;
   var selectedRegion = null;
   var selectedSourceRealm = null;
   var selectedSourceCharacter = null;
   var selectedDestinationRealm = null;
   var selectedDestinationCharacter = null;
-  var reward = 'test';
-  var description = 'test';
+  var reward = '';
+  var description = '';
 
-  function getPlayerCharacters() {
+  function loadBounty(id) {
+    $.ajax({
+      url: "/api/bounty/" + id,
+      dataType: 'json',
+      success: function(data) {
+        getRealms(data.region, function() {
+          selectedRegion = data.region;
+          selectedSourceRealm = data.source_realm;
+          selectedSourceCharacter = data.source_character;
+          selectedDestinationRealm = data.destination_realm;
+          selectedDestinationCharacter = data.destination_character;
+          reward = data.reward;
+          description = data.description;
+          selectedStatus = data.status;
+
+          // Set character
+          $("select#player-characters option").filter(function() {
+              return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
+          }).prop('selected', true);
+          $("select#player-characters").attr('disabled', '');
+          $("select#realms option").filter(function() {
+              return $(this).val() == data.source_realm; 
+          }).prop('selected', true);
+          $("select#realms").attr('disabled', '');
+          $("input#destination-character").val(selectedDestinationCharacter);
+          $("input#destination-character").attr('disabled', '');
+          $("textarea#reward").text(reward);
+          $("textarea#description").text(description);
+$("select#player-characters option").filter(function() {
+              return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
+          }).prop('selected', true);
+          $("select#bounty-status option").filter(function() {
+              return $(this).val() == data.status; 
+          }).prop('selected', true);
+          $("label#bounty-status-label").css('display', '');
+          $("select#bounty-status").css('display', '');
+        });
+      },
+      error: function(xhr, status, err) {
+        console.error("/api/bounty/" + id, status, err.toString());
+      }
+    });
+  };
+
+  function getPlayerCharacters(callback) {
     $.ajax({
       url: "/api/player-characters",
       dataType: 'json',
@@ -115,6 +176,8 @@
         });
         $("select#player-characters").css("display", "block");
         $("label#player-characters-label").css("display", "block");
+        if (callback)
+          callback();
       },
       error: function(xhr, status, err) {
         console.error("/api/player-characters", status, err.toString());
@@ -122,7 +185,7 @@
     });  
   };
 
-  function getRealms(region) {
+  function getRealms(region, callback) {
     $.ajax({
       url: "/api/realms?region=" + region,
       dataType: 'json',
@@ -141,6 +204,8 @@
         $("label#description-label").css("display", "block");
         $("button#save").css("display", "block");
         $(".help").css("display", "block");
+        if (callback)
+          callback();
       },
       error: function(xhr, status, err) {
         console.error("/api/realms?region=" + region, status, err.toString());
@@ -148,10 +213,11 @@
     }); 
   };
 
-  function saveBounty() {
+  function checkFields() {
     selectedDestinationCharacter = $("input#destination-character").val();
     reward = $("textarea#reward").val();
     description = $("textarea#description").val();
+    selectedStatus = $("select#bounty-status").val();
 
     var errorMessage = '';
     if (!selectedRegion)
@@ -171,6 +237,48 @@
       alert("Form is incomplet:\n" + errorMessage);
       return;
     }
+  }
+
+  function updateBounty() {
+    checkFields();
+
+    var bounty = {
+      region: selectedRegion,
+      source_realm: selectedSourceRealm,
+      source_character: selectedSourceCharacter,
+      destination_realm: selectedDestinationRealm,
+      destination_character: selectedDestinationCharacter,
+      description: description,
+      reward: reward,
+      status: selectedStatus,
+    }
+    $.ajax({
+      url: "/api/bounty/" + getUrlParameter('update'),
+      dataType: 'json',
+      type: 'POST',
+      data: bounty,
+      success: function(data) {
+        window.location = "/bounty/" + data.id;
+      },
+      error: function(xhr, status, err) {
+        var jsonResponse = $.parseJSON(xhr.responseText)
+        var errorMessage = '';
+        if (jsonResponse.reasons) {
+          $.map(jsonResponse.reasons, function(val) {
+            errorMessage += '\n- ' + val;
+          })
+        }
+        if (!errorMessage)
+          errorMessage = '\n- Unknown error';
+
+        alert("Bounty is incorrect:\n" + errorMessage);
+        console.error("/api/bounty/" + getUrlParameter('update'), status, err.toString());
+      }
+    }); 
+  }
+
+  function saveBounty() {
+    checkFields();
 
     var bounty = {
       region: selectedRegion,
@@ -207,15 +315,6 @@
   };
 
 $(function() {
-	$("form#bounty-form").submit(function(e) {
-		e.preventDefault();
-		saveBounty();
-	});
-	$("button#save").click(function(e) {
-		e.preventDefault();
-		saveBounty();
-	});
-
   // When select character
   $("select#player-characters").change(function() {
     var character = $("select#player-characters").val()
@@ -233,7 +332,28 @@ $(function() {
     console.log("selectedDestinationRealm:", selectedDestinationRealm);
   });
 
-  getPlayerCharacters();
+  getPlayerCharacters(function() {
+    if (getUrlParameter('update')) {
+      loadBounty(getUrlParameter('update'));
+      $("form#bounty-form").submit(function(e) {
+        e.preventDefault();
+        updateBounty();
+      });
+      $("button#save").click(function(e) {
+        e.preventDefault();
+        updateBounty();
+      });
+    } else {
+      $("form#bounty-form").submit(function(e) {
+        e.preventDefault();
+        saveBounty();
+      });
+      $("button#save").click(function(e) {
+        e.preventDefault();
+        saveBounty();
+      });
+    }
+  });
 });
 </script>
 {% endblock %}
