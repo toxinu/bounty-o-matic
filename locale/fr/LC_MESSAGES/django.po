@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-26 13:29+0000\n"
+"POT-Creation-Date: 2015-03-26 18:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,16 +168,16 @@ msgid "Cancelled"
 msgstr "Annulée"
 
 #: headhunter/bounties/models.py:32 templates/bounties/add.html:88
-#: templates/bounties/detail.html:53
+#: templates/bounties/detail.html:54
 msgid "Description"
 msgstr "Description"
 
 #: headhunter/bounties/models.py:34 templates/bounties/add.html:11
-#: templates/bounties/detail.html:31 templates/bounties/list.html:9
+#: templates/bounties/detail.html:34 templates/bounties/list.html:9
 msgid "Status"
 msgstr "Statut"
 
-#: headhunter/bounties/models.py:41 templates/bounties/detail.html:29
+#: headhunter/bounties/models.py:41 templates/bounties/detail.html:32
 #: templates/bounties/list.html:23
 msgid "Region"
 msgstr "Région"
@@ -215,7 +215,7 @@ msgstr "Votre personnage et la cible doivent être différentes."
 msgid "Target character does not exists."
 msgstr "Le personnage cible n'existe pas."
 
-#: headhunter/bounties/models.py:73
+#: headhunter/bounties/models.py:75
 msgid "This character is not your."
 msgstr "Ce personnage ne vout appartient pas."
 
@@ -247,7 +247,7 @@ msgstr "Personnage source"
 msgid "Target name"
 msgstr "Nom de la cible"
 
-#: templates/bounties/add.html:72 templates/bounties/detail.html:47
+#: templates/bounties/add.html:72 templates/bounties/detail.html:48
 msgid "Reward"
 msgstr "Récompense"
 
@@ -260,12 +260,10 @@ msgid "Save"
 msgstr "Sauvergarder"
 
 #: templates/bounties/detail.html:10
-#, fuzzy
 msgid "Bounty"
 msgstr "Prime"
 
-#: templates/bounties/detail.html:10
-#, fuzzy
+#: templates/bounties/detail.html:10 templates/bounties/list.html:98
 msgid "on"
 msgstr "sur"
 
@@ -277,23 +275,23 @@ msgstr "Éditer"
 msgid "Details"
 msgstr "Détails"
 
-#: templates/bounties/detail.html:25
+#: templates/bounties/detail.html:28
 msgid "Added"
 msgstr "Ajouté"
 
-#: templates/bounties/detail.html:27
+#: templates/bounties/detail.html:30
 msgid "Updated"
 msgstr "Mise à jour"
 
-#: templates/bounties/detail.html:33
+#: templates/bounties/detail.html:36
 msgid "Author"
 msgstr "Auteur"
 
-#: templates/bounties/detail.html:35
+#: templates/bounties/detail.html:38
 msgid "Target"
 msgstr "Cible"
 
-#: templates/bounties/detail.html:58
+#: templates/bounties/detail.html:59
 msgid "Bounty not found."
 msgstr "Cette prime ne vous appartient pas."
 
@@ -308,6 +306,10 @@ msgstr "par"
 #: templates/bounties/list.html:78
 msgid "View"
 msgstr "Voir"
+
+#: templates/bounties/list.html:98
+msgid "Page"
+msgstr "Page"
 
 #: templates/footer.html:4
 msgid "HeadHunter for World of Warcraft"
@@ -327,12 +329,12 @@ msgstr "Se connecter"
 
 #: templates/header.html:25
 msgid "Bounties"
-msgstr "Primes"
+msgstr "Les primes"
 
-#: templates/header.html:26
-msgid "Add"
-msgstr "Ajouter"
+#: templates/header.html:29
+msgid "Add bounty"
+msgstr "Ajouter une prime"
 
-#: templates/header.html:27
+#: templates/header.html:35
 msgid "Logout"
 msgstr "Déconnexion"
