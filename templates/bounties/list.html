@@ -1,25 +1,26 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load staticfiles %}
 
 {% block content %}
   <label
         id="bounty-status-label"
         for="status">
-      Status
+    {% trans "Status" %}
   </label>
   <select
       class="form-control"
-      id="status">
-    <option value="1" selected>Open</option>
-    <option value="2">Closed</option>
-    <option value="3">Cancelled</option>
+      id="bounty-status">
+    <option value="1" selected>{% trans "Open" %}</option>
+    <option value="2">{% trans "Closed" %}</option>
+    <option value="3">{% trans "Cancelled" %}</option>
   </select>
   <br>
   <label
         id="regions-label"
         for="region"
         style="display:none">
-      Region
+    {% trans "Region" %}
   </label>
   <select
       class="form-control"
@@ -31,7 +32,7 @@
         id="realms-label"
         for="realms"
         style="display:none">
-      Target realm
+    {% trans "Target realm" %}
   </label>
   <select
       class="form-control"
@@ -43,7 +44,7 @@
   <label
         id="destination-character-label"
         for="realms">
-      Target name 
+    {% trans "Target name" %}
   </label>
   <input
       id="destination-character"
@@ -54,7 +55,7 @@
   <button
       class="btn btn-primary btn-lg btn-block"
       id="search">
-    Search me bounties !
+    {% trans "Search me bounties!" %}
   </button>
 
   <hr>
@@ -62,7 +63,7 @@
   <ul class="list-group">
   {% for bounty in bounties %}
     <li class="list-group-item">
-    [<strong>{{ bounty.region_display }}</strong>] {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} <span class="label label-default">by {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
+    [<strong>{{ bounty.region_display }}</strong>] {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} <span class="label label-default">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
     {% if bounty.status == 1 %}
       <span class="label label-danger">{{ bounty.status_display }}</span>
     {% elif bounty.status == 2 %}
@@ -72,9 +73,9 @@
     {% endif %}
     <div class="pull-right">
       {% if bounty.user == user.id %}
-        <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">Edit</a>
+        <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
       {% endif %}
-      <a class="btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">View</a>
+      <a class="btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">{% trans "View" %}</a>
     </div>
     </li>
   {% endfor %}
@@ -94,7 +95,7 @@
       </li>
     {% endif %}
     <li>
-      <span class="current">Page {{ page }} of {{ num_pages }}</span>
+      <span class="current">{{ page }}/{{ num_pages }}</span>
     </li>
     {% if has_next %}
       <li>

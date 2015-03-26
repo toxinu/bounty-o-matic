@@ -3,6 +3,7 @@ import json
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
 from django.views.generic import View
+from django.utils.translation import ugettext as _
 
 from .api import get_realms
 from .api import get_regions
@@ -16,7 +17,7 @@ class PlayerCharactersAPIView(View):
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated():
             return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': 'need an authenticated user'}),
+                json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
         return HttpResponse(
             json.dumps(get_player_characters(
@@ -31,7 +32,7 @@ class PlayerBattleTagAPIView(View):
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated():
             return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': 'need an authenticated user'}),
+                json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
         return HttpResponse(
             json.dumps({"battletag": get_player_battletag(self.request.user)}),
@@ -44,7 +45,7 @@ class RealmsAPIView(View):
     def get(self, request, *args, **kwargs):
         if not self.request.GET.get('region'):
             return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': 'need region parameter'}),
+                json.dumps({'status': 'nok', 'reason': _('Need region parameter.')}),
                 content_type="application/json")
         return HttpResponse(
             json.dumps(get_realms(self.request.GET.get('region'))),

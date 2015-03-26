@@ -1,39 +1,42 @@
 import requests
 from memoize import memoize
+from memoize import delete_memoized
+from django.utils.translation import ugettext as _
+
 
 GENDERS = {
-    0: 'Male',
-    1: 'Female'
+    0: _('Male'),
+    1: _('Female')
 }
 
 RACES = {
-    1: 'Human',
-    2: 'Orc',
-    3: 'Dwarf',
-    4: 'Night Elf',
-    5: 'Undead',
-    6: 'Tauren',
-    7: 'Gnome',
-    8: 'Troll',
-    9: 'Goblin',
-    10: 'Blood Elf',
-    11: 'Draenei',
-    22: 'Worgen',
-    25: 'Pandaren'
+    1: _('Human'),
+    2: _('Orc'),
+    3: _('Dwarf'),
+    4: _('Night Elf'),
+    5: _('Undead'),
+    6: _('Tauren'),
+    7: _('Gnome'),
+    8: _('Troll'),
+    9: _('Goblin'),
+    10: _('Blood Elf'),
+    11: _('Draenei'),
+    22: _('Worgen'),
+    25: _('Pandaren')
 }
 
 CLASSES = {
-    1: 'Warrior',
-    2: 'Paladin',
-    3: 'Hunter',
-    4: 'Rogue',
-    5: 'Priest',
-    6: 'Death Knight',
-    7: 'Shaman',
-    8: 'Mage',
-    9: 'Warlock',
-    10: 'Monk',
-    11: 'Druid'
+    1: _('Warrior'),
+    2: _('Paladin'),
+    3: _('Hunter'),
+    4: _('Rogue'),
+    5: _('Priest'),
+    6: _('Death Knight'),
+    7: _('Shaman'),
+    8: _('Mage'),
+    9: _('Warlock'),
+    10: _('Monk'),
+    11: _('Druid')
 }
 
 
@@ -42,11 +45,18 @@ def get_regions():
 
     regions = []
     for slug, name in Bounty.REGION_CHOICES:
-        regions.append({'slug': slug, 'name': name})
+        regions.append({'slug': slug, 'name': str(name)})
     return regions
 
 
-@memoize(timeout=60 * 60 * 24 * 1)
+def refresh_player_cache(user):
+    delete_memoized(get_player_battletag, user)
+    get_player_battletag(user)
+    delete_memoized(get_player_characters, user)
+    get_player_characters(user)
+
+
+@memoize(timeout=60 * 60 * 24 * 5)
 def get_realms(region):
     r = requests.get('http://%s.battle.net/api/wow/realm/status' % region)
     realms = []
@@ -80,7 +90,7 @@ def is_player_character(user, character, realm, regions=None):
     return False
 
 
-@memoize(timeout=60 * 30)
+@memoize(timeout=60 * 60 * 24 * 1)
 def get_player_characters(user, regions=None):
     characters = []
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():

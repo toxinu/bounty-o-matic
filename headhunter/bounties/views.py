@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 from .models import Bounty
 
@@ -130,11 +131,11 @@ class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
             bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
         except ValueError:
             return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': 'Invalid bounty id'}),
+                json.dumps({'status': 'nok', 'reason': _('Invalid bounty.')}),
                 content_type="application/json")
         except Bounty.DoesNotExist:
             return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': 'Bounty does not exist'}),
+                json.dumps({'status': 'nok', 'reason': _('Bounty does not exist.')}),
                 content_type="application/json")
         return HttpResponse(json.dumps(
             self.get_serializable_bounty_detail(bounty)),
@@ -145,16 +146,16 @@ class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
             bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
         except ValueError:
             return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': 'Invalid bounty id'}),
+                json.dumps({'status': 'nok', 'reason': _('Invalid bounty.')}),
                 content_type="application/json")
         except Bounty.DoesNotExist:
             return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': 'Bounty does not exist'}),
+                json.dumps({'status': 'nok', 'reason': _('Bounty does not exist.')}),
                 content_type="application/json")
 
         if bounty.user != self.request.user:
             return HttpResponseForbidden(
-                json.dumps({'status': 'nok', 'reason': 'Bounty is not your'}),
+                json.dumps({'status': 'nok', 'reason': _('Bounty is not your.')}),
                 content_type="application/json")
 
         modified = False

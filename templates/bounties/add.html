@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load staticfiles %}
 
 {% block content %}
@@ -7,15 +8,15 @@
         id="bounty-status-label"
         for="bounty-status"
         style="display:none">
-      Status
+    {% trans "Status" %}
   </label>
   <select
       class="form-control"
       id="bounty-status"
       style="display:none">
-    <option value="1">Open</option>
-    <option value="2">Closed</option>
-    <option value="3">Cancelled</option>
+    <option value="1" selected>{% trans "Open" %}</option>
+    <option value="2">{% trans "Closed" %}</option>
+    <option value="3">{% trans "Cancelled" %}</option>
   </select>
   <br>
 
@@ -24,7 +25,7 @@
         id="player-characters-label"
         for="player-characters"
         style="display:none">
-      Your character
+    {% trans "You character" %}
   </label>
   <select
   		class="form-control"
@@ -40,7 +41,7 @@
         id="realms-label"
         for="realms"
         style="display:none">
-      Target realm
+    {% trans "Target realm" %}
   </label>
   <select
   		class="form-control"
@@ -56,7 +57,7 @@
         id="destination-character-label"
         for="realms"
         style="display:none">
-      Target name 
+    {% trans "Target name" %}
   </label>
   <input
       id="destination-character"
@@ -68,10 +69,10 @@
 	    for="reward"
 	    id="reward-label"
 	    style="display:none">
-	  Reward
+    {% trans "Reward" %}
 	</label>
   <small class="help" style="display:none">
-    <p class="help-block">Markdown allowed</p>
+    <p class="help-block">{% trans "Markdown allowed." %}</p>
   </small>
 	<textarea
 			class="form-control"
@@ -84,10 +85,10 @@
 	    for="description"
 	    id="description-label"
 	    style="display:none">
-	  Description
+    {% trans "Description" %}
 	</label>
   <small class="help" style="display:none">
-    <p class="help-block">Markdown allowed</p>
+    <p class="help-block">{% trans "Markdown allowed." %}</p>
   </small>
 	<textarea
 			class="form-control"
@@ -100,7 +101,7 @@
 			class="btn btn-success"
 	    id="save"
 	    style="display:none">
-	  Save
+    {% trans "Save" %}
 	</button>
 </form>	
 <!-- End block -->

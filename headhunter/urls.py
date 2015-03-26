@@ -31,10 +31,13 @@ urlpatterns = patterns(
         battlenet_views.RegionsAPIView.as_view(), name='api-regions'),
     url(r'^api/realms',
         battlenet_views.RealmsAPIView.as_view(), name='api-realms'),
+    url(r'^api/player-refresh',
+        accounts_views.RefreshBattleNetAPIView.as_view(), name='api-refresh'),
     url(r'^api/player-battletag',
         battlenet_views.PlayerBattleTagAPIView.as_view(), name='api-player-battletag'),
     url(r'^api/player-characters',
         battlenet_views.PlayerCharactersAPIView.as_view(), name='api-player-characters'),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 )
 
 if settings.DEBUG:
