@@ -48,7 +48,6 @@ class BountySerializerMixin:
         if not as_datetime:
             added_date = str(added_date)
             updated_date = str(updated_date)
-
         return {
             'id': bounty.pk,
             'user': bounty.user.pk,
@@ -56,9 +55,13 @@ class BountySerializerMixin:
             'region_display': bounty.get_region_display(),
             'status': bounty.status,
             'status_display': bounty.get_status_display(),
+            'source_thumbnail': bounty.source_thumbnail,
+            'source_gender': bounty.source_gender,
             'source_realm': bounty.source_realm,
             'source_realm_display': bounty.get_source_realm_display(),
             'source_character': bounty.source_character,
+            'destination_gender': bounty.destination_gender,
+            'destination_thumbnail': bounty.destination_thumbnail,
             'destination_character': bounty.destination_character,
             'destination_realm': bounty.destination_realm,
             'destination_realm_display': bounty.get_destination_realm_display(),
@@ -208,7 +211,7 @@ class BountyListView(BountySerializerMixin, TemplateView):
             filter_kwargs.update({'destination_realm': realm})
         if destination_character:
             filter_kwargs.update(
-                {'destination_character__icontains':  destination_character})
+                {'destination_character__icontains': destination_character})
 
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         try:
