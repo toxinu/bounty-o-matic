@@ -95,7 +95,7 @@
       </li>
     {% endif %}
     <li>
-      <span class="current">{{ page }}/{{ num_pages }}</span>
+      <span class="current">{% trans "Page" %} {{ page }} {% trans "on" %} {{ num_pages }}</span>
     </li>
     {% if has_next %}
       <li>

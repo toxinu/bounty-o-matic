@@ -20,7 +20,10 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-md-8">
+      <div class="col-md-1">
+          <img class="pull-left" src="{{ bounty.destination_thumbnail }}">
+        </div>
+        <div class="col-md-11">
           <dl class="dl-horizontal">
             <dt>{% trans "Added" %}</dt>
             <dd>{{ bounty.added_date|date:"D d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
@@ -36,9 +39,7 @@
             <dd>{{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</dd>
           </dl>
         </div>
-        <div class="col-md-4">
-          <img class="pull-right" src="{{ bounty.destination_thumbnail }}">
-        </div>
+        
       </div>
     </div>
   </div>
