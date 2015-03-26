@@ -1,0 +1,338 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-26 13:29+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: headhunter/accounts/views.py:48
+msgid "All data refreshed. You'll be able to refresh again in 5 minutes."
+msgstr ""
+"Toutes vos données ont été actualisées. Vous pourrez les re-actualiser dans "
+"5 minutes."
+
+#: headhunter/battlenet/api.py:8
+msgid "Male"
+msgstr "Homme"
+
+#: headhunter/battlenet/api.py:9
+msgid "Female"
+msgstr "Femme"
+
+#: headhunter/battlenet/api.py:13
+msgid "Human"
+msgstr "Humain"
+
+#: headhunter/battlenet/api.py:14
+msgid "Orc"
+msgstr "Orc"
+
+#: headhunter/battlenet/api.py:15
+msgid "Dwarf"
+msgstr "Nain"
+
+#: headhunter/battlenet/api.py:16
+msgid "Night Elf"
+msgstr "Elfe de la nuit"
+
+#: headhunter/battlenet/api.py:17
+msgid "Undead"
+msgstr "Mort-vivant"
+
+#: headhunter/battlenet/api.py:18
+msgid "Tauren"
+msgstr "Tauren"
+
+#: headhunter/battlenet/api.py:19
+msgid "Gnome"
+msgstr "Gnome"
+
+#: headhunter/battlenet/api.py:20
+msgid "Troll"
+msgstr "Troll"
+
+#: headhunter/battlenet/api.py:21
+msgid "Goblin"
+msgstr "Gobelin"
+
+#: headhunter/battlenet/api.py:22
+msgid "Blood Elf"
+msgstr "Elfe de sang"
+
+#: headhunter/battlenet/api.py:23
+msgid "Draenei"
+msgstr "Draeneï"
+
+#: headhunter/battlenet/api.py:24
+msgid "Worgen"
+msgstr "Worgen"
+
+#: headhunter/battlenet/api.py:25
+msgid "Pandaren"
+msgstr "Pandaren"
+
+#: headhunter/battlenet/api.py:29
+msgid "Warrior"
+msgstr "Guerrier"
+
+#: headhunter/battlenet/api.py:30
+msgid "Paladin"
+msgstr "Paladin"
+
+#: headhunter/battlenet/api.py:31
+msgid "Hunter"
+msgstr "Chasseur"
+
+#: headhunter/battlenet/api.py:32
+msgid "Rogue"
+msgstr "Voleur"
+
+#: headhunter/battlenet/api.py:33
+msgid "Priest"
+msgstr "Prêtre"
+
+#: headhunter/battlenet/api.py:34
+msgid "Death Knight"
+msgstr "Chevalier de la mort"
+
+#: headhunter/battlenet/api.py:35
+msgid "Shaman"
+msgstr "Chaman"
+
+#: headhunter/battlenet/api.py:36
+msgid "Mage"
+msgstr "Mage"
+
+#: headhunter/battlenet/api.py:37
+msgid "Warlock"
+msgstr "Démoniste"
+
+#: headhunter/battlenet/api.py:38
+msgid "Monk"
+msgstr "Moine"
+
+#: headhunter/battlenet/api.py:39
+msgid "Druid"
+msgstr "Druide"
+
+#: headhunter/battlenet/views.py:20 headhunter/battlenet/views.py:35
+msgid "Need an authenticated user."
+msgstr "Utilisateur authentifié requis."
+
+#: headhunter/battlenet/views.py:48
+msgid "Need region parameter."
+msgstr "Une région est requise."
+
+#: headhunter/bounties/models.py:18
+msgid "Europe"
+msgstr "Europe"
+
+#: headhunter/bounties/models.py:19
+msgid "US"
+msgstr "US"
+
+#: headhunter/bounties/models.py:20
+msgid "Korea"
+msgstr "Corée"
+
+#: headhunter/bounties/models.py:21
+msgid "Taiwan"
+msgstr "Taïwan"
+
+#: headhunter/bounties/models.py:27 templates/bounties/add.html:17
+#: templates/bounties/list.html:14
+msgid "Open"
+msgstr "Ouverte"
+
+#: headhunter/bounties/models.py:28 templates/bounties/add.html:18
+#: templates/bounties/list.html:15
+msgid "Closed"
+msgstr "Fermée"
+
+#: headhunter/bounties/models.py:29 templates/bounties/add.html:19
+#: templates/bounties/list.html:16
+msgid "Cancelled"
+msgstr "Annulée"
+
+#: headhunter/bounties/models.py:32 templates/bounties/add.html:88
+#: templates/bounties/detail.html:53
+msgid "Description"
+msgstr "Description"
+
+#: headhunter/bounties/models.py:34 templates/bounties/add.html:11
+#: templates/bounties/detail.html:31 templates/bounties/list.html:9
+msgid "Status"
+msgstr "Statut"
+
+#: headhunter/bounties/models.py:41 templates/bounties/detail.html:29
+#: templates/bounties/list.html:23
+msgid "Region"
+msgstr "Région"
+
+#: headhunter/bounties/models.py:43
+msgid "Source realm"
+msgstr "Royaume de la source"
+
+#: headhunter/bounties/models.py:45
+msgid "Source character"
+msgstr "Personnage source"
+
+#: headhunter/bounties/models.py:46 templates/bounties/add.html:44
+#: templates/bounties/list.html:35
+msgid "Target realm"
+msgstr "Royaume de la cible"
+
+#: headhunter/bounties/models.py:48
+msgid "Target character"
+msgstr "Nom de la cible"
+
+#: headhunter/bounties/models.py:50
+msgid "Creation date"
+msgstr "Date de création"
+
+#: headhunter/bounties/models.py:51
+msgid "Latest update"
+msgstr "Dernière mise à jour"
+
+#: headhunter/bounties/models.py:64
+msgid "Your character and target must be different."
+msgstr "Votre personnage et la cible doivent être différentes."
+
+#: headhunter/bounties/models.py:69
+msgid "Target character does not exists."
+msgstr "Le personnage cible n'existe pas."
+
+#: headhunter/bounties/models.py:73
+msgid "This character is not your."
+msgstr "Ce personnage ne vout appartient pas."
+
+#: headhunter/bounties/views.py:134 headhunter/bounties/views.py:149
+msgid "Invalid bounty."
+msgstr "Prime invalide."
+
+#: headhunter/bounties/views.py:138 headhunter/bounties/views.py:153
+msgid "Bounty does not exist."
+msgstr "Cette prime n'existe pas."
+
+#: headhunter/bounties/views.py:158
+msgid "Bounty is not your."
+msgstr "Cette prime ne vous appartient pas."
+
+#: headhunter/settings.py:127
+msgid "English"
+msgstr "Anglais"
+
+#: headhunter/settings.py:128
+msgid "French"
+msgstr "Français"
+
+#: templates/bounties/add.html:28
+msgid "You character"
+msgstr "Personnage source"
+
+#: templates/bounties/add.html:60 templates/bounties/list.html:47
+msgid "Target name"
+msgstr "Nom de la cible"
+
+#: templates/bounties/add.html:72 templates/bounties/detail.html:47
+msgid "Reward"
+msgstr "Récompense"
+
+#: templates/bounties/add.html:75 templates/bounties/add.html.py:91
+msgid "Markdown allowed."
+msgstr "Markdown autorisé."
+
+#: templates/bounties/add.html:104
+msgid "Save"
+msgstr "Sauvergarder"
+
+#: templates/bounties/detail.html:10
+#, fuzzy
+msgid "Bounty"
+msgstr "Prime"
+
+#: templates/bounties/detail.html:10
+#, fuzzy
+msgid "on"
+msgstr "sur"
+
+#: templates/bounties/detail.html:12 templates/bounties/list.html:76
+msgid "Edit"
+msgstr "Éditer"
+
+#: templates/bounties/detail.html:19
+msgid "Details"
+msgstr "Détails"
+
+#: templates/bounties/detail.html:25
+msgid "Added"
+msgstr "Ajouté"
+
+#: templates/bounties/detail.html:27
+msgid "Updated"
+msgstr "Mise à jour"
+
+#: templates/bounties/detail.html:33
+msgid "Author"
+msgstr "Auteur"
+
+#: templates/bounties/detail.html:35
+msgid "Target"
+msgstr "Cible"
+
+#: templates/bounties/detail.html:58
+msgid "Bounty not found."
+msgstr "Cette prime ne vous appartient pas."
+
+#: templates/bounties/list.html:58
+msgid "Search me bounties!"
+msgstr "Cherche moi des primes !"
+
+#: templates/bounties/list.html:66
+msgid "by"
+msgstr "par"
+
+#: templates/bounties/list.html:78
+msgid "View"
+msgstr "Voir"
+
+#: templates/footer.html:4
+msgid "HeadHunter for World of Warcraft"
+msgstr "HeadHunter pour World of Warcraft"
+
+#: templates/header.html:8
+msgid "Toggle navigation"
+msgstr "Basculer navigation"
+
+#: templates/header.html:18
+msgid "Loading data from Blizzard..."
+msgstr "Chargement des données depuis Blizzard..."
+
+#: templates/header.html:23
+msgid "Sign in"
+msgstr "Se connecter"
+
+#: templates/header.html:25
+msgid "Bounties"
+msgstr "Primes"
+
+#: templates/header.html:26
+msgid "Add"
+msgstr "Ajouter"
+
+#: templates/header.html:27
+msgid "Logout"
+msgstr "Déconnexion"
