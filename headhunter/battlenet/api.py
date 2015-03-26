@@ -1,6 +1,41 @@
 import requests
 from memoize import memoize
 
+GENDERS = {
+    0: 'Male',
+    1: 'Female'
+}
+
+RACES = {
+    1: 'Human',
+    2: 'Orc',
+    3: 'Dwarf',
+    4: 'Night Elf',
+    5: 'Undead',
+    6: 'Tauren',
+    7: 'Gnome',
+    8: 'Troll',
+    9: 'Goblin',
+    10: 'Blood Elf',
+    11: 'Draenei',
+    22: 'Worgen',
+    25: 'Pandaren'
+}
+
+CLASSES = {
+    1: 'Warrior',
+    2: 'Paladin',
+    3: 'Hunter',
+    4: 'Rogue',
+    5: 'Priest',
+    6: 'Death Knight',
+    7: 'Shaman',
+    8: 'Mage',
+    9: 'Warlock',
+    10: 'Monk',
+    11: 'Druid'
+}
+
 
 def get_regions():
     from ..bounties.models import Bounty
@@ -11,7 +46,7 @@ def get_regions():
     return regions
 
 
-@memoize(timeout=60 * 24 * 1)
+@memoize(timeout=60 * 60 * 24 * 1)
 def get_realms(region):
     r = requests.get('http://%s.battle.net/api/wow/realm/status' % region)
     realms = []
@@ -20,13 +55,20 @@ def get_realms(region):
     return realms
 
 
-@memoize(timeout=60 * 5)
 def is_character_exists(region, realm, character):
+    r = get_character(region, realm, character)
+    if r:
+        return True, r
+    return False, None
+
+
+@memoize(timeout=60 * 60)
+def get_character(region, realm, character):
     r = requests.get('http://%s.battle.net/api/wow/character/%s/%s' % (
         region, realm, character))
     if r.json().get('status') == 'nok':
-        return False, None
-    return True, r.json()
+        return None
+    return r.json()
 
 
 @memoize(timeout=60 * 30)
@@ -72,7 +114,7 @@ def get_player_characters(user, regions=None):
     return characters
 
 
-@memoize(timeout=60 * 24 * 30)
+@memoize(timeout=60 * 60 * 24 * 30)
 def get_player_battletag(user):
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return None
