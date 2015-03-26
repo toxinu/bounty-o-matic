@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from ..battlenet.api import get_character
 from ..battlenet.api import get_pretty_realm
 from ..battlenet.api import is_player_character
 from ..battlenet.api import is_character_exists
@@ -70,3 +71,36 @@ class Bounty(models.Model):
 
     def get_destination_realm_display(self):
         return get_pretty_realm(self.destination_realm)
+
+    @property
+    def source_detail(self):
+        return get_character(self.region, self.source_realm, self.source_character)
+
+    @property
+    def destination_detail(self):
+        return get_character(
+            self.region, self.destination_realm, self.destination_character)
+
+    @property
+    def source_thumbnail(self):
+        return self._get_thumbnail('source')
+
+    @property
+    def destination_thumbnail(self):
+        return self._get_thumbnail('destination')
+
+    @property
+    def destination_gender(self):
+        return self.destination_detail.get('gender')
+
+    @property
+    def source_gender(self):
+        return self.source_detail.get('gender')
+
+    def _get_thumbnail(self, who):
+        base_url = "http://%s.battle.net/static-render/%s/" % (self.region, self.region)
+        if self.region == "cn":
+            base_url = "http://www.battlenet.com.cn/static-render/cn/"
+        if who == 'source':
+            return base_url + self.source_detail.get('thumbnail')
+        return base_url + self.destination_detail.get('thumbnail')
