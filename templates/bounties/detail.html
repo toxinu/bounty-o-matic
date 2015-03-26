@@ -18,20 +18,27 @@
       <h3 class="panel-title">Details</h3>
     </div>
     <div class="panel-body">
-      <dl class="dl-horizontal">
-        <dt>Added</dt>
-        <dd>{{ bounty.added_date|date:"D d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
-        <dt>Updated</dt>
-        <dd>{{ bounty.updated_date|date:"D d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
-        <dt>Region</dt>
-        <dd>{{ bounty.region_display }}</dd>
-        <dt>Status</dt>
-        <dd>{{ bounty.status_display }}</dd>
-        <dt>Author</dt>
-        <dd>{{ bounty.source_character }} - {{ bounty.source_realm_display }}</dd>
-        <dt>Target</dt>
-        <dd>{{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</dd>
-      </dl>
+      <div class="row">
+        <div class="col-md-8">
+          <dl class="dl-horizontal">
+            <dt>Added</dt>
+            <dd>{{ bounty.added_date|date:"D d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
+            <dt>Updated</dt>
+            <dd>{{ bounty.updated_date|date:"D d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
+            <dt>Region</dt>
+            <dd>{{ bounty.region_display }}</dd>
+            <dt>Status</dt>
+            <dd>{{ bounty.status_display }}</dd>
+            <dt>Author</dt>
+            <dd>{{ bounty.source_character }} - {{ bounty.source_realm_display }}</dd>
+            <dt>Target</dt>
+            <dd>{{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</dd>
+          </dl>
+        </div>
+        <div class="col-md-4">
+          <img class="pull-right" src="{{ bounty.destination_thumbnail }}">
+        </div>
+      </div>
     </div>
   </div>
   <div class="panel panel-info">
