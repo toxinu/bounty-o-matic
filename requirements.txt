@@ -1,4 +1,6 @@
 Django==1.7.6
+Markdown==2.6.1
+bleach==1.4.1
 django-sslserver==0.14
 python-social-auth==0.2.2
 requests==2.6.0
