@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-26 18:07+0000\n"
+"POT-Creation-Date: 2015-03-27 11:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,98 +136,123 @@ msgstr "Utilisateur authentifié requis."
 msgid "Need region parameter."
 msgstr "Une région est requise."
 
-#: headhunter/bounties/models.py:18
+#: headhunter/bounties/models.py:21
 msgid "Europe"
 msgstr "Europe"
 
-#: headhunter/bounties/models.py:19
+#: headhunter/bounties/models.py:22
 msgid "US"
 msgstr "US"
 
-#: headhunter/bounties/models.py:20
+#: headhunter/bounties/models.py:23
 msgid "Korea"
 msgstr "Corée"
 
-#: headhunter/bounties/models.py:21
+#: headhunter/bounties/models.py:24
 msgid "Taiwan"
 msgstr "Taïwan"
 
-#: headhunter/bounties/models.py:27 templates/bounties/add.html:17
+#: headhunter/bounties/models.py:30 templates/bounties/add.html:17
 #: templates/bounties/list.html:14
 msgid "Open"
 msgstr "Ouverte"
 
-#: headhunter/bounties/models.py:28 templates/bounties/add.html:18
+#: headhunter/bounties/models.py:31 templates/bounties/add.html:18
 #: templates/bounties/list.html:15
 msgid "Closed"
 msgstr "Fermée"
 
-#: headhunter/bounties/models.py:29 templates/bounties/add.html:19
+#: headhunter/bounties/models.py:32 templates/bounties/add.html:19
 #: templates/bounties/list.html:16
 msgid "Cancelled"
 msgstr "Annulée"
 
-#: headhunter/bounties/models.py:32 templates/bounties/add.html:88
+#: headhunter/bounties/models.py:34 templates/bounties/add.html:72
+#: templates/bounties/detail.html:48
+msgid "Reward"
+msgstr "Récompense"
+
+#: headhunter/bounties/models.py:35 templates/bounties/add.html:88
 #: templates/bounties/detail.html:54
 msgid "Description"
 msgstr "Description"
 
-#: headhunter/bounties/models.py:34 templates/bounties/add.html:11
+#: headhunter/bounties/models.py:37 templates/bounties/add.html:11
 #: templates/bounties/detail.html:34 templates/bounties/list.html:9
 msgid "Status"
 msgstr "Statut"
 
-#: headhunter/bounties/models.py:41 templates/bounties/detail.html:32
+#: headhunter/bounties/models.py:44 templates/bounties/detail.html:32
 #: templates/bounties/list.html:23
 msgid "Region"
 msgstr "Région"
 
-#: headhunter/bounties/models.py:43
+#: headhunter/bounties/models.py:46
 msgid "Source realm"
 msgstr "Royaume de la source"
 
-#: headhunter/bounties/models.py:45
+#: headhunter/bounties/models.py:48
 msgid "Source character"
 msgstr "Personnage source"
 
-#: headhunter/bounties/models.py:46 templates/bounties/add.html:44
+#: headhunter/bounties/models.py:49 templates/bounties/add.html:44
 #: templates/bounties/list.html:35
 msgid "Target realm"
 msgstr "Royaume de la cible"
 
-#: headhunter/bounties/models.py:48
+#: headhunter/bounties/models.py:51
 msgid "Target character"
 msgstr "Nom de la cible"
 
-#: headhunter/bounties/models.py:50
+#: headhunter/bounties/models.py:53 headhunter/bounties/models.py:132
 msgid "Creation date"
 msgstr "Date de création"
 
-#: headhunter/bounties/models.py:51
+#: headhunter/bounties/models.py:54
 msgid "Latest update"
 msgstr "Dernière mise à jour"
 
-#: headhunter/bounties/models.py:64
+#: headhunter/bounties/models.py:67
 msgid "Your character and target must be different."
 msgstr "Votre personnage et la cible doivent être différentes."
 
-#: headhunter/bounties/models.py:69
+#: headhunter/bounties/models.py:72
 msgid "Target character does not exists."
 msgstr "Le personnage cible n'existe pas."
 
-#: headhunter/bounties/models.py:75
+#: headhunter/bounties/models.py:78 headhunter/bounties/models.py:142
 msgid "This character is not your."
 msgstr "Ce personnage ne vout appartient pas."
 
-#: headhunter/bounties/views.py:134 headhunter/bounties/views.py:149
+#: headhunter/bounties/models.py:126
+msgid "Comment"
+msgstr ""
+
+#: headhunter/bounties/models.py:128
+#, fuzzy
+#| msgid "Source realm"
+msgid "Character realm"
+msgstr "Royaume de la source"
+
+#: headhunter/bounties/models.py:130
+#, fuzzy
+#| msgid "Target name"
+msgid "Character name"
+msgstr "Nom de la cible"
+
+#: headhunter/bounties/models.py:151
+msgid "Comment limit reached. Wait before sending a new one."
+msgstr ""
+
+#: headhunter/bounties/views.py:170 headhunter/bounties/views.py:188
 msgid "Invalid bounty."
 msgstr "Prime invalide."
 
-#: headhunter/bounties/views.py:138 headhunter/bounties/views.py:153
+#: headhunter/bounties/views.py:174 headhunter/bounties/views.py:192
 msgid "Bounty does not exist."
 msgstr "Cette prime n'existe pas."
 
-#: headhunter/bounties/views.py:158
+#: headhunter/bounties/views.py:197
 msgid "Bounty is not your."
 msgstr "Cette prime ne vous appartient pas."
 
@@ -246,10 +271,6 @@ msgstr "Personnage source"
 #: templates/bounties/add.html:60 templates/bounties/list.html:47
 msgid "Target name"
 msgstr "Nom de la cible"
-
-#: templates/bounties/add.html:72 templates/bounties/detail.html:48
-msgid "Reward"
-msgstr "Récompense"
 
 #: templates/bounties/add.html:75 templates/bounties/add.html.py:91
 msgid "Markdown allowed."
@@ -291,7 +312,7 @@ msgstr "Auteur"
 msgid "Target"
 msgstr "Cible"
 
-#: templates/bounties/detail.html:59
+#: templates/bounties/detail.html:62
 msgid "Bounty not found."
 msgstr "Cette prime ne vous appartient pas."
 
@@ -315,26 +336,30 @@ msgstr "Page"
 msgid "HeadHunter for World of Warcraft"
 msgstr "HeadHunter pour World of Warcraft"
 
-#: templates/header.html:8
+#: templates/header.html:9
 msgid "Toggle navigation"
 msgstr "Basculer navigation"
 
-#: templates/header.html:18
+#: templates/header.html:19
 msgid "Loading data from Blizzard..."
 msgstr "Chargement des données depuis Blizzard..."
 
-#: templates/header.html:23
+#: templates/header.html:24
 msgid "Sign in"
 msgstr "Se connecter"
 
-#: templates/header.html:25
+#: templates/header.html:26
 msgid "Bounties"
 msgstr "Les primes"
 
-#: templates/header.html:29
+#: templates/header.html:30
 msgid "Add bounty"
 msgstr "Ajouter une prime"
 
-#: templates/header.html:35
+#: templates/header.html:34
+msgid "Language"
+msgstr "Langue"
+
+#: templates/header.html:44
 msgid "Logout"
 msgstr "Déconnexion"
