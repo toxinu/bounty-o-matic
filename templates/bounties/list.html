@@ -65,9 +65,9 @@
     <li class="list-group-item">
     [<strong>{{ bounty.region_display }}</strong>] {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} <span class="label label-default">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
     {% if bounty.status == 1 %}
-      <span class="label label-danger">{{ bounty.status_display }}</span>
-    {% elif bounty.status == 2 %}
       <span class="label label-success">{{ bounty.status_display }}</span>
+    {% elif bounty.status == 2 %}
+      <span class="label label-danger">{{ bounty.status_display }}</span>
     {% elif bounty.status == 3 %}
       <span class="label label-default">{{ bounty.status_display }}</span>
     {% endif %}
@@ -78,40 +78,44 @@
       <a class="btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">{% trans "View" %}</a>
     </div>
     </li>
+  {% empty %}
+    <p>{% trans "No bounties found..." %}</p>
   {% endfor %}
   </ul>
 
-<nav>
-  <ul class="pagination">
-    {% if has_previous %}
+{% if num_pages > 1 %}
+  <nav>
+    <ul class="pagination">
+      {% if has_previous %}
+        <li>
+          <a href="?page={{ previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="disabled">
+          <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        </li>
+      {% endif %}
       <li>
-        <a href="?page={{ previous_page_number }}" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
+        <span class="current">{% trans "Page" %} {{ page }} {% trans "on" %} {{ num_pages }}</span>
       </li>
-    {% else %}
-      <li class="disabled">
-        <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+      {% if has_next %}
+        <li>
+          <a href="?page={{ next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="disabled">
+          <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% endif %}
       </li>
-    {% endif %}
-    <li>
-      <span class="current">{% trans "Page" %} {{ page }} {% trans "on" %} {{ num_pages }}</span>
-    </li>
-    {% if has_next %}
-      <li>
-        <a href="?page={{ next_page_number }}" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    {% else %}
-      <li class="disabled">
-        <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    {% endif %}
-    </li>
-  </ul>
-</nav>
+    </ul>
+  </nav>
+{% endif %}
 {% endblock %}
 
 {% block javascripts %}

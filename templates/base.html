@@ -18,27 +18,12 @@
   </div>
   {% compress js %}
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script src="{% static 'headhunter/js/showdown.min.js' %}"></script>
     <script src="{% static 'headhunter/js/jquery-2.1.3.min.js' %}"></script>
     <script src="{% static 'headhunter/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'headhunter/js/jquery.i18n.js' %}"></script>
-    <script src="{% static 'headhunter/js/jquery.i18n.messagestore.js' %}"></script>
-    <script src="{% static 'headhunter/js/jquery.i18n.fallbacks.js' %}"></script>
-    <script src="{% static 'headhunter/js/jquery.i18n.parser.js' %}"></script>
-    <script src="{% static 'headhunter/js/jquery.i18n.emitter.js' %}"></script>
-    <script src="{% static 'headhunter/js/jquery.i18n.language.js' %}"></script>
   {% endcompress %}
 	{% block javascripts %}{% endblock %}
   <script>
     $(function() {
-      $.i18n().load({
-        'fr': {
-        },
-        'en': {
-        }
-      });
-      $('*[data-i18n]').i18n()
-
       // Language switcher
       $("ul#language-switcher li a").click(function() {
         var lang = $(this).attr('value');
@@ -52,8 +37,12 @@
         url: "/api/player-battletag",
         dataType: 'json',
         success: function(data) {
-          var battletag = $("button.battletag");
+          var battletag = $("div.battletag");
           battletag.text(data.battletag);
+          battletag.removeClass("active");
+          battletag.removeClass("progress-bar-striped");
+          battletag.addClass("progress-bar-info");
+          battletag.removeClass("progress-bar-warning");
         },
         error: function(xhr, status, err) {
           console.error("/api/player-battletag", status, err.toString());

@@ -99,6 +99,7 @@
 	<br>
 	<button
 			class="btn btn-success"
+      data-loading-text="{% trans 'Loading...' %}"
 	    id="save"
 	    style="display:none">
     {% trans "Save" %}
@@ -223,26 +224,31 @@
 
     var errorMessage = '';
     if (!selectedRegion)
-      errorMessage += '\n- Missing region';
+      errorMessage += '\n- {% trans "Missing region" %}';
     if (!selectedSourceRealm || !selectedSourceCharacter)
-      errorMessage += '\n- Your character is missing';
+      errorMessage += '\n- {% trans "Your character is missing" %}';
     if (!selectedDestinationRealm)
-      errorMessage += '\n- Missing target realm';
+      errorMessage += '\n- {% trans "Missing target realm" %}';
     if (!selectedDestinationCharacter )
-      errorMessage += '\n- Missing target name';
+      errorMessage += '\n- {% trans "Missing target name" %}';
     if (!reward)
-      errorMessage += '\n- Missing reward';
+      errorMessage += '\n- {% trans "Missing reward" %}';
     if (!description)
-      errorMessage += '\n- Missing description';
+      errorMessage += '\n- {% trans "Missing description" %}';
 
     if (errorMessage) {
-      alert("Form is incomplet:\n" + errorMessage);
-      return;
+      return "{% trans 'Bounty is incorrect' %}:\n" + errorMessage;
     }
   }
 
   function updateBounty() {
-    checkFields();
+    $("button#save").button("loading");
+    var errors = checkFields();
+    if (errors) {
+      alert(errors);
+      $("button#save").button("reset");
+      return;
+    }
 
     var bounty = {
       region: selectedRegion,
@@ -273,14 +279,22 @@
         if (!errorMessage)
           errorMessage = '\n- Unknown error';
 
-        alert("Bounty is incorrect:\n" + errorMessage);
+        alert("{% trans 'Bounty is incorrect' %}:\n" + errorMessage);
         console.error("/api/bounty/" + getUrlParameter('update'), status, err.toString());
+        $("button#save").button("reset");
       }
     }); 
   }
 
   function saveBounty() {
-    checkFields();
+    $("button#save").button("loading");
+    var errors = checkFields();
+    if (errors) {
+      alert(errors);
+      $("button#save").button("reset");
+      return;
+    }
+
 
     var bounty = {
       region: selectedRegion,
@@ -308,10 +322,11 @@
           })
         }
         if (!errorMessage)
-          errorMessage = '\n- Unknown error';
+          errorMessage = '\n- {% trans "Unknown error" %}';
 
-        alert("Bounty is incorrect:\n" + errorMessage);
+        alert("{% trans 'Bounty is incorrect' %}:\n" + errorMessage);
         console.error("/api/bounty", status, err.toString());
+        $("button#save").button("reset");
       }
     }); 
   };
@@ -323,15 +338,11 @@
       selectedRegion = character.split('|')[0];
       selectedSourceRealm = character.split('|')[1];
       selectedSourceCharacter = character.split('|')[2];
-      console.log("selectedRegion:", selectedRegion);
-      console.log("selectedSourceCharacter:", selectedSourceCharacter);
-      console.log("selectedSourceRealm:", selectedSourceRealm);
       getRealms(selectedRegion);
     });
     // When select realm
     $("select#realms").change(function() {
       selectedDestinationRealm = $("select#realms").val();
-      console.log("selectedDestinationRealm:", selectedDestinationRealm);
     });
 
     getPlayerCharacters(function() {
