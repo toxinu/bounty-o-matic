@@ -56,6 +56,7 @@ def refresh_player_cache(user):
     get_player_characters(user)
 
 
+# 5 days
 @memoize(timeout=60 * 60 * 24 * 5)
 def get_realms(region):
     r = requests.get('http://%s.battle.net/api/wow/realm/status' % region)
@@ -72,7 +73,8 @@ def is_character_exists(region, realm, character):
     return False, None
 
 
-@memoize(timeout=60 * 60)
+# 1 hour
+@memoize(timeout=60 * 60 * 1)
 def get_character(region, realm, character):
     r = requests.get('http://%s.battle.net/api/wow/character/%s/%s' % (
         region, realm, character))
@@ -81,7 +83,6 @@ def get_character(region, realm, character):
     return r.json()
 
 
-@memoize(timeout=60 * 30)
 def is_player_character(user, character, realm, regions=None):
     characters = get_player_characters(user, regions)
     for c in characters:
@@ -90,6 +91,7 @@ def is_player_character(user, character, realm, regions=None):
     return False
 
 
+# 1 day
 @memoize(timeout=60 * 60 * 24 * 1)
 def get_player_characters(user, regions=None):
     characters = []
@@ -124,6 +126,7 @@ def get_player_characters(user, regions=None):
     return characters
 
 
+# 30 days
 @memoize(timeout=60 * 60 * 24 * 30)
 def get_player_battletag(user):
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
@@ -164,3 +167,22 @@ def get_pretty_realm(realm, region=None):
         for r in realms:
             if realm == r['slug']:
                 return r['name']
+
+
+def get_character_thumbnail(region, realm, character):
+    base_url = "https://%s.battle.net/static-render/%s/" % (region, region)
+    if region == "cn":
+        base_url = "https://www.battlenet.com.cn/static-render/cn/"
+    detail = get_character(region, realm, character)
+    if detail:
+        return base_url + detail.get(
+            'thumbnail') + "?alt=wow/static/images/2d/avatar/%s-%s.jpg" % (
+                detail.get('race'), detail.get('gender'))
+    return "https://%s.battle.net/wow/static/images/2d/avatar/3-0.jpg" % region
+
+
+def get_character_armory(region, realm, character):
+    base_url = "http://%s.battle.net/wow/%s/character/" % (region, region)
+    if region == "cn":
+        base_url = "http://www.battlenet.com.cn/wow/cn/character/"
+    return base_url + realm + "/" + character + "/simple"
