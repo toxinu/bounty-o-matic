@@ -257,7 +257,7 @@ msgstr "Markdown autorisé."
 
 #: templates/bounties/add.html:104
 msgid "Save"
-msgstr "Sauvergarder"
+msgstr "Sauvegarder"
 
 #: templates/bounties/detail.html:10
 msgid "Bounty"
