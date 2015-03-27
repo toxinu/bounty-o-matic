@@ -12,3 +12,13 @@ CACHES = {
         'LOCATION': '/var/tmp/headhunter_cache',
     }
 }
+
+INSTALLED_APPS += (
+    'debug_toolbar',)
+
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'headhunter.middleware.NonHtmlDebugToolbarMiddleware',
+)
+
+INTERNAL_IPS = ['127.0.0.1', 'localhost']
