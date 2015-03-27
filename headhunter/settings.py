@@ -18,8 +18,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-SECRET_KEY = get_random_string(50, chars)
+__chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+SECRET_KEY = get_random_string(50, __chars)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'memoize',
     'cachalot',
     'sslserver',
+    'compressor',
     'social.apps.django_app.default',
     'headhunter.accounts',
     'headhunter.bounties',
@@ -81,6 +82,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LOGIN_REDIRECT_URL = "/"
+SITE_URL = "http://localhost"
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -106,6 +108,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "collected_static")
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
@@ -130,3 +133,13 @@ LANGUAGES = (
 DEFAULT_LANGUAGE = 1
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),)
+
+
+if 'AKISMET_KEY' not in globals():
+    raise Exception('Missing AKISMET_KEY in settings')
+
+if 'SITE_URL' not in globals():
+    raise Exception('Missing SITE_URL in settings')
+
+if 'RECAPTCHA_SECRET' not in globals():
+    raise Exception('Missing RECAPTCHA_SECRET in settings')
