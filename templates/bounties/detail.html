@@ -21,7 +21,7 @@
     <div class="panel-body">
       <div class="row">
       <div class="col-md-1">
-          <img class="pull-left" src="{{ bounty.destination_thumbnail }}">
+          <!-- <img class="pull-left" src="{{ bounty.destination_thumbnail }}"> -->
         </div>
         <div class="col-md-11">
           <dl class="dl-horizontal">
@@ -55,6 +55,59 @@
     </div>
     <div class="panel-body" id="bounty-description">{{ bounty.description }}</div>
   </div>
+  <hr>
+  <div id="comments">
+    <h3>{% trans "Comments" %}</h3>
+    <form id="comment-form">
+      <label
+          id="player-characters-label"
+          for="player-characters"
+          style="display:none">
+        {% trans "Your character" %}
+      </label>
+      <select
+        class="form-control"
+        id="player-characters"
+        style="display:none">
+        <option value="">---</option>
+      </select>
+      <br>
+      <label
+          for="reward"
+          id="comment-input-label"
+          style="display:none">
+        {% trans "Comment" %}
+      </label>
+      <small class="help" style="display:none">
+        <p class="help-block">{% trans "Markdown allowed. You can only post imgur.com urls." %}</p>
+      </small>
+      <textarea
+          class="form-control"
+          id="comment-input"
+          style="display:none"
+          rows="4"
+          cols="50"></textarea>
+      <br>
+      <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="6LeMMgQTAAAAAI_ZCxiJJcZOf0RTC-SYBrge8gRD"></div>
+      <button
+          class="btn btn-success pull-right"
+          id="comment-save"
+          style="display:none">
+        {% trans "Publish" %}
+      </button>
+      <div class="clearfix"></div>
+    </form>
+    <hr>
+    {% for comment in bounty.comments.objects %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{ comment.character_name }} - {{ comment.character_realm_display }}
+          <small>{{ comment.added_date|date:"D d M Y" }} {{ comment.added_date|time:"H:i" }}</small>
+        </div>
+        <div class="panel-body comment-text">{{ comment.text }}</div>
+      </div>
+    {% endfor %}
+  </div>
 {% else %}
   <p>{% trans "Bounty not found." %}</p>
 {% endif %}
@@ -66,6 +119,98 @@
       var converter = new Showdown.converter();
       $("#bounty-description").html(converter.makeHtml($("#bounty-description").text()));
       $("#bounty-reward").html(converter.makeHtml($("#bounty-reward").text()));
+      $("div.comment-text").map(function() {
+        $(this).html(converter.makeHtml($(this).text()));
+      });
+
+      function saveComment() {
+        var character = $("select#player-characters").val()
+        var characterRealm = character.split('|')[1];
+        var characterName = character.split('|')[2];
+        var comment = $("textarea#comment-input").val();
+        var captcha = $("#g-recaptcha-response").val();
+
+        var errorMessage = '';
+        if (!characterName || !characterRealm)
+          errorMessage += '\n- Need a character to comment.';
+        if (!comment)
+          errorMessage += '\n- Comment can not be empty.';
+
+        if (errorMessage) {
+          alert("Comment is incorrect:\n" + errorMessage);
+          return;
+        }
+
+        var comment = {
+          character_name: characterName,
+          character_realm: characterRealm,
+          comment: comment,
+          captcha: captcha,
+        }
+
+        $.ajax({
+          url: "/api/bounty/{{ bounty.id }}/comment",
+          dataType: 'json',
+          type: 'POST',
+          data: comment,
+          success: function(data) {
+            window.location = "/bounty/{{ bounty.id }}";
+          },
+          error: function(xhr, status, err) {
+            var jsonResponse = $.parseJSON(xhr.responseText)
+            var errorMessage = '';
+            if (jsonResponse.reasons) {
+              $.map(jsonResponse.reasons, function(val) {
+                errorMessage += '\n- ' + val;
+              })
+            }
+            if (jsonResponse.reason) {
+              errorMessage += '\n- ' + jsonResponse.reason;
+            }
+            if (!errorMessage)
+              errorMessage = '\n- Unknown error';
+
+            alert("Comment is incorrect:\n" + errorMessage);
+            console.error("/api/bounty/{{ bounty.id }}/comment", status, err.toString());
+          }
+        }); 
+      };
+
+      function getPlayerCharacters(callback) {
+        $.ajax({
+          url: "/api/player-characters",
+          dataType: 'json',
+          success: function(data) {
+            $.map(data, function(val) {
+              $("select#player-characters").append(
+                "<option value=\"" + val.region + "|" + val.normalized_realm +
+                "|"  + val.name + "\">" + val.name + " - " + val.realm +
+                " (" + val.level + ") </option>");
+            });
+            $("select#player-characters").css("display", "block");
+            $("label#player-characters-label").css("display", "block");
+            $("label#comment-input-label").css("display", "block");
+            $("textarea#comment-input").css("display", "block");
+            $("button#comment-save").css("display", "block");
+            if (callback)
+              callback();
+          },
+          error: function(xhr, status, err) {
+            console.error("/api/player-characters", status, err.toString());
+          }
+        });  
+      };
+
+      $("form#comment-form").submit(function(e) {
+        e.preventDefault();
+        saveComment();
+      });
+      $("button#comment-save").click(function(e) {
+        e.preventDefault();
+        saveComment();
+      });
+
+      getPlayerCharacters();
     });
   </script>
 {% endblock %}

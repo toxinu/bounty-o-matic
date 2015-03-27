@@ -25,7 +25,7 @@
         id="player-characters-label"
         for="player-characters"
         style="display:none">
-    {% trans "You character" %}
+    {% trans "Your character" %}
   </label>
   <select
   		class="form-control"
@@ -148,7 +148,7 @@
           $("input#destination-character").attr('disabled', '');
           $("textarea#reward").text(reward);
           $("textarea#description").text(description);
-$("select#player-characters option").filter(function() {
+          $("select#player-characters option").filter(function() {
               return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
           $("select#bounty-status option").filter(function() {
@@ -316,46 +316,46 @@ $("select#player-characters option").filter(function() {
     }); 
   };
 
-$(function() {
-  // When select character
-  $("select#player-characters").change(function() {
-    var character = $("select#player-characters").val()
-    selectedRegion = character.split('|')[0];
-    selectedSourceRealm = character.split('|')[1];
-    selectedSourceCharacter = character.split('|')[2];
-    console.log("selectedRegion:", selectedRegion);
-    console.log("selectedSourceCharacter:", selectedSourceCharacter);
-    console.log("selectedSourceRealm:", selectedSourceRealm);
-    getRealms(selectedRegion);
-  });
-  // When select realm
-  $("select#realms").change(function() {
-    selectedDestinationRealm = $("select#realms").val();
-    console.log("selectedDestinationRealm:", selectedDestinationRealm);
-  });
+  $(function() {
+    // When select character
+    $("select#player-characters").change(function() {
+      var character = $("select#player-characters").val()
+      selectedRegion = character.split('|')[0];
+      selectedSourceRealm = character.split('|')[1];
+      selectedSourceCharacter = character.split('|')[2];
+      console.log("selectedRegion:", selectedRegion);
+      console.log("selectedSourceCharacter:", selectedSourceCharacter);
+      console.log("selectedSourceRealm:", selectedSourceRealm);
+      getRealms(selectedRegion);
+    });
+    // When select realm
+    $("select#realms").change(function() {
+      selectedDestinationRealm = $("select#realms").val();
+      console.log("selectedDestinationRealm:", selectedDestinationRealm);
+    });
 
-  getPlayerCharacters(function() {
-    if (getUrlParameter('update')) {
-      loadBounty(getUrlParameter('update'));
-      $("form#bounty-form").submit(function(e) {
-        e.preventDefault();
-        updateBounty();
-      });
-      $("button#save").click(function(e) {
-        e.preventDefault();
-        updateBounty();
-      });
-    } else {
-      $("form#bounty-form").submit(function(e) {
-        e.preventDefault();
-        saveBounty();
-      });
-      $("button#save").click(function(e) {
-        e.preventDefault();
-        saveBounty();
-      });
-    }
+    getPlayerCharacters(function() {
+      if (getUrlParameter('update')) {
+        loadBounty(getUrlParameter('update'));
+        $("form#bounty-form").submit(function(e) {
+          e.preventDefault();
+          updateBounty();
+        });
+        $("button#save").click(function(e) {
+          e.preventDefault();
+          updateBounty();
+        });
+      } else {
+        $("form#bounty-form").submit(function(e) {
+          e.preventDefault();
+          saveBounty();
+        });
+        $("button#save").click(function(e) {
+          e.preventDefault();
+          saveBounty();
+        });
+      }
+    });
   });
-});
 </script>
 {% endblock %}
