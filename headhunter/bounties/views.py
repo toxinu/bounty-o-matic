@@ -11,11 +11,33 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
 from .models import Bounty
-
+from .models import Comment
+from .utils import akismet
+from .utils import recaptcha
 from ..mixins import CSRFExemptMixin
 
 
 class BountySerializerMixin:
+    def get_serializable_comment_list(self, qs, as_datetime=False):
+        objects = []
+        for comment in qs:
+            added_date = comment.added_date
+            if not as_datetime:
+                added_date = str(added_date)
+
+            objects.append({
+                'id': comment.pk,
+                'user': comment.user.pk,
+                'text': comment.text,
+                'region': comment.bounty.region,
+                'region_display': comment.bounty.get_region_display(),
+                'character_realm': comment.character_realm,
+                'character_realm_display': comment.get_character_realm_display(),
+                'character_name': comment.character_name,
+                'added_date': added_date
+            })
+        return objects
+
     def get_serializable_bounty_list(self, qs, as_datetime=False):
         objects = []
         for bounty in qs:
@@ -39,16 +61,30 @@ class BountySerializerMixin:
                 'destination_realm': bounty.destination_realm,
                 'destination_realm_display': bounty.get_destination_realm_display(),
                 'added_date': added_date,
-                'updated_date': updated_date
+                'updated_date': updated_date,
+                'comments_count': bounty.comment_set.filter(is_hidden=False).count()
             })
         return objects
 
-    def get_serializable_bounty_detail(self, bounty, as_datetime=False):
+    def get_serializable_bounty_detail(
+            self, bounty, comments_page=None, as_datetime=False):
         added_date = bounty.added_date
         updated_date = bounty.updated_date
         if not as_datetime:
             added_date = str(added_date)
             updated_date = str(updated_date)
+
+        comments_dict = {}
+        if comments_page:
+            comments_paginator = Paginator(
+                bounty.comment_set.filter(is_hidden=False), 20)
+            comments_dict = {
+                'count': comments_paginator.count,
+                'num_pages': comments_paginator.num_pages,
+                'page': comments_page,
+                'objects': self.get_serializable_comment_list(
+                    comments_paginator.page(comments_page), as_datetime=as_datetime)
+            }
         return {
             'id': bounty.pk,
             'user': bounty.user.pk,
@@ -69,7 +105,8 @@ class BountySerializerMixin:
             'added_date': added_date,
             'updated_date': updated_date,
             'reward': bounty.reward,
-            'description': bounty.description
+            'description': bounty.description,
+            'comments': comments_dict
         }
 
 
@@ -128,7 +165,8 @@ class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
 
     def get(self, request, *args, **kwargs):
         try:
-            bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
+            bounty = Bounty.objects.prefetch_related('comment_set').get(
+                pk=int(self.kwargs.get('bounty_id')))
         except ValueError:
             return HttpResponseBadRequest(
                 json.dumps({'status': 'nok', 'reason': _('Invalid bounty.')}),
@@ -137,8 +175,11 @@ class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
             return HttpResponseBadRequest(
                 json.dumps({'status': 'nok', 'reason': _('Bounty does not exist.')}),
                 content_type="application/json")
+
+        comments_page = self.request.GET.get('comments_page', 1)
+
         return HttpResponse(json.dumps(
-            self.get_serializable_bounty_detail(bounty)),
+            self.get_serializable_bounty_detail(bounty, comments_page)),
             content_type="application/json")
 
     def post(self, request, *args, **kwargs):
@@ -165,9 +206,10 @@ class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
                 setattr(bounty, field, value)
                 modified = True
         if modified:
+            bounty.clean()
             bounty.save()
         return HttpResponse(json.dumps(
-            self.get_serializable_bounty_detail(bounty)),
+            self.get_serializable_bounty_detail(bounty, 1)),
             content_type="application/json")
 
 
@@ -176,11 +218,12 @@ class BountyDetailView(BountySerializerMixin, TemplateView):
 
     def get_context_data(self, bounty_id):
         context = super().get_context_data()
+        comments_page = self.request.GET.get('comments_page', 1)
 
         try:
             bounty = Bounty.objects.get(pk=bounty_id)
             context.update({'bounty': self.get_serializable_bounty_detail(
-                bounty, as_datetime=True)})
+                bounty, comments_page, as_datetime=True)})
         except Bounty.DoesNotExist:
             pass
 
@@ -236,3 +279,58 @@ class BountyListView(BountySerializerMixin, TemplateView):
                 'next_page_number': page + 1})
 
         return context
+
+
+class BountyAddCommentAPIView(CSRFExemptMixin, View):
+    model = Comment
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        text = self.request.POST.get('comment')
+        bounty_id = self.kwargs.get('bounty_id')
+        character_name = self.request.POST.get('character_name')
+        character_realm = self.request.POST.get('character_realm')
+        captcha = self.request.POST.get('captcha')
+
+        try:
+            bounty = Bounty.objects.get(pk=int(bounty_id))
+        except (Bounty.DoesNotExist, ValueError):
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': _('Bounty does not exist.')}),
+                content_type="application/json")
+
+        comment = Comment(
+            user=self.request.user,
+            text=text,
+            bounty=bounty,
+            character_name=character_name,
+            character_realm=character_realm,
+            user_ip=self.request.META.get('REMOTE_ADDR'))
+        try:
+            comment.clean()
+            if not recaptcha.check(self.request.META.get('REMOTE_ADDR'), captcha):
+                return HttpResponseBadRequest(
+                    json.dumps({
+                        'status': 'nok',
+                        'reason': _('Bad captcha')}),
+                    content_type="application/json")
+            if akismet.verify_key():
+                if akismet.comment_check(
+                        request.META.get('REMOTE_ADDR', ''),
+                        request.META.get('HTTP_USER_AGENT', ''),
+                        referrer=request.META.get('HTTP_REFERRER', ''),
+                        comment_content=text):
+                    return HttpResponseBadRequest(
+                        json.dumps({
+                            'status': 'nok',
+                            'reason': _('Your comment is a spam.')}),
+                        content_type="application/json")
+            comment.save()
+        except ValidationError as err:
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reasons': err.messages}),
+                content_type="application/json")
+
+        return HttpResponse(
+            json.dumps({"status": "ok", "reason": _("Comment added.")}),
+            content_type="application/json")
