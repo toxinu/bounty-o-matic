@@ -1,4 +1,7 @@
+import datetime
+
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -28,7 +31,7 @@ class Bounty(models.Model):
         (STATUS_CLOSE, _('Closed')),
         (STATUS_CANCELLED, _('Cancelled')),)
 
-    reward = models.TextField()
+    reward = models.TextField(verbose_name=_("Reward"))
     description = models.TextField(verbose_name=_("Description"))
     status = models.PositiveSmallIntegerField(
         choices=STATUS_CHOICES, default=STATUS_OPEN, verbose_name=_("Status"))
@@ -116,3 +119,39 @@ class Bounty(models.Model):
         if detail:
             return base_url + detail.get('thumbnail')
         return None
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User)
+    text = models.TextField(verbose_name=_("Comment"))
+    bounty = models.ForeignKey(Bounty)
+    character_realm = models.CharField(max_length=50, verbose_name=_("Character realm"))
+    character_name = models.CharField(
+        max_length=50, verbose_name=_("Character name"))
+    added_date = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Creation date"), db_index=True)
+    is_hidden = models.BooleanField(default=False)
+    user_ip = models.GenericIPAddressField(
+        _('IP address'), unpack_ipv4=True, blank=True, null=True)
+
+    class Meta:
+        ordering = ['-added_date']
+
+    def clean(self):
+        if not is_player_character(
+                self.user,
+                self.character_name,
+                self.character_realm, self.bounty.region) and not self.pk:
+            raise ValidationError(_("This character is not your."))
+
+        if Comment.objects.filter(
+                user=self.user,
+                added_date__gte=timezone.make_aware(
+                    datetime.datetime.now(),
+                    timezone.get_current_timezone()) - datetime.timedelta(
+                        minutes=1)).exists():
+            raise ValidationError(
+                _("Comment limit reached. Wait before sending a new one."))
+
+    def get_character_realm_display(self):
+        return get_pretty_realm(self.character_realm)
