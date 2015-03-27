@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load staticfiles %}
+{% get_current_language as LANGUAGE_CODE %}
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,6 +30,14 @@
               {% trans "Add bounty" %}
             </a>
           </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans "Language" %} <span class="caret"></span></a>
+            <ul id="language-switcher" class="dropdown-menu" role="menu">
+              {% for lang in LANGUAGES %}
+                <li><a href="#" value="{{ lang.0 }}">{{ lang.1 }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
         	<li>
             <a href="{% url 'logout' %}">
               <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
@@ -40,15 +49,3 @@
     </div>
   </div>
  </nav>
-
-{% get_current_language as LANGUAGE_CODE %}
-{{ LANGUAGE_CODE }}
-<form action="/i18n/setlang/" method="post">
-  {% csrf_token %}
-  <select name="language">
-  {% for lang in LANGUAGES %}
-    <option value="{{ lang.0 }}">{{ lang.1 }}</option>
-  {% endfor %}
-  </select> 
-  <button type="submit">Change</button>
-</form> 
