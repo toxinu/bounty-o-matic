@@ -28,12 +28,14 @@ class BountySerializerMixin:
             objects.append({
                 'id': comment.pk,
                 'user': comment.user.pk,
-                'text': comment.text,
+                'text': comment.text_as_html,
                 'region': comment.bounty.region,
                 'region_display': comment.bounty.get_region_display(),
                 'character_realm': comment.character_realm,
                 'character_realm_display': comment.get_character_realm_display(),
                 'character_name': comment.character_name,
+                'character_thumbnail': comment.character_thumbnail,
+                'character_armory': comment.character_armory,
                 'added_date': added_date
             })
         return objects
@@ -56,10 +58,12 @@ class BountySerializerMixin:
                 'status_display': bounty.get_status_display(),
                 'source_realm': bounty.source_realm,
                 'source_realm_display': bounty.get_source_realm_display(),
+                'source_armory': bounty.source_armory,
                 'source_character': bounty.source_character,
                 'destination_character': bounty.destination_character,
                 'destination_realm': bounty.destination_realm,
                 'destination_realm_display': bounty.get_destination_realm_display(),
+                'destination_armory': bounty.destination_armory,
                 'added_date': added_date,
                 'updated_date': updated_date,
                 'comments_count': bounty.comment_set.filter(is_hidden=False).count()
@@ -93,6 +97,7 @@ class BountySerializerMixin:
             'status': bounty.status,
             'status_display': bounty.get_status_display(),
             'source_thumbnail': bounty.source_thumbnail,
+            'source_armory': bounty.source_armory,
             'source_gender': bounty.source_gender,
             'source_realm': bounty.source_realm,
             'source_realm_display': bounty.get_source_realm_display(),
@@ -102,10 +107,11 @@ class BountySerializerMixin:
             'destination_character': bounty.destination_character,
             'destination_realm': bounty.destination_realm,
             'destination_realm_display': bounty.get_destination_realm_display(),
+            'destination_armory': bounty.destination_armory,
             'added_date': added_date,
             'updated_date': updated_date,
-            'reward': bounty.reward,
-            'description': bounty.description,
+            'reward': bounty.reward_as_html,
+            'description': bounty.description_as_html,
             'comments': comments_dict
         }
 

@@ -2,14 +2,18 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from .utils import markdown
 from ..battlenet.api import get_character
 from ..battlenet.api import get_pretty_realm
 from ..battlenet.api import is_player_character
 from ..battlenet.api import is_character_exists
+from ..battlenet.api import get_character_armory
+from ..battlenet.api import get_character_thumbnail
 
 
 class Bounty(models.Model):
@@ -77,6 +81,9 @@ class Bounty(models.Model):
                 self.source_realm, self.region) and not self.pk:
             raise ValidationError(_("This character is not your."))
 
+        self.reward = strip_tags(self.reward)
+        self.description = strip_tags(self.description)
+
     def get_source_realm_display(self):
         return get_pretty_realm(self.source_realm)
 
@@ -94,11 +101,23 @@ class Bounty(models.Model):
 
     @property
     def source_thumbnail(self):
-        return self._get_thumbnail('source')
+        return get_character_thumbnail(
+            self.region, self.source_realm, self.source_character)
 
     @property
     def destination_thumbnail(self):
-        return self._get_thumbnail('destination')
+        return get_character_thumbnail(
+            self.region, self.destination_realm, self.destination_character)
+
+    @property
+    def destination_armory(self):
+        return get_character_armory(
+            self.region, self.destination_realm, self.destination_character)
+
+    @property
+    def source_armory(self):
+        return get_character_armory(
+            self.region, self.source_realm, self.source_character)
 
     @property
     def destination_gender(self):
@@ -108,17 +127,13 @@ class Bounty(models.Model):
     def source_gender(self):
         return self.source_detail.get('gender')
 
-    def _get_thumbnail(self, who):
-        base_url = "http://%s.battle.net/static-render/%s/" % (self.region, self.region)
-        if self.region == "cn":
-            base_url = "http://www.battlenet.com.cn/static-render/cn/"
-        if who == 'source':
-            detail = self.source_detail
-        else:
-            detail = self.destination_detail
-        if detail:
-            return base_url + detail.get('thumbnail')
-        return None
+    @property
+    def reward_as_html(self):
+        return markdown.parse_bounty(self.reward)
+
+    @property
+    def description_as_html(self):
+        return markdown.parse_bounty(self.description)
 
 
 class Comment(models.Model):
@@ -153,5 +168,21 @@ class Comment(models.Model):
             raise ValidationError(
                 _("Comment limit reached. Wait before sending a new one."))
 
+        self.text = strip_tags(self.text)
+
     def get_character_realm_display(self):
         return get_pretty_realm(self.character_realm)
+
+    @property
+    def character_thumbnail(self):
+        return get_character_thumbnail(
+            self.bounty.region, self.character_realm, self.character_name)
+
+    @property
+    def character_armory(self):
+        return get_character_armory(
+            self.bounty.region, self.character_realm, self.character_name)
+
+    @property
+    def text_as_html(self):
+        return markdown.parse_comment(self.text)
