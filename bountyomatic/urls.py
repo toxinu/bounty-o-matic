@@ -6,9 +6,9 @@ from django.conf.urls import patterns
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
-from headhunter.bounties import views as bounties_views
-from headhunter.accounts import views as accounts_views
-from headhunter.battlenet import views as battlenet_views
+from .bounties import views as bounties_views
+from .accounts import views as accounts_views
+from .battlenet import views as battlenet_views
 
 urlpatterns = patterns(
     '',

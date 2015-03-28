@@ -1,5 +1,5 @@
 """
-Django settings for headhunter project.
+Django settings for bountyomatic project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -57,9 +57,9 @@ INSTALLED_APPS = (
     'sslserver',
     'compressor',
     'social.apps.django_app.default',
-    'headhunter.accounts',
-    'headhunter.bounties',
-    'headhunter.battlenet',
+    'bountyomatic.accounts',
+    'bountyomatic.bounties',
+    'bountyomatic.battlenet',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,9 +73,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
 )
 
-ROOT_URLCONF = 'headhunter.urls'
+ROOT_URLCONF = 'bountyomatic.urls'
 
-WSGI_APPLICATION = 'headhunter.wsgi.application'
+WSGI_APPLICATION = 'bountyomatic.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.battlenet.BattleNetOAuth2',
@@ -83,7 +83,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LOGIN_REDIRECT_URL = "/"
-SITE_URL = "http://localhost"
+SITE_URL = "https://bounty-o-matic.com"
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -122,8 +122,8 @@ SOCIAL_AUTH_BATTLENET_OAUTH2_SECRET = ''
 try:
     from .local_settings import *
 except ImportError:
-    print('!! Warning! File "headhunter/local_settings.py" file is missing')
-    print('!! Copy "headhunter/local_settings_example.py" to start a new one')
+    print('!! Warning! File "bountyomatic/local_settings.py" file is missing')
+    print('!! Copy "bountyomatic/local_settings_example.py" to start a new one')
     raise
 
 from django.utils.translation import ugettext_lazy as _
