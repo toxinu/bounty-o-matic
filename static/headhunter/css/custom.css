@@ -1,0 +1,17 @@
+.character-horde {
+	color:#e74c3c;
+}
+.character-alliance {
+	color:#3498db;
+}
+.character-neutral {
+}
+a.character-armory-link {
+	color:white;
+}
+dl.bounty-detail dd,dt{
+	line-height: 25px
+}
+.navbar-default .navbar-nav .active a {
+	background-color:#303030;
+}
