@@ -5,7 +5,7 @@
 {% block content %}
 {% if bounty %}
   <h1>
-    {% trans "Bounty" %} <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</small>
+    {% trans "Bounty" %} <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} - {{ bounty.destination_guild }}</small>
     {% if bounty.user == user.pk %}
       <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
     {% endif %}
@@ -42,9 +42,9 @@
                   {% endif %}
                 </dd>
                 <dt>{% trans "Author" %}</dt>
-                <dd><a class="character-armory-link" href="{{ bounty.source_armory }}">{{ bounty.source_character }} - {{ bounty.source_realm_display }}</a> <span class="label {% if bounty.source_faction == 0 %}label-info{% elif bounty.source_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.source_faction_display }}</span> <span class="label label-default">{{ bounty.source_class_display }}</span></dd>
+                <dd><a class="character-armory-link" href="{{ bounty.source_armory }}">{{ bounty.source_character }} - {{ bounty.source_realm_display }} - {{ bounty.source_guild }}</a> <span class="label {% if bounty.source_faction == 0 %}label-info{% elif bounty.source_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.source_faction_display }}</span> <span class="label label-default">{{ bounty.source_class_display }}</span></dd>
                 <dt>{% trans "Target" %}</dt>
-                <dd><a class="character-armory-link" href="{{ bounty.destination_armory }}">{{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</a> <span class="label {% if bounty.destination_faction == 0 %}label-info{% elif bounty.destination_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.destination_faction_display }}</span> <span class="label label-default">{{ bounty.destination_class_display }}</span></dd>
+                <dd><a class="character-armory-link" href="{{ bounty.destination_armory }}">{{ bounty.destination_character }} - {{ bounty.destination_realm_display }} - {{ bounty.destination_guild }}</a> <span class="label {% if bounty.destination_faction == 0 %}label-info{% elif bounty.destination_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.destination_faction_display }}</span> <span class="label label-default">{{ bounty.destination_class_display }}</span></dd>
               </dl>
             </div>
           </div>
@@ -78,32 +78,36 @@
     </button>
     <div class="collapse" id="addCommentCollapse">
       <br>
-      <form id="comment-form" style="display:none">
-        <label id="player-characters-label" for="player-characters">
-          {% trans "Your character" %}
-        </label>
-        <select class="form-control" id="player-characters">
-          <option value="">---</option>
-        </select>
-        <br>
-        <label for="reward" id="comment-input-label">
-          {% trans "Comment" %}
-        </label>
-        <small class="help">
-          <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered." %}</p>
-        </small>
-        <textarea
-            class="form-control"
-            id="comment-input"
-            rows="4"
-            cols="50"></textarea>
-        <br>
-        <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="{{ RECAPTCHA_KEY }}"></div>
-        <button class="btn btn-success pull-right" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
-          {% trans "Publish" %}
-        </button>
-        <div class="clearfix"></div>
-      </form>
+      {% if user.is_authenticated %}
+        <form id="comment-form" style="display:none">
+          <label id="player-characters-label" for="player-characters">
+            {% trans "Your character" %}
+          </label>
+          <select class="form-control" id="player-characters">
+            <option value="">---</option>
+          </select>
+          <br>
+          <label for="reward" id="comment-input-label">
+            {% trans "Comment" %}
+          </label>
+          <small class="help">
+            <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered." %}</p>
+          </small>
+          <textarea
+              class="form-control"
+              id="comment-input"
+              rows="4"
+              cols="50"></textarea>
+          <br>
+          <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="{{ RECAPTCHA_KEY }}"></div>
+          <button class="btn btn-success pull-right" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
+            {% trans "Publish" %}
+          </button>
+          <div class="clearfix"></div>
+        </form>
+      {% else %}
+        <p>{% trans "You need to be logged in to post a comment." %}</p>
+      {% endif %}
       <hr>
     </div>
     <br>
