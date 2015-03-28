@@ -4,95 +4,108 @@
 
 {% block content %}
 {% if bounty %}
-
-  <div class="page-header">
-    <h1>
-      {% trans "Bounty" %} <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</small>
-      {% if bounty.user == user.pk %}
-        <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
-      {% endif %}
-    </h1>
-  </div>
-
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h3 class="panel-title">{% trans "Details" %}</h3>
-    </div>
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-md-1">
-          <a href="{{ bounty.destination_armory }}" target="_blank">
-            <img class="pull-left" src="{{ bounty.destination_thumbnail }}">
-          </a>
+  <h1>
+    {% trans "Bounty" %} <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</small>
+    {% if bounty.user == user.pk %}
+      <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
+    {% endif %}
+  </h1>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel {% if bounty.destination_faction == 0 %}panel-info{% elif bounty.destination_faction == 1 %}panel-danger{% else %}panel-default{% endif %}">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans "Details" %}</h3>
         </div>
-        <div class="col-md-11">
-          <dl class="dl-horizontal">
-            <dt>{% trans "Added" %}</dt>
-            <dd>{{ bounty.added_date|date:"D d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
-            <dt>{% trans "Updated" %}</dt>
-            <dd>{{ bounty.updated_date|date:"D d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
-            <dt>{% trans "Region" %}</dt>
-            <dd>{{ bounty.region_display }}</dd>
-            <dt>{% trans "Status" %}</dt>
-            <dd>{{ bounty.status_display }}</dd>
-            <dt>{% trans "Author" %}</dt>
-            <dd>{{ bounty.source_character }} - {{ bounty.source_realm_display }}</dd>
-            <dt>{% trans "Target" %}</dt>
-            <dd>{{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</dd>
-          </dl>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-2">
+              <a href="{{ bounty.destination_armory }}" target="_blank">
+                <img class="pull-left" src="{{ bounty.destination_thumbnail }}">
+              </a>
+            </div>
+            <div class="col-md-10">
+              <dl class="dl-horizontal bounty-detail">
+                <dt>{% trans "Added" %}</dt>
+                <dd>{{ bounty.added_date|date:"D d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
+                <dt>{% trans "Updated" %}</dt>
+                <dd>{{ bounty.updated_date|date:"D d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
+                <dt>{% trans "Region" %}</dt>
+                <dd><span class="label label-default">{{ bounty.region_display }}</span></dd>
+                <dt>{% trans "Status" %}</dt>
+                <dd>
+                  {% if bounty.status == 1 %}
+                    <span class="label label-success">{{ bounty.status_display }}</span>
+                  {% elif bounty.status == 2 %}
+                    <span class="label label-danger">{{ bounty.status_display }}</span>
+                  {% elif bounty.status == 3 %}
+                    <span class="label label-default">{{ bounty.status_display }}</span>
+                  {% endif %}
+                </dd>
+                <dt>{% trans "Author" %}</dt>
+                <dd><a class="character-armory-link" href="{{ bounty.source_armory }}">{{ bounty.source_character }} - {{ bounty.source_realm_display }}</a> <span class="label {% if bounty.source_faction == 0 %}label-info{% elif bounty.source_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.source_faction_display }}</span> <span class="label label-default">{{ bounty.source_class_display }}</span></dd>
+                <dt>{% trans "Target" %}</dt>
+                <dd><a class="character-armory-link" href="{{ bounty.destination_armory }}">{{ bounty.destination_character }} - {{ bounty.destination_realm_display }}</a> <span class="label {% if bounty.destination_faction == 0 %}label-info{% elif bounty.destination_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.destination_faction_display }}</span> <span class="label label-default">{{ bounty.destination_class_display }}</span></dd>
+              </dl>
+            </div>
+          </div>
         </div>
-        
       </div>
     </div>
   </div>
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">{% trans "Reward" %}</h3>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel {% if bounty.destination_faction == 0 %}panel-info{% elif bounty.destination_faction == 1 %}panel-danger{% else %}panel-default{% endif %}">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans "Reward" %}</h3>
+        </div>
+        <div class="panel-body" id="bounty-reward">{{ bounty.reward|safe }}</div>
+      </div>
     </div>
-    <div class="panel-body" id="bounty-reward">{{ bounty.reward|safe }}</div>
-  </div>
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">{% trans "Description" %}</h3>
+    <div class="col-md-6">
+      <div class="panel {% if bounty.destination_faction == 0 %}panel-info{% elif bounty.destination_faction == 1 %}panel-danger{% else %}panel-default{% endif %}">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans "Description" %}</h3>
+        </div>
+        <div class="panel-body" id="bounty-description">{{ bounty.description|safe }}</div>
+      </div>
     </div>
-    <div class="panel-body" id="bounty-description">{{ bounty.description|safe }}</div>
   </div>
   <hr>
   <div id="comments">
     <h3>{% trans "Comments" %} <small>{% if bounty.comments.count %}({{ bounty.comments.count }}){% endif %}</small></h3> 
-      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addCommentCollapse" aria-expanded="false" aria-controls="collapseExample">
-        {% trans "Add a comment" %} <span class="caret"></span>
-      </button>
-      <div class="collapse" id="addCommentCollapse">
+    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#addCommentCollapse" aria-expanded="false" aria-controls="  collapseExample">
+      {% trans "Add a comment" %} <span class="caret"></span>
+    </button>
+    <div class="collapse" id="addCommentCollapse">
+      <br>
+      <form id="comment-form" style="display:none">
+        <label id="player-characters-label" for="player-characters">
+          {% trans "Your character" %}
+        </label>
+        <select class="form-control" id="player-characters">
+          <option value="">---</option>
+        </select>
         <br>
-        <form id="comment-form" style="display:none">
-          <label id="player-characters-label" for="player-characters">
-            {% trans "Your character" %}
-          </label>
-          <select class="form-control" id="player-characters">
-            <option value="">---</option>
-          </select>
-          <br>
-          <label for="reward" id="comment-input-label">
-            {% trans "Comment" %}
-          </label>
-          <small class="help">
-            <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered." %}</p>
-          </small>
-          <textarea
-              class="form-control"
-              id="comment-input"
-              rows="4"
-              cols="50"></textarea>
-          <br>
-          <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="6LeMMgQTAAAAAI_ZCxiJJcZOf0RTC-SYBrge8gRD"></div>
-          <button class="btn btn-success pull-right" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
-            {% trans "Publish" %}
-          </button>
-          <div class="clearfix"></div>
-        </form>
-        <hr>
-      </div>
+        <label for="reward" id="comment-input-label">
+          {% trans "Comment" %}
+        </label>
+        <small class="help">
+          <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered." %}</p>
+        </small>
+        <textarea
+            class="form-control"
+            id="comment-input"
+            rows="4"
+            cols="50"></textarea>
+        <br>
+        <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="6LeMMgQTAAAAAI_ZCxiJJcZOf0RTC-SYBrge8gRD"></div>
+        <button class="btn btn-success pull-right" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
+          {% trans "Publish" %}
+        </button>
+        <div class="clearfix"></div>
+      </form>
+      <hr>
+    </div>
     <br>
     <br>
     {% for comment in bounty.comments.objects %}
