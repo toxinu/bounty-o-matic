@@ -1,0 +1,29 @@
+body {margin-top:100px}
+.navbar-default .navbar-nav .active a {
+	background-color:#303030;
+}
+.navbar {background-color:#464545}
+.navbar a:hover {
+  color: #0ce3ac;
+}
+.navbar-brand {
+  font-family: 'ChangaOne', cursive;
+  font-size:150%;
+}
+.navbar a {
+  color: white;
+}
+.character-horde {
+	color:#e74c3c;
+}
+.character-alliance {
+	color:#3498db;
+}
+.character-neutral {
+}
+a.character-armory-link {
+	color:white;
+}
+dl.bounty-detail dd,dt{
+	line-height: 25px
+}
