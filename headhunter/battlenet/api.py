@@ -1,7 +1,7 @@
 import requests
 from memoize import memoize
 from memoize import delete_memoized
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 GENDERS = {
@@ -97,9 +97,7 @@ def get_character(region, realm, character):
     result = r.json()
     for faction_id, races in FACTIONS_RACES.items():
         if result.get('race') in races:
-            result.update({'faction_display': FACTIONS.get(faction_id)})
             result.update({'faction': faction_id})
-    result.update({'class_display': CLASSES.get(result.get('class'))})
     return result
 
 

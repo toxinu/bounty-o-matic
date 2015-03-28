@@ -8,6 +8,9 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from .utils import markdown
+from ..battlenet.api import CLASSES
+from ..battlenet.api import FACTIONS
+from ..battlenet.api import FACTIONS_RACES
 from ..battlenet.api import get_character
 from ..battlenet.api import get_pretty_realm
 from ..battlenet.api import is_player_character
@@ -120,12 +123,24 @@ class Bounty(models.Model):
             self.region, self.source_realm, self.source_character)
 
     @property
-    def destination_gender(self):
-        return self.destination_detail.get('gender')
+    def source_faction_display(self):
+        for faction_id, races in FACTIONS_RACES.items():
+            if self.source_detail.get('race') in races:
+                return str(FACTIONS.get(faction_id))
 
     @property
-    def source_gender(self):
-        return self.source_detail.get('gender')
+    def destination_faction_display(self):
+        for faction_id, races in FACTIONS_RACES.items():
+            if self.destination_detail.get('race') in races:
+                return str(FACTIONS.get(faction_id))
+
+    @property
+    def source_class_display(self):
+        return str(CLASSES.get(self.source_detail.get('class')))
+
+    @property
+    def destination_class_display(self):
+        return str(CLASSES.get(self.destination_detail.get('class')))
 
     @property
     def reward_as_html(self):
