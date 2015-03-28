@@ -122,8 +122,10 @@ class BountySerializerMixin:
             'destination_guild': bounty.destination_detail.get('guild', {}).get('name'),
             'added_date': added_date,
             'updated_date': updated_date,
-            'reward': bounty.reward_as_html,
-            'description': bounty.description_as_html,
+            'reward': bounty.reward,
+            'reward_as_html': bounty.reward_as_html,
+            'description': bounty.description,
+            'description_as_html': bounty.description_as_html,
             'comments': comments_dict
         }
 
