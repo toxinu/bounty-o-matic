@@ -144,3 +144,6 @@ if 'SITE_URL' not in globals():
 
 if 'RECAPTCHA_SECRET' not in globals():
     raise Exception('Missing RECAPTCHA_SECRET in settings')
+
+if 'RECAPTCHA_KEY' not in globals():
+    raise Exception('Missing RECAPTCHA_SECRET in settings')

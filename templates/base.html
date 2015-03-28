@@ -7,9 +7,9 @@
   <title>Bounty-O-Matic</title>
   <meta charset="UTF-8">
   {% compress css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'headhunter/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'headhunter/css/fonts.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'headhunter/css/custom.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/custom.css' %}">
   {% endcompress %}
 </head>
 <body>
@@ -20,8 +20,8 @@
   </div>
   {% compress js %}
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script src="{% static 'headhunter/js/jquery-2.1.3.min.js' %}"></script>
-    <script src="{% static 'headhunter/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bountyomatic/js/jquery-2.1.3.min.js' %}"></script>
+    <script src="{% static 'bountyomatic/js/bootstrap.min.js' %}"></script>
   {% endcompress %}
 	{% block javascripts %}{% endblock %}
   <script>

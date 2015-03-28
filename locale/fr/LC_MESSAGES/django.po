@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-28 19:33+0000\n"
+"POT-Creation-Date: 2015-03-28 21:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,277 +18,277 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: headhunter/accounts/views.py:48
+#: bountyomatic/accounts/views.py:48
 msgid "All data refreshed. You'll be able to refresh again in 5 minutes."
 msgstr ""
 "Toutes vos données ont été actualisées. Vous pourrez les re-actualiser dans "
 "5 minutes."
 
-#: headhunter/battlenet/api.py:8
+#: bountyomatic/battlenet/api.py:8
 msgid "Male"
 msgstr "Homme"
 
-#: headhunter/battlenet/api.py:9
+#: bountyomatic/battlenet/api.py:9
 msgid "Female"
 msgstr "Femme"
 
-#: headhunter/battlenet/api.py:13
+#: bountyomatic/battlenet/api.py:13
 msgid "Alliance"
 msgstr "Alliance"
 
-#: headhunter/battlenet/api.py:14
+#: bountyomatic/battlenet/api.py:14
 msgid "Horde"
 msgstr "Horde"
 
-#: headhunter/battlenet/api.py:15
+#: bountyomatic/battlenet/api.py:15
 msgid "Neutral"
 msgstr "Neutre"
 
-#: headhunter/battlenet/api.py:25
+#: bountyomatic/battlenet/api.py:25
 msgid "Human"
 msgstr "Humain"
 
-#: headhunter/battlenet/api.py:26
+#: bountyomatic/battlenet/api.py:26
 msgid "Orc"
 msgstr "Orc"
 
-#: headhunter/battlenet/api.py:27
+#: bountyomatic/battlenet/api.py:27
 msgid "Dwarf"
 msgstr "Nain"
 
-#: headhunter/battlenet/api.py:28
+#: bountyomatic/battlenet/api.py:28
 msgid "Night Elf"
 msgstr "Elfe de la nuit"
 
-#: headhunter/battlenet/api.py:29
+#: bountyomatic/battlenet/api.py:29
 msgid "Undead"
 msgstr "Mort-vivant"
 
-#: headhunter/battlenet/api.py:30
+#: bountyomatic/battlenet/api.py:30
 msgid "Tauren"
 msgstr "Tauren"
 
-#: headhunter/battlenet/api.py:31
+#: bountyomatic/battlenet/api.py:31
 msgid "Gnome"
 msgstr "Gnome"
 
-#: headhunter/battlenet/api.py:32
+#: bountyomatic/battlenet/api.py:32
 msgid "Troll"
 msgstr "Troll"
 
-#: headhunter/battlenet/api.py:33
+#: bountyomatic/battlenet/api.py:33
 msgid "Goblin"
 msgstr "Gobelin"
 
-#: headhunter/battlenet/api.py:34
+#: bountyomatic/battlenet/api.py:34
 msgid "Blood Elf"
 msgstr "Elfe de sang"
 
-#: headhunter/battlenet/api.py:35
+#: bountyomatic/battlenet/api.py:35
 msgid "Draenei"
 msgstr "Draeneï"
 
-#: headhunter/battlenet/api.py:36
+#: bountyomatic/battlenet/api.py:36
 msgid "Worgen"
 msgstr "Worgen"
 
-#: headhunter/battlenet/api.py:37 headhunter/battlenet/api.py:38
-#: headhunter/battlenet/api.py:39
+#: bountyomatic/battlenet/api.py:37 bountyomatic/battlenet/api.py:38
+#: bountyomatic/battlenet/api.py:39
 msgid "Pandaren"
 msgstr "Pandaren"
 
-#: headhunter/battlenet/api.py:43
+#: bountyomatic/battlenet/api.py:43
 msgid "Warrior"
 msgstr "Guerrier"
 
-#: headhunter/battlenet/api.py:44
+#: bountyomatic/battlenet/api.py:44
 msgid "Paladin"
 msgstr "Paladin"
 
-#: headhunter/battlenet/api.py:45
+#: bountyomatic/battlenet/api.py:45
 msgid "Hunter"
 msgstr "Chasseur"
 
-#: headhunter/battlenet/api.py:46
+#: bountyomatic/battlenet/api.py:46
 msgid "Rogue"
 msgstr "Voleur"
 
-#: headhunter/battlenet/api.py:47
+#: bountyomatic/battlenet/api.py:47
 msgid "Priest"
 msgstr "Prêtre"
 
-#: headhunter/battlenet/api.py:48
+#: bountyomatic/battlenet/api.py:48
 msgid "Death Knight"
 msgstr "Chevalier de la mort"
 
-#: headhunter/battlenet/api.py:49
+#: bountyomatic/battlenet/api.py:49
 msgid "Shaman"
 msgstr "Chaman"
 
-#: headhunter/battlenet/api.py:50
+#: bountyomatic/battlenet/api.py:50
 msgid "Mage"
 msgstr "Mage"
 
-#: headhunter/battlenet/api.py:51
+#: bountyomatic/battlenet/api.py:51
 msgid "Warlock"
 msgstr "Démoniste"
 
-#: headhunter/battlenet/api.py:52
+#: bountyomatic/battlenet/api.py:52
 msgid "Monk"
 msgstr "Moine"
 
-#: headhunter/battlenet/api.py:53
+#: bountyomatic/battlenet/api.py:53
 msgid "Druid"
 msgstr "Druide"
 
-#: headhunter/battlenet/views.py:20 headhunter/battlenet/views.py:35
+#: bountyomatic/battlenet/views.py:20 bountyomatic/battlenet/views.py:35
 msgid "Need an authenticated user."
 msgstr "Utilisateur authentifié requis."
 
-#: headhunter/battlenet/views.py:48
+#: bountyomatic/battlenet/views.py:48
 msgid "Need region parameter."
 msgstr "Une région est requise."
 
-#: headhunter/bounties/models.py:25
+#: bountyomatic/bounties/models.py:28
 msgid "Europe"
 msgstr "Europe"
 
-#: headhunter/bounties/models.py:26
+#: bountyomatic/bounties/models.py:29
 msgid "US"
 msgstr "US"
 
-#: headhunter/bounties/models.py:27
+#: bountyomatic/bounties/models.py:30
 msgid "Korea"
 msgstr "Corée"
 
-#: headhunter/bounties/models.py:28
+#: bountyomatic/bounties/models.py:31
 msgid "Taiwan"
 msgstr "Taïwan"
 
-#: headhunter/bounties/models.py:34 templates/bounties/add.html:17
+#: bountyomatic/bounties/models.py:37 templates/bounties/add.html:17
 #: templates/bounties/list.html:14
 msgid "Open"
 msgstr "Ouverte"
 
-#: headhunter/bounties/models.py:35 templates/bounties/add.html:18
+#: bountyomatic/bounties/models.py:38 templates/bounties/add.html:18
 #: templates/bounties/list.html:15
 msgid "Closed"
 msgstr "Fermée"
 
-#: headhunter/bounties/models.py:36 templates/bounties/add.html:19
+#: bountyomatic/bounties/models.py:39 templates/bounties/add.html:19
 #: templates/bounties/list.html:16
 msgid "Cancelled"
 msgstr "Annulée"
 
-#: headhunter/bounties/models.py:38 templates/bounties/add.html:72
+#: bountyomatic/bounties/models.py:41 templates/bounties/add.html:72
 #: templates/bounties/detail.html:59
 msgid "Reward"
 msgstr "Récompense"
 
-#: headhunter/bounties/models.py:39 templates/bounties/add.html:88
+#: bountyomatic/bounties/models.py:42 templates/bounties/add.html:88
 #: templates/bounties/detail.html:67
 msgid "Description"
 msgstr "Description"
 
-#: headhunter/bounties/models.py:41 templates/bounties/add.html:11
+#: bountyomatic/bounties/models.py:44 templates/bounties/add.html:11
 #: templates/bounties/detail.html:34 templates/bounties/list.html:9
 msgid "Status"
 msgstr "Statut"
 
-#: headhunter/bounties/models.py:48 templates/bounties/detail.html:32
+#: bountyomatic/bounties/models.py:51 templates/bounties/detail.html:32
 #: templates/bounties/list.html:23
 msgid "Region"
 msgstr "Région"
 
-#: headhunter/bounties/models.py:50
+#: bountyomatic/bounties/models.py:53
 msgid "Source realm"
 msgstr "Royaume de la source"
 
-#: headhunter/bounties/models.py:52
+#: bountyomatic/bounties/models.py:55
 msgid "Source character"
 msgstr "Personnage source"
 
-#: headhunter/bounties/models.py:53 templates/bounties/add.html:44
+#: bountyomatic/bounties/models.py:56 templates/bounties/add.html:44
 #: templates/bounties/list.html:35
 msgid "Target realm"
 msgstr "Royaume de la cible"
 
-#: headhunter/bounties/models.py:55
+#: bountyomatic/bounties/models.py:58
 msgid "Target character"
 msgstr "Nom de la cible"
 
-#: headhunter/bounties/models.py:57 headhunter/bounties/models.py:147
+#: bountyomatic/bounties/models.py:60 bountyomatic/bounties/models.py:162
 msgid "Creation date"
 msgstr "Date de création"
 
-#: headhunter/bounties/models.py:58
+#: bountyomatic/bounties/models.py:61
 msgid "Latest update"
 msgstr "Dernière mise à jour"
 
-#: headhunter/bounties/models.py:71
+#: bountyomatic/bounties/models.py:74
 msgid "Your character and target must be different."
 msgstr "Votre personnage et la cible doivent être différentes."
 
-#: headhunter/bounties/models.py:76
+#: bountyomatic/bounties/models.py:79
 msgid "Target character does not exists."
 msgstr "Le personnage cible n'existe pas."
 
-#: headhunter/bounties/models.py:82 headhunter/bounties/models.py:160
+#: bountyomatic/bounties/models.py:85 bountyomatic/bounties/models.py:175
 msgid "This character is not your."
 msgstr "Ce personnage ne vout appartient pas."
 
-#: headhunter/bounties/models.py:141 templates/bounties/detail.html:90
+#: bountyomatic/bounties/models.py:156 templates/bounties/detail.html:90
 msgid "Comment"
 msgstr "Commentaire"
 
-#: headhunter/bounties/models.py:143
+#: bountyomatic/bounties/models.py:158
 msgid "Character realm"
 msgstr "Royaume de la cible"
 
-#: headhunter/bounties/models.py:145
+#: bountyomatic/bounties/models.py:160
 msgid "Character name"
 msgstr "Nom de la cible"
 
-#: headhunter/bounties/models.py:150
+#: bountyomatic/bounties/models.py:165
 msgid "IP address"
 msgstr "Adresse IP"
 
-#: headhunter/bounties/models.py:169
+#: bountyomatic/bounties/models.py:184
 msgid "Comment limit reached. Wait before sending a new one."
 msgstr ""
 "Limite de commentaire atteinte. Veuillez attendre un instant pour en poster "
 "un nouveau."
 
-#: headhunter/bounties/views.py:190 headhunter/bounties/views.py:208
+#: bountyomatic/bounties/views.py:188 bountyomatic/bounties/views.py:206
 msgid "Invalid bounty."
 msgstr "Prime invalide."
 
-#: headhunter/bounties/views.py:194 headhunter/bounties/views.py:212
-#: headhunter/bounties/views.py:317
+#: bountyomatic/bounties/views.py:192 bountyomatic/bounties/views.py:210
+#: bountyomatic/bounties/views.py:317
 msgid "Bounty does not exist."
 msgstr "Cette prime n'existe pas."
 
-#: headhunter/bounties/views.py:217
+#: bountyomatic/bounties/views.py:215
 msgid "Bounty is not your."
 msgstr "Cette prime ne vous appartient pas."
 
-#: headhunter/bounties/views.py:333
+#: bountyomatic/bounties/views.py:333
 msgid "Bad captcha"
 msgstr "Mauvaise captcha"
 
-#: headhunter/bounties/views.py:344
+#: bountyomatic/bounties/views.py:344
 msgid "Your comment is a spam."
 msgstr "Votre commentaire est un spam."
 
-#: headhunter/bounties/views.py:353
+#: bountyomatic/bounties/views.py:353
 msgid "Comment added."
 msgstr "Commentaire ajouté."
 
-#: headhunter/settings.py:131
+#: bountyomatic/settings.py:131
 msgid "English"
 msgstr "Anglais"
 
-#: headhunter/settings.py:132
+#: bountyomatic/settings.py:132
 msgid "French"
 msgstr "Français"
 
@@ -437,7 +437,9 @@ msgstr "Page"
 msgid ""
 "Bounty-O-Matic for World of Warcraft by Bodoc-Conseil des Ombres (Légion de "
 "Stormwind)"
-msgstr "Bounty-O-Matic pour World of Warcraft par Bodoc-Conseil des Ombres (Légion de Stormwind)"
+msgstr ""
+"Bounty-O-Matic pour World of Warcraft par Bodoc-Conseil des Ombres (Légion "
+"de Stormwind)"
 
 #: templates/header.html:9
 msgid "Toggle navigation"

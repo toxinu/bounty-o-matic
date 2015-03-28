@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.views.generic import View
@@ -292,6 +293,8 @@ class BountyListView(BountySerializerMixin, TemplateView):
             context.update({
                 'has_next': True,
                 'next_page_number': page + 1})
+
+        context.update({'RECAPTCHA_KEY': settings.RECAPTCHA_KEY})
 
         return context
 
