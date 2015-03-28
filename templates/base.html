@@ -18,8 +18,8 @@
     {% block content %}{% endblock %}
     {% include "footer.html" %}
   </div>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
   {% compress js %}
-    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="{% static 'bountyomatic/js/jquery-2.1.3.min.js' %}"></script>
     <script src="{% static 'bountyomatic/js/bootstrap.min.js' %}"></script>
   {% endcompress %}
