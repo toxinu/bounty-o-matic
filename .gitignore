@@ -1,4 +1,4 @@
 *.sqlite3
 __pycache__
-headhunter/local_settings.py
+bountyomatic/local_settings.py
 venv
