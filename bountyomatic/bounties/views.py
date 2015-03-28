@@ -243,6 +243,8 @@ class BountyDetailView(BountySerializerMixin, TemplateView):
         except Bounty.DoesNotExist:
             pass
 
+        context.update({'RECAPTCHA_KEY': settings.RECAPTCHA_KEY})
+
         return context
 
 
@@ -293,8 +295,6 @@ class BountyListView(BountySerializerMixin, TemplateView):
             context.update({
                 'has_next': True,
                 'next_page_number': page + 1})
-
-        context.update({'RECAPTCHA_KEY': settings.RECAPTCHA_KEY})
 
         return context
 
