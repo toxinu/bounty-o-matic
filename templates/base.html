@@ -4,10 +4,12 @@
 <!DOCTYPE html>
 <html lang="{{ LANG }}">
 <head>
-  <title>HeadHunter</title>
+  <title>Bounty-O-Matic</title>
   <meta charset="UTF-8">
   {% compress css %}
     <link rel="stylesheet" type="text/css" href="{% static 'headhunter/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'headhunter/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'headhunter/css/custom.css' %}">
   {% endcompress %}
 </head>
 <body>
@@ -41,7 +43,7 @@
           battletag.text(data.battletag);
           battletag.removeClass("active");
           battletag.removeClass("progress-bar-striped");
-          battletag.addClass("progress-bar-info");
+          battletag.addClass("progress-bar");
           battletag.removeClass("progress-bar-warning");
         },
         error: function(xhr, status, err) {
