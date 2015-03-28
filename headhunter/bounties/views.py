@@ -64,6 +64,11 @@ class BountySerializerMixin:
                 'destination_realm': bounty.destination_realm,
                 'destination_realm_display': bounty.get_destination_realm_display(),
                 'destination_armory': bounty.destination_armory,
+                'destination_faction': bounty.destination_detail.get('faction'),
+                'destination_faction_display': bounty.destination_detail.get(
+                    'faction_display'),
+                'destination_guild': bounty.destination_detail.get(
+                    'guild', {}).get('name'),
                 'added_date': added_date,
                 'updated_date': updated_date,
                 'comments_count': bounty.comment_set.filter(is_hidden=False).count()
@@ -102,12 +107,19 @@ class BountySerializerMixin:
             'source_realm': bounty.source_realm,
             'source_realm_display': bounty.get_source_realm_display(),
             'source_character': bounty.source_character,
+            'source_faction': bounty.destination_detail.get('faction'),
+            'source_faction_display': bounty.source_detail.get('faction_display'),
+            'source_class_display': bounty.source_detail.get('class_display'),
             'destination_gender': bounty.destination_gender,
             'destination_thumbnail': bounty.destination_thumbnail,
             'destination_character': bounty.destination_character,
             'destination_realm': bounty.destination_realm,
             'destination_realm_display': bounty.get_destination_realm_display(),
             'destination_armory': bounty.destination_armory,
+            'destination_faction': bounty.destination_detail.get('faction'),
+            'destination_faction_display': bounty.destination_detail.get(
+                'faction_display'),
+            'destination_class_display': bounty.destination_detail.get('class_display'),
             'added_date': added_date,
             'updated_date': updated_date,
             'reward': bounty.reward_as_html,
