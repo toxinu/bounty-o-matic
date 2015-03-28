@@ -9,6 +9,18 @@ GENDERS = {
     1: _('Female')
 }
 
+FACTIONS = {
+    0: _('Alliance'),
+    1: _('Horde'),
+    2: _('Neutral'),
+}
+
+FACTIONS_RACES = {
+    0: [1, 3, 4, 7, 11, 22, 25],
+    1: [2, 5, 6, 8, 9, 10, 26],
+    2: [24],
+}
+
 RACES = {
     1: _('Human'),
     2: _('Orc'),
@@ -22,7 +34,9 @@ RACES = {
     10: _('Blood Elf'),
     11: _('Draenei'),
     22: _('Worgen'),
-    25: _('Pandaren')
+    24: _('Pandaren'),
+    25: _('Pandaren'),
+    26: _('Pandaren')
 }
 
 CLASSES = {
@@ -76,11 +90,17 @@ def is_character_exists(region, realm, character):
 # 1 hour
 @memoize(timeout=60 * 60 * 1)
 def get_character(region, realm, character):
-    r = requests.get('http://%s.battle.net/api/wow/character/%s/%s' % (
+    r = requests.get('http://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
         region, realm, character))
     if r.json().get('status') == 'nok':
         return None
-    return r.json()
+    result = r.json()
+    for faction_id, races in FACTIONS_RACES.items():
+        if result.get('race') in races:
+            result.update({'faction_display': FACTIONS.get(faction_id)})
+            result.update({'faction': faction_id})
+    result.update({'class_display': CLASSES.get(result.get('class'))})
+    return result
 
 
 def is_player_character(user, character, realm, regions=None):
