@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-28 21:04+0000\n"
+"POT-Creation-Date: 2015-03-28 21:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -237,7 +237,7 @@ msgstr "Le personnage cible n'existe pas."
 msgid "This character is not your."
 msgstr "Ce personnage ne vout appartient pas."
 
-#: bountyomatic/bounties/models.py:156 templates/bounties/detail.html:90
+#: bountyomatic/bounties/models.py:156 templates/bounties/detail.html:91
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -284,15 +284,15 @@ msgstr "Votre commentaire est un spam."
 msgid "Comment added."
 msgstr "Commentaire ajouté."
 
-#: bountyomatic/settings.py:131
+#: bountyomatic/settings.py:135
 msgid "English"
 msgstr "Anglais"
 
-#: bountyomatic/settings.py:132
+#: bountyomatic/settings.py:136
 msgid "French"
 msgstr "Français"
 
-#: templates/bounties/add.html:28 templates/bounties/detail.html:83
+#: templates/bounties/add.html:28 templates/bounties/detail.html:84
 msgid "Your character"
 msgstr "Votre personnage"
 
@@ -304,7 +304,7 @@ msgstr "Nom de la cible"
 msgid "Markdown allowed."
 msgstr "Markdown autorisé."
 
-#: templates/bounties/add.html:102 templates/bounties/detail.html:102
+#: templates/bounties/add.html:102 templates/bounties/detail.html:103
 msgid "Loading..."
 msgstr "Chargement..."
 
@@ -341,7 +341,7 @@ msgstr "Description manquante"
 msgid "Bounty is incorrect"
 msgstr "La prime est incorrecte."
 
-#: templates/bounties/add.html:326 templates/bounties/detail.html:186
+#: templates/bounties/add.html:326 templates/bounties/detail.html:190
 msgid "Unknown error"
 msgstr "Error inconnue"
 
@@ -385,31 +385,35 @@ msgstr "Commentaires"
 msgid "Add a comment"
 msgstr "Ajouter un commentaire"
 
-#: templates/bounties/detail.html:93
+#: templates/bounties/detail.html:94
 msgid "Markdown allowed but images and raw html won't be rendered."
 msgstr "Markdown autorisé. Images et html non rendus."
 
-#: templates/bounties/detail.html:103
+#: templates/bounties/detail.html:104
 msgid "Publish"
 msgstr "Publier"
 
-#: templates/bounties/detail.html:131
+#: templates/bounties/detail.html:109
+msgid "You need to be logged in to post a comment."
+msgstr "Vous devez être connecté pour poster un commentaire."
+
+#: templates/bounties/detail.html:135
 msgid "Bounty not found."
 msgstr "Cette prime ne vous appartient pas."
 
-#: templates/bounties/detail.html:148
+#: templates/bounties/detail.html:152
 msgid "Need a character to comment."
 msgstr "Il faut un personnage pour commenter."
 
-#: templates/bounties/detail.html:150
+#: templates/bounties/detail.html:154
 msgid "Comment can not be empty."
 msgstr "Votre commentaire ne peut être vide."
 
-#: templates/bounties/detail.html:152
+#: templates/bounties/detail.html:156
 msgid "Missing captcha."
 msgstr "Il manque le captcha."
 
-#: templates/bounties/detail.html:154 templates/bounties/detail.html.py:188
+#: templates/bounties/detail.html:158 templates/bounties/detail.html.py:192
 msgid "Comment is incorrect"
 msgstr "Le commentaire incorrect"
 
