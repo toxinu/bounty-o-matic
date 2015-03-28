@@ -53,7 +53,7 @@
   <br>
 
   <button
-      class="btn btn-primary btn-lg btn-block"
+      class="btn btn-success btn-lg btn-block"
       id="search">
     {% trans "Search me bounties!" %}
   </button>
@@ -62,8 +62,10 @@
 
   <ul class="list-group">
   {% for bounty in bounties %}
-    <li class="list-group-item">
-    [<strong>{{ bounty.region_display }}</strong>] {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} <span class="label label-default">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
+    {% with bounty.destination_faction as faction %}
+      <li class="list-group-item {% if faction == 0 %}character-alliance{% elif faction == 1 %}character-horde{% else %}character-neutral{% endif %}">
+    {% endwith %}
+    <strong>{{ bounty.destination_character }}</strong> - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %} - {{ bounty.destination_guild }} {% endif %}<span class="label label-default">{{ bounty.region_display }}</span> <span class="label label-default">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
     {% if bounty.status == 1 %}
       <span class="label label-success">{{ bounty.status_display }}</span>
     {% elif bounty.status == 2 %}
@@ -85,7 +87,7 @@
 
 {% if num_pages > 1 %}
   <nav>
-    <ul class="pagination">
+    <ul class="pagination pagination-sm">
       {% if has_previous %}
         <li>
           <a href="?page={{ previous_page_number }}" aria-label="Previous">
