@@ -29,10 +29,11 @@
       // Language switcher
       $("ul#language-switcher li a").click(function() {
         var lang = $(this).attr('value');
-        $('<form action="/i18n/setlang/" method="POST">' +
+        var $form = $('<form style="display:none;" action="/i18n/setlang/" method="POST">' +
           "{% csrf_token %}" + 
           '<input type="hidden" name="language" value="' + lang + '">' +
-          '</form>').submit();
+          '</form>');
+        $form.appendTo("body").submit();
       });
 
       $.ajax({
