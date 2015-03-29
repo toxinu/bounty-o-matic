@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 import requests
 from memoize import memoize
 from memoize import delete_memoized
@@ -134,6 +136,8 @@ def get_player_characters(user, regions=None):
                 continue
             else:
                 for character in r.json().get('characters'):
+                    if character.get('level') < 10:
+                        continue
                     normalized_realm = get_normalized_realm(
                         character.get('realm'), region)
                     character.update({
@@ -141,7 +145,7 @@ def get_player_characters(user, regions=None):
                     characters.append(character)
         except ValueError:
             continue
-    return characters
+    return sorted(characters, key=itemgetter('realm', 'name'))
 
 
 # 30 days
