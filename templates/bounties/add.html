@@ -3,17 +3,14 @@
 {% load staticfiles %}
 
 {% block content %}
+<div id="loading">
+  <center><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Loading...</center>
+</div>
 <form id="bounty-for">
-  <label
-        id="bounty-status-label"
-        for="bounty-status"
-        style="display:none">
+  <label id="bounty-status-label" for="bounty-status" class="hidden">
     {% trans "Status" %}
   </label>
-  <select
-      class="form-control"
-      id="bounty-status"
-      style="display:none">
+  <select class="form-control hidden" id="bounty-status">
     <option value="1" selected>{% trans "Open" %}</option>
     <option value="2">{% trans "Closed" %}</option>
     <option value="3">{% trans "Cancelled" %}</option>
@@ -21,87 +18,60 @@
   <br>
 
   <!-- Player Character -->
-  <label
-        id="player-characters-label"
-        for="player-characters"
-        style="display:none">
+  <label id="player-characters-label" for="player-characters" class="hidden">
     {% trans "Your character" %}
   </label>
-  <select
-  		class="form-control"
-      id="player-characters"
-      style="display:none">
+  <select class="form-control hidden" id="player-characters">
     <option value="">---</option>
   </select>
   <br>
   <!-- End block -->
 
   <!-- Realm -->
-  <label
-        id="realms-label"
-        for="realms"
-        style="display:none">
+  <label id="realms-label" for="realms" class="hidden">
     {% trans "Target realm" %}
   </label>
-  <select
-  		class="form-control"
-      id="realms"
-      style="display:none">
+  <select class="form-control hidden" id="realms">
     <option value="">---</option>
   </select>
   <br>
   <!-- End block -->
   
   <!-- Destination character -->
-  <label
-        id="destination-character-label"
-        for="realms"
-        style="display:none">
+  <label id="destination-character-label" for="realms" class="hidden">
     {% trans "Target name" %}
   </label>
-  <input
-      id="destination-character"
-      style="display:none"
-      class="form-control"
-      type="text" />
+  <input id="destination-character" class="form-control hidden" type="text" />
   <br>
-  <label
-	    for="reward"
-	    id="reward-label"
-	    style="display:none">
+  <label for="reward" id="reward-label" class="hidden">
     {% trans "Reward" %}
 	</label>
-  <small class="help" style="display:none">
+  <small class="help hidden">
     <p class="help-block">{% trans "Markdown allowed." %}</p>
   </small>
-	<textarea
-			class="form-control"
-	    id="reward"
-	    style="display:none"
-	    rows="4"
-	    cols="50"></textarea>
+	<textarea class="form-control hidden" id="reward" rows="4" cols="50"></textarea>
   <br>
-	<label
-	    for="description"
-	    id="description-label"
-	    style="display:none">
+	<label for="description" id="description-label" class="hidden">
     {% trans "Description" %}
 	</label>
-  <small class="help" style="display:none">
+  <small class="help hidden">
     <p class="help-block">{% trans "Markdown allowed." %}</p>
   </small>
-	<textarea
-			class="form-control"
-	    id="description"
-	    style="display:none"
-	    rows="4"
-	    cols="50"></textarea>
+	<textarea class="form-control hidden" id="description" rows="4" cols="50"></textarea>
+  <br>
+  <div class="checkbox hidden" id="is-private">
+    <label>
+      <input id="is-private-input" type="checkbox"> {% trans "Is your bounty private?" %}
+    </label>
+    <small class="help hidden">
+      <p class="help-block">{% trans "Your bounty will not be visible in other unless you share link." %}</p>
+    </small>
+  </div>
 	<br>
 	<button
-			class="btn btn-success pull-right"
+			class="btn btn-success pull-right hidden"
       data-loading-text="{% trans 'Loading...' %}"
-	    id="save"
-	    style="display:none">
+	    id="save">
     {% trans "Save" %}
 	</button>
   <div class="clearfix"></div>
@@ -121,6 +91,7 @@
   var selectedDestinationCharacter = null;
   var reward = '';
   var description = '';
+  var isPrivate = false;
 
   function loadBounty(id) {
     $.ajax({
@@ -136,6 +107,7 @@
           reward = data.reward;
           description = data.description;
           selectedStatus = data.status;
+          isPrivate = data.is_private;
 
           // Set character
           $("select#player-characters option").filter(function() {
@@ -156,8 +128,10 @@
           $("select#bounty-status option").filter(function() {
               return $(this).val() == data.status; 
           }).prop('selected', true);
-          $("label#bounty-status-label").css('display', '');
-          $("select#bounty-status").css('display', '');
+          $("label#bounty-status-label").removeClass('hidden');
+          $("select#bounty-status").removeClass('hidden');
+          if (isPrivate)
+            $("input#is-private-input").prop('checked', true);
         });
       },
       error: function(xhr, status, err) {
@@ -177,8 +151,9 @@
             "|"  + val.name + "\">" + val.name + " - " + val.realm +
             " (" + val.level + ") </option>");
         });
-        $("select#player-characters").css("display", "block");
-        $("label#player-characters-label").css("display", "block");
+        $("div#loading").addClass("hidden");
+        $("select#player-characters").removeClass("hidden");
+        $("label#player-characters-label").removeClass("hidden");
         if (callback)
           callback();
       },
@@ -198,16 +173,17 @@
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
         });
-        $("select#realms").css("display", "block");
-        $("label#realms-label").css("display", "block");
-        $("input#destination-character").css("display", "block");
-        $("label#destination-character-label").css("display", "block");
-        $("textarea#reward").css("display", "block");
-        $("label#reward-label").css("display", "block");
-        $("textarea#description").css("display", "block");
-        $("label#description-label").css("display", "block");
-        $("button#save").css("display", "block");
-        $(".help").css("display", "block");
+        $("select#realms").removeClass("hidden");
+        $("label#realms-label").removeClass("hidden");
+        $("input#destination-character").removeClass("hidden");
+        $("label#destination-character-label").removeClass("hidden");
+        $("textarea#reward").removeClass("hidden");
+        $("label#reward-label").removeClass("hidden");
+        $("textarea#description").removeClass("hidden");
+        $("label#description-label").removeClass("hidden");
+        $("button#save").removeClass("hidden");
+        $(".help").removeClass("hidden");
+        $("div#is-private").removeClass("hidden");
         if (callback)
           callback();
       },
@@ -222,6 +198,7 @@
     reward = $("textarea#reward").val();
     description = $("textarea#description").val();
     selectedStatus = $("select#bounty-status").val();
+    isPrivate = $("input#is-private-input").prop('checked'); 
 
     var errorMessage = '';
     if (!selectedRegion)
@@ -260,7 +237,8 @@
       description: description,
       reward: reward,
       status: selectedStatus,
-    }
+      is_private: isPrivate,
+    };
     $.ajax({
       url: "/api/bounty/" + getUrlParameter('update'),
       dataType: 'json',
@@ -278,7 +256,7 @@
           })
         }
         if (!errorMessage)
-          errorMessage = '\n- Unknown error';
+          errorMessage = '\n- {% trans "Unknown error" %}';
 
         alert("{% trans 'Bounty is incorrect' %}:\n" + errorMessage);
         console.error("/api/bounty/" + getUrlParameter('update'), status, err.toString());
@@ -305,6 +283,7 @@
       destination_character: selectedDestinationCharacter,
       description: description,
       reward: reward,
+      is_private: isPrivate,
     }
     $.ajax({
       url: "/api/bounty",
