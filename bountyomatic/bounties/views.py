@@ -18,7 +18,29 @@ from .utils import recaptcha
 from ..mixins import CSRFExemptMixin
 
 
-class BountySerializerMixin:
+class BountyBaseView:
+    def get_filter_kwargs(self):
+        filter_kwargs = {}
+        region = self.request.GET.get('region', None)
+        status = self.request.GET.get('status', None)
+        realm = self.request.GET.get('realm', None)
+        destination_character = self.request.GET.get('destination', None)
+        if region:
+            filter_kwargs.update({'region': region})
+        if status:
+            filter_kwargs.update({'status': status})
+        if realm:
+            filter_kwargs.update({'destination_realm': realm})
+        if destination_character:
+            filter_kwargs.update(
+                {'destination_character__icontains': destination_character})
+
+        if 'owned' in self.request.GET:
+            filter_kwargs.update({'user': self.request.user})
+        else:
+            filter_kwargs.update({'is_private': False})
+        return filter_kwargs
+
     def get_serializable_comment_list(self, qs, as_datetime=False):
         objects = []
         for comment in qs:
@@ -37,6 +59,7 @@ class BountySerializerMixin:
                 'character_name': comment.character_name,
                 'character_thumbnail': comment.character_thumbnail,
                 'character_armory': comment.character_armory,
+                'character_guild': comment.character_detail.get('guild', {}).get('name'),
                 'added_date': added_date
             })
         return objects
@@ -57,10 +80,12 @@ class BountySerializerMixin:
                 'region_display': bounty.get_region_display(),
                 'status': bounty.status,
                 'status_display': bounty.get_status_display(),
+                'is_private': bounty.is_private,
                 'source_realm': bounty.source_realm,
                 'source_realm_display': bounty.get_source_realm_display(),
                 'source_armory': bounty.source_armory,
                 'source_character': bounty.source_character,
+                'source_guild': bounty.source_detail.get('guild', {}).get('name'),
                 'destination_character': bounty.destination_character,
                 'destination_realm': bounty.destination_realm,
                 'destination_realm_display': bounty.get_destination_realm_display(),
@@ -102,15 +127,17 @@ class BountySerializerMixin:
             'region_display': bounty.get_region_display(),
             'status': bounty.status,
             'status_display': bounty.get_status_display(),
+            'is_private': bounty.is_private,
             'source_thumbnail': bounty.source_thumbnail,
             'source_armory': bounty.source_armory,
             'source_realm': bounty.source_realm,
             'source_realm_display': bounty.get_source_realm_display(),
             'source_character': bounty.source_character,
-            'source_faction': bounty.destination_detail.get('faction'),
+            'source_faction': bounty.source_detail.get('faction'),
             'source_faction_display': bounty.source_faction_display,
             'source_class_display': bounty.source_class_display,
             'source_guild': bounty.source_detail.get('guild', {}).get('name'),
+            'source_level': bounty.source_detail.get('level'),
             'destination_thumbnail': bounty.destination_thumbnail,
             'destination_character': bounty.destination_character,
             'destination_realm': bounty.destination_realm,
@@ -120,24 +147,26 @@ class BountySerializerMixin:
             'destination_faction_display': bounty.destination_faction_display,
             'destination_class_display': bounty.destination_class_display,
             'destination_guild': bounty.destination_detail.get('guild', {}).get('name'),
+            'destination_level': bounty.destination_detail.get('level'),
             'added_date': added_date,
             'updated_date': updated_date,
             'reward': bounty.reward,
             'reward_as_html': bounty.reward_as_html,
             'description': bounty.description,
             'description_as_html': bounty.description_as_html,
-            'comments': comments_dict
+            'comments': comments_dict,
         }
 
 
-class BountyListAPIView(BountySerializerMixin, CSRFExemptMixin, View):
+class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
     http_method_names = ['get', 'post']
     model = Bounty
 
     def get(self, request, *args, **kwargs):
         page = self.request.GET.get('page', 1)
+        filter_kwargs = self.get_filter_kwargs()
 
-        p = Paginator(self.model.objects.all(), 50)
+        p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         result = {
             'count': p.count,
             'num_pages': p.num_pages,
@@ -154,6 +183,7 @@ class BountyListAPIView(BountySerializerMixin, CSRFExemptMixin, View):
         destination_character = self.request.POST.get('destination_character')
         reward = self.request.POST.get('reward')
         description = self.request.POST.get('description')
+        is_private = self.request.POST.get('is_private')
 
         bounty = Bounty(
             user=self.request.user,
@@ -163,7 +193,8 @@ class BountyListAPIView(BountySerializerMixin, CSRFExemptMixin, View):
             source_realm=source_realm,
             source_character=source_character,
             destination_realm=destination_realm,
-            destination_character=destination_character)
+            destination_character=destination_character,
+            is_private=is_private)
 
         try:
             bounty.full_clean()
@@ -178,10 +209,10 @@ class BountyListAPIView(BountySerializerMixin, CSRFExemptMixin, View):
             content_type="application/json")
 
 
-class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
+class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     http_method_names = ['get', 'post']
     model = Bounty
-    fields = ['description', 'reward', 'status']
+    fields = ['description', 'reward', 'status', 'is_private']
 
     def get(self, request, *args, **kwargs):
         try:
@@ -222,7 +253,13 @@ class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
         modified = False
         for field in self.fields:
             value = request.POST.get(field, None)
-            if value and value != getattr(bounty, field):
+            if field == 'is_private':
+                if value == 'true':
+                    value = True
+                else:
+                    value = False
+            print(field, value)
+            if value is not None and value != getattr(bounty, field):
                 setattr(bounty, field, value)
                 modified = True
         if modified:
@@ -233,7 +270,7 @@ class BountyDetailAPIView(BountySerializerMixin, CSRFExemptMixin, View):
             content_type="application/json")
 
 
-class BountyDetailView(BountySerializerMixin, TemplateView):
+class BountyDetailView(BountyBaseView, TemplateView):
     template_name = "bounties/detail.html"
 
     def get_context_data(self, bounty_id):
@@ -252,7 +289,7 @@ class BountyDetailView(BountySerializerMixin, TemplateView):
         return context
 
 
-class BountyListView(BountySerializerMixin, TemplateView):
+class BountyListView(BountyBaseView, TemplateView):
     template_name = "bounties/list.html"
     model = Bounty
 
@@ -264,20 +301,7 @@ class BountyListView(BountySerializerMixin, TemplateView):
         except ValueError:
             page = 1
 
-        filter_kwargs = {}
-        region = self.request.GET.get('region', None)
-        status = self.request.GET.get('status', None)
-        realm = self.request.GET.get('realm', None)
-        destination_character = self.request.GET.get('destination', None)
-        if region:
-            filter_kwargs.update({'region': region})
-        if status:
-            filter_kwargs.update({'status': status})
-        if realm:
-            filter_kwargs.update({'destination_realm': realm})
-        if destination_character:
-            filter_kwargs.update(
-                {'destination_character__icontains': destination_character})
+        filter_kwargs = self.get_filter_kwargs()
 
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         try:
