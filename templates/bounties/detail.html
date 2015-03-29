@@ -10,6 +10,11 @@
       <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
     {% endif %}
   </h1>
+  {% if bounty.is_private %}
+    <strong>{% trans "This bounty is private but it's viewable if you share its url." %}</strong> 
+    <br>
+  {% endif %}
+  <br>
   <div class="row">
     <div class="col-md-12">
       <div class="panel {% if bounty.destination_faction == 0 %}panel-info{% elif bounty.destination_faction == 1 %}panel-danger{% else %}panel-default{% endif %}">
@@ -20,15 +25,15 @@
           <div class="row">
             <div class="col-md-2">
               <a href="{{ bounty.destination_armory }}" target="_blank">
-                <img class="pull-left" src="{{ bounty.destination_thumbnail }}">
+                <img class="img-rounded pull-left" src="{{ bounty.destination_thumbnail }}">
               </a>
             </div>
             <div class="col-md-10">
               <dl class="dl-horizontal bounty-detail">
                 <dt>{% trans "Added" %}</dt>
-                <dd>{{ bounty.added_date|date:"D d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
+                <dd>{{ bounty.added_date|date:"l d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
                 <dt>{% trans "Updated" %}</dt>
-                <dd>{{ bounty.updated_date|date:"D d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
+                <dd>{{ bounty.updated_date|date:"l d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
                 <dt>{% trans "Region" %}</dt>
                 <dd><span class="label label-default">{{ bounty.region_display }}</span></dd>
                 <dt>{% trans "Status" %}</dt>
@@ -42,9 +47,29 @@
                   {% endif %}
                 </dd>
                 <dt>{% trans "Author" %}</dt>
-                <dd><a class="character-armory-link" href="{{ bounty.source_armory }}">{{ bounty.source_character }} - {{ bounty.source_realm_display }} - {{ bounty.source_guild }}</a> <span class="label {% if bounty.source_faction == 0 %}label-info{% elif bounty.source_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.source_faction_display }}</span> <span class="label label-default">{{ bounty.source_class_display }}</span></dd>
+                <dd>
+                  <a class="character-armory-link" href="{{ bounty.source_armory }}">
+                    {{ bounty.source_character }} - {{ bounty.source_realm_display }}
+                    {% if bounty.source_guild %} - {{ bounty.source_guild }}{% endif %}</a>
+                  {% if bounty.source_faction_display %}
+                    <span class="label {% if bounty.source_faction == 0 %}label-info{% elif bounty.source_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.source_faction_display }}</span>
+                  {% endif %}
+                  {% if bounty.source_class_display %}
+                    <span class="label label-default">{{ bounty.source_class_display }}</span>
+                  {% endif %}
+                </dd>
                 <dt>{% trans "Target" %}</dt>
-                <dd><a class="character-armory-link" href="{{ bounty.destination_armory }}">{{ bounty.destination_character }} - {{ bounty.destination_realm_display }} - {{ bounty.destination_guild }}</a> <span class="label {% if bounty.destination_faction == 0 %}label-info{% elif bounty.destination_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.destination_faction_display }}</span> <span class="label label-default">{{ bounty.destination_class_display }}</span></dd>
+                <dd>
+                  <a class="character-armory-link" href="{{ bounty.destination_armory }}">
+                    {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}
+                    {% if bounty.destination_guild %} - {{ bounty.destination_guild }}{% endif %}</a>
+                  {% if bounty.destination_faction_display %}
+                    <span class="label {% if bounty.destination_faction == 0 %}label-info{% elif bounty.destination_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.destination_faction_display }}</span>
+                  {% endif %}
+                  {% if bounty.destination_class_display %}
+                    <span class="label label-default">{{ bounty.destination_class_display }}</span>
+                  {% endif %}
+                </dd>
               </dl>
             </div>
           </div>
@@ -115,14 +140,14 @@
     {% for comment in bounty.comments.objects %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          {{ comment.character_name }} - {{ comment.character_realm_display }}
-          <small>{{ comment.added_date|date:"D d M Y" }} {{ comment.added_date|time:"H:i" }}</small>
+          {{ comment.character_name }} - {{ comment.character_realm_display }}{% if comment.character_guild %} - {{ comment.character_guild }}{% endif %}
+          <small class="pull-right">{{ comment.added_date|date:"l d M Y" }} {{ comment.added_date|time:"H:i" }}</small>
         </div>
         <div class="panel-body comment-body">
           <div class="media">
             <div class="media-left media-top">
               <a href="{{ comment.character_armory }}" target="_blank">
-                <img class="media-object" src="{{ comment.character_thumbnail }}" style="height:60%; width:auto;">
+                <img class="img-rounded media-object" src="{{ comment.character_thumbnail }}" style="height:60%; width:auto;">
               </a>
             </div>
             <div class="media-body comment-text">{{ comment.text|safe }}</div>
