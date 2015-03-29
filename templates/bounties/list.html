@@ -16,47 +16,33 @@
     <option value="3">{% trans "Cancelled" %}</option>
   </select>
   <br>
-  <label
-        id="regions-label"
-        for="region"
-        style="display:none">
+  <label id="regions-label" for="region" class="hidden">
     {% trans "Region" %}
   </label>
-  <select
-      class="form-control"
-      id="regions"
-      style="display:none">
-  </select>
+  <select class="form-control hidden" id="regions"></select>
   <br>
-  <label
-        id="realms-label"
-        for="realms"
-        style="display:none">
+  <label id="realms-label" for="realms" class="hidden">
     {% trans "Target realm" %}
   </label>
-  <select
-      class="form-control"
-      id="realms"
-      style="display:none">
+  <select class="form-control hidden" id="realms">
     <option value="">---</option>
   </select>
   <br>
-  <label
-        id="destination-character-label"
-        for="realms">
+  <label id="destination-character-label" for="realms">
     {% trans "Target name" %}
   </label>
-  <input
-      id="destination-character"
-      class="form-control"
-      type="text" />
-  <br>
+  <input id="destination-character" class="form-control" type="text" />
 
-  <button
-      class="btn btn-success btn-lg btn-block"
-      id="search">
-    {% trans "Search me bounties!" %}
-  </button>
+  <center>
+    <div class="checkbox">
+      <label>
+        <input id="is-private-input" type="checkbox"> {% trans "Show only your bounties" %}
+      </label>
+    </div>
+    <button class="btn btn-success btn-lg" id="search">
+      {% trans "Search me bounties!" %}
+    </button>
+  </center>
 
   <hr>
 
@@ -65,7 +51,7 @@
     {% with bounty.destination_faction as faction %}
       <li class="list-group-item {% if faction == 0 %}character-alliance{% elif faction == 1 %}character-horde{% else %}character-neutral{% endif %}">
     {% endwith %}
-    <strong>{{ bounty.destination_character }}</strong> - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %} - {{ bounty.destination_guild }} {% endif %}<span class="label label-default">{{ bounty.region_display }}</span> <span class="label label-default">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}</span>
+    <strong>{{ bounty.destination_character }}</strong> - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %} - {{ bounty.destination_guild }} {% endif %}<span class="label label-default">{{ bounty.region|upper }}</span> <span class="label label-default">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}{% if bounty.source_guild %} - {{ bounty.source_guild }}{% endif %}</span> 
     {% if bounty.status == 1 %}
       <span class="label label-success">{{ bounty.status_display }}</span>
     {% elif bounty.status == 2 %}
@@ -74,6 +60,9 @@
       <span class="label label-default">{{ bounty.status_display }}</span>
     {% endif %}
     <div class="pull-right">
+      {% if bounty.is_private %}
+        <span class="label label-default">{% trans "Private" %}</span>
+      {% endif %}
       {% if bounty.user == user.id %}
         <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
       {% endif %}
@@ -125,6 +114,7 @@
   var selectedStatus = 1;
   var selectedRegion = null;
   var selectedRealm = null;
+  var onlyOwned = false;
 
   function getRegions(callback) {
     $.ajax({
@@ -135,8 +125,8 @@
             $("select#regions").append(
               "<option value=\"" + val.slug + "\">" + val.name + "</option>");
           });
-          $("select#regions").css("display", "block");
-          $("label#regions-label").css("display", "block");
+          $("select#regions").removeClass("hidden");
+          $("label#regions-label").removeClass("hidden");
           if (callback)
             callback();
         },
@@ -157,8 +147,8 @@
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
         });
-        $("select#realms").css("display", "block");
-        $("label#realms-label").css("display", "block");
+        $("select#realms").removeClass("hidden");
+        $("label#realms-label").removeClass("hidden");
         if (callback)
           callback();
       },
@@ -174,6 +164,7 @@
     selectedRegion = $("select#regions").val();
     selectedRealm = $("select#realms").val();
     destinationCharacter = $("input#destination-character").val();
+    onlyOwned = $("input#is-private-input").prop('checked');
 
     var url = '?'
     if (selectedRegion)
@@ -184,6 +175,8 @@
       url += '&realm=' + selectedRealm;
     if (destinationCharacter)
       url += '&destination=' + destinationCharacter;
+    if (onlyOwned)
+      url += '&owned';
     window.location = "/bounty" + url;
   }
 
@@ -193,9 +186,10 @@
         return $(this).val() == getUrlParameter('status'); 
       }).prop('selected', true);
     };
-    if (getUrlParameter('destination')) {
+    if (getUrlParameter('destination'))
       $("input#destination-character").val(getUrlParameter('destination'));
-    };
+    if (getUrlParameter('owned'))
+      $("input#is-private-input").prop('checked', true);
 
     getRegions(function() {
       if (getUrlParameter('region')) {
