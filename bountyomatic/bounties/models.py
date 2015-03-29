@@ -60,6 +60,8 @@ class Bounty(models.Model):
     added_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Creation date"))
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("Latest update"))
 
+    is_private = models.BooleanField(default=False)
+
     class Meta:
         verbose_name_plural = 'bounties'
         ordering = ['-updated_date']
@@ -76,7 +78,14 @@ class Bounty(models.Model):
         exists, destination = is_character_exists(
             self.region, self.destination_realm, self.destination_character)
         if not exists and not self.pk:
-            raise ValidationError(_("Target character does not exists."))
+            raise ValidationError(
+                _("Target character does not exists or is below level 10."))
+
+        exists, source = is_character_exists(
+            self.region, self.source_realm, self.source_character)
+        if not exists and not self.pk:
+            raise ValidationError(
+                _("Your character is below level 10 or on inactive account."))
 
         if not is_player_character(
                 self.user,
@@ -126,21 +135,27 @@ class Bounty(models.Model):
     def source_faction_display(self):
         for faction_id, races in FACTIONS_RACES.items():
             if self.source_detail.get('race') in races:
-                return str(FACTIONS.get(faction_id))
+                if FACTIONS.get(faction_id):
+                    return str(FACTIONS.get(faction_id))
 
     @property
     def destination_faction_display(self):
         for faction_id, races in FACTIONS_RACES.items():
             if self.destination_detail.get('race') in races:
-                return str(FACTIONS.get(faction_id))
+                if FACTIONS.get(faction_id):
+                    return str(FACTIONS.get(faction_id))
 
     @property
     def source_class_display(self):
-        return str(CLASSES.get(self.source_detail.get('class')))
+        klass = CLASSES.get(self.source_detail.get('class'))
+        if klass:
+            return str(klass)
 
     @property
     def destination_class_display(self):
-        return str(CLASSES.get(self.destination_detail.get('class')))
+        klass = CLASSES.get(self.destination_detail.get('class'))
+        if klass:
+            return str(klass)
 
     @property
     def reward_as_html(self):
@@ -197,6 +212,13 @@ class Comment(models.Model):
     def character_armory(self):
         return get_character_armory(
             self.bounty.region, self.character_realm, self.character_name)
+
+    @property
+    def character_detail(self):
+        return get_character(
+            self.bounty.region,
+            self.character_realm,
+            self.character_name) or {}
 
     @property
     def text_as_html(self):
