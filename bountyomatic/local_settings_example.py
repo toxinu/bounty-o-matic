@@ -17,6 +17,7 @@ CACHES = {
 }
 
 INSTALLED_APPS += (
+    'sslserver',
     'debug_toolbar',)
 
 MIDDLEWARE_CLASSES += (

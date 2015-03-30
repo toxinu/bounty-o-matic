@@ -54,7 +54,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'memoize',
     'cachalot',
-    'sslserver',
     'compressor',
     'social.apps.django_app.default',
     'bountyomatic.accounts',
