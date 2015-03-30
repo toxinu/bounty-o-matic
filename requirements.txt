@@ -6,3 +6,5 @@ requests==2.6.0
 django-memoize==1.1.2
 django-cachalot==1.0.0
 django-compressor==1.4
+WeasyPrint==0.23
+requests-cache==0.4.9
