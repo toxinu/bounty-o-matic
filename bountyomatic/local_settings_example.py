@@ -21,7 +21,7 @@ INSTALLED_APPS += (
 
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'headhunter.middleware.NonHtmlDebugToolbarMiddleware',
+    'bountyomatic.middleware.NonHtmlDebugToolbarMiddleware',
 )
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
