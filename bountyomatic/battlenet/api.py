@@ -1,10 +1,14 @@
 from operator import itemgetter
 
-import requests
+from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
+
+from requests import Session
+from requests import Request
 from requests.exceptions import RequestException
+
 from memoize import memoize
 from memoize import delete_memoized
-from django.utils.translation import ugettext_lazy as _
 
 RETRY = 2
 
@@ -60,12 +64,16 @@ CLASSES = {
 
 def _retry(url, params={}, **kwargs):
     count = 0
+    s = Session()
+    params.update({'apikey': settings.SOCIAL_AUTH_BATTLENET_OAUTH2_KEY})
     while count < RETRY:
         try:
-            r = requests.get(url, params=params, **kwargs)
-            r.json().get('status')
-            return r
-        except RequestException:
+            req = Request('GET', url, params=params)
+            prepped = req.prepare()
+            resp = s.send(prepped, **kwargs)
+            resp.json().get('status')
+            return resp
+        except (RequestException, ValueError):
             pass
         count += 1
 
