@@ -27,6 +27,10 @@ a.character-armory-link {
 dl.bounty-detail dd,dt{
 	line-height: 25px
 }
+.danger-text {
+  color:#e74c3c !important;
+  font-weight: bold;
+}
 .glyphicon-spin {
   -webkit-animation: spin 1000ms infinite linear;
   animation: spin 1000ms infinite linear;
