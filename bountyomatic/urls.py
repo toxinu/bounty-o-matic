@@ -23,6 +23,8 @@ urlpatterns = patterns(
     url(r'^bounty/(?P<bounty_id>\d+)$',
         bounties_views.BountyDetailView.as_view(), name='bounty-detail'),
     # API
+    url(r'^api/bounty/(?P<bounty_id>\d+)/export',
+        bounties_views.BountyExportAPIView.as_view(), name='api-bounty-export'),
     url(r'^api/bounty/(?P<bounty_id>\d+)/comment',
         bounties_views.BountyAddCommentAPIView.as_view(), name='api-bounty-comment'),
     url(r'^api/bounty/(?P<bounty_id>\d+)',
