@@ -13,6 +13,7 @@ from django.utils.translation import ugettext as _
 
 from .models import Bounty
 from .models import Comment
+from .utils import export
 from .utils import akismet
 from .utils import recaptcha
 from ..mixins import CSRFExemptMixin
@@ -185,6 +186,11 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
         description = self.request.POST.get('description')
         is_private = self.request.POST.get('is_private')
 
+        if is_private == "true":
+            is_private = True
+        else:
+            is_private = False
+
         bounty = Bounty(
             user=self.request.user,
             region=region,
@@ -268,6 +274,21 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
         return HttpResponse(json.dumps(
             self.get_serializable_bounty_detail(bounty, 1)),
             content_type="application/json")
+
+
+class BountyExportAPIView(View):
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        try:
+            bounty = Bounty.objects.prefetch_related('comment_set').get(
+                pk=int(self.kwargs.get('bounty_id')))
+            return HttpResponse(
+                export.render_bounty(bounty), content_type="image/png")
+        except ValueError:
+            return HttpResponseBadRequest(
+                json.dumps({'status': 'nok', 'reason': _('Invalid bounty.')}),
+                content_type="application/json")
 
 
 class BountyDetailView(BountyBaseView, TemplateView):
