@@ -2,6 +2,8 @@
 
 ## Installation
 
+Ubuntu packages: `libxml2-dev`, `libxslt1-dev`.
+
 ```
 git clone git@github.com:socketubs/bounty-o-matic.git
 cd HeadHunter
@@ -24,6 +26,7 @@ And open `https://localhost:8000`. (**https !**)
 ```
 rm db.sqlite3
 rm bountyomatic/*/migrations/*.py
+./manage.py makemigrations accounts
 ./manage.py makemigrations
 ./manage.py syncdb
 ./manage.py migrate
