@@ -1,9 +1,9 @@
 import datetime
 
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
 from django.utils.html import strip_tags
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -43,7 +43,7 @@ class Bounty(models.Model):
     status = models.PositiveSmallIntegerField(
         choices=STATUS_CHOICES, default=STATUS_OPEN, verbose_name=_("Status"))
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     region = models.CharField(
         max_length=2,
         choices=REGION_CHOICES,
@@ -68,6 +68,14 @@ class Bounty(models.Model):
         unique_together = ((
             'user', 'source_realm', 'source_character',
             'destination_realm', 'destination_character'),)
+
+    def __str__(self):
+        return "[%s] %s - %s by %s - %s" % (
+            self.region,
+            self.destination_character,
+            self.get_destination_realm_display(),
+            self.source_character,
+            self.get_source_realm_display())
 
     def clean(self):
         if self.source_realm == self.destination_realm:
@@ -167,7 +175,7 @@ class Bounty(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     text = models.TextField(verbose_name=_("Comment"))
     bounty = models.ForeignKey(Bounty)
     character_realm = models.CharField(max_length=50, verbose_name=_("Character realm"))
@@ -175,7 +183,7 @@ class Comment(models.Model):
         max_length=50, verbose_name=_("Character name"))
     added_date = models.DateTimeField(
         auto_now_add=True, verbose_name=_("Creation date"), db_index=True)
-    is_hidden = models.BooleanField(default=False)
+    is_hidden = models.BooleanField(default=False, verbose_name=_("Hidden"))
     user_ip = models.GenericIPAddressField(
         _('IP address'), unpack_ipv4=True, blank=True, null=True)
 
