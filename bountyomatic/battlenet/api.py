@@ -1,10 +1,12 @@
 from operator import itemgetter
 
 import requests
+from requests.exceptions import RequestException
 from memoize import memoize
 from memoize import delete_memoized
 from django.utils.translation import ugettext_lazy as _
 
+RETRY = 2
 
 GENDERS = {
     0: _('Male'),
@@ -56,6 +58,18 @@ CLASSES = {
 }
 
 
+def _retry(url, params={}, **kwargs):
+    count = 0
+    while count < RETRY:
+        try:
+            r = requests.get(url, params=params, **kwargs)
+            r.json().get('status')
+            return r
+        except RequestException:
+            pass
+        count += 1
+
+
 def get_regions():
     from ..bounties.models import Bounty
 
@@ -75,8 +89,10 @@ def refresh_player_cache(user):
 # 5 days
 @memoize(timeout=60 * 60 * 24 * 5)
 def get_realms(region):
-    r = requests.get('http://%s.battle.net/api/wow/realm/status' % region)
     realms = []
+    r = _retry('http://%s.battle.net/api/wow/realm/status' % region)
+    if not r:
+        return realms
     for realm in r.json().get('realms'):
         realms.append({'name': realm.get('name'), 'slug': realm.get('slug')})
     return realms
@@ -92,9 +108,9 @@ def is_character_exists(region, realm, character):
 # 1 hour
 @memoize(timeout=60 * 60 * 1)
 def get_character(region, realm, character):
-    r = requests.get('http://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
+    r = _retry('http://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
         region, realm, character))
-    if r.json().get('status') == 'nok':
+    if not r or r.json().get('status') == 'nok':
         return None
     result = r.json()
     for faction_id, races in FACTIONS_RACES.items():
@@ -127,12 +143,12 @@ def get_player_characters(user, regions=None):
         if region == 'cn':
             kwargs = {'verify': False}
             base_url = 'http://www.battlenet.com.cn/api'
-        r = requests.get(
+        r = _retry(
             '%s/wow/user/characters' % base_url,
             params={'access_token': user.social_auth.first().access_token},
             **kwargs)
         try:
-            if r.json().get('status') == 'nok':
+            if not r or r.json().get('status') == 'nok':
                 continue
             else:
                 for character in r.json().get('characters'):
@@ -153,11 +169,11 @@ def get_player_characters(user, regions=None):
 def get_player_battletag(user):
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return None
-    r = requests.get(
+    r = _retry(
         'http://eu.battle.net/api/account/user/battletag',
         params={'access_token': user.social_auth.first().access_token})
     try:
-        if r.json().get('status') == 'nok':
+        if not r or r.json().get('status') == 'nok':
             return None
         else:
             return r.json().get('battletag')
