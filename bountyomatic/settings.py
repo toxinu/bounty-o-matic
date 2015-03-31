@@ -7,7 +7,6 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
-
 from django.utils.crypto import get_random_string
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -83,6 +82,47 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = "/"
 SITE_URL = "https://bounty-o-matic.com"
+
+BATTLENET_API_LOG = os.path.join(BASE_DIR, "battlenet-api.log")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        'handlers': [],
+    },
+    'formatters': {
+        'verbose': {
+            'format': (
+                '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s')
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': BATTLENET_API_LOG,
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'battlenet-api': {
+            'handlers': ['file'],
+            'level': 'INFO'
+        }
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
