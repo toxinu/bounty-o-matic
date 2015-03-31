@@ -25,9 +25,9 @@ And open `https://localhost:8000`. (**https !**)
 
 ```
 rm db.sqlite3
-rm bountyomatic/*/migrations/*.py
+rm -r bountyomatic/*/migrations
 ./manage.py makemigrations accounts
-./manage.py makemigrations
+./manage.py makemigrations bounties
 ./manage.py syncdb
 ./manage.py migrate
 ```
