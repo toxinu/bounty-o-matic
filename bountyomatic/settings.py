@@ -87,24 +87,33 @@ BATTLENET_API_LOG = os.path.join(BASE_DIR, "battlenet-api.log")
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
-    'root': {
-        'level': 'WARNING',
-        'handlers': [],
-    },
+    'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
             'format': (
                 '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s')
         },
     },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
         },
-        'file': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'battlenet-api-file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': BATTLENET_API_LOG,
@@ -112,16 +121,27 @@ LOGGING = {
         }
     },
     'loggers': {
-        'django.db.backends': {
-            'level': 'ERROR',
+        'django': {
             'handlers': ['console'],
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
             'propagate': False,
         },
+        'django.security': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'py.warnings': {
+            'handlers': ['console'],
+        },
         'battlenet-api': {
-            'handlers': ['file'],
+            'handlers': ['battlenet-api-file'],
             'level': 'INFO'
         }
-    },
+    }
 }
 
 # Database
