@@ -11,7 +11,7 @@ from ..models import BountyImage
 
 def render_bounty(bounty):
     bounty_image, _ = BountyImage.objects.get_or_create(bounty=bounty)
-    if bounty_image.is_expired():
+    if bounty_image.is_expired() or not bounty_image.image:
         t = loader.get_template('bounties/export.html')
         css_path = finders.find('bountyomatic/css/export.css')
         html = HTML(string=t.render(Context({'bounty': bounty})))
