@@ -1,3 +1,4 @@
+import logging
 from operator import itemgetter
 
 from django.conf import settings
@@ -9,6 +10,10 @@ from requests.exceptions import RequestException
 
 from memoize import memoize
 from memoize import delete_memoized
+
+from ..accounts.models import User
+
+logger = logging.getLogger('battlenet-api')
 
 RETRY = 2
 
@@ -70,6 +75,7 @@ def _retry(url, params={}, **kwargs):
         try:
             req = Request('GET', url, params=params)
             prepped = req.prepare()
+            logger.info(prepped.url)
             resp = s.send(prepped, **kwargs)
             resp.json().get('status')
             return resp
@@ -138,6 +144,8 @@ def is_player_character(user, character, realm, regions=None):
 # 1 day
 @memoize(timeout=60 * 60 * 24 * 1)
 def get_player_characters(user, regions=None):
+    if not isinstance(user, User):
+        user = User.objects.get(pk=user)
     characters = []
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return characters
@@ -175,6 +183,8 @@ def get_player_characters(user, regions=None):
 # 30 days
 @memoize(timeout=60 * 60 * 24 * 30)
 def get_player_battletag(user):
+    if not isinstance(user, User):
+        user = User.objects.get(pk=user)
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return None
     r = _retry(

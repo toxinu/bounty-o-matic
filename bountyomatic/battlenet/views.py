@@ -21,7 +21,7 @@ class PlayerCharactersAPIView(View):
                 content_type="application/json")
         return HttpResponse(
             json.dumps(get_player_characters(
-                self.request.user,
+                self.request.user.pk,
                 self.request.GET.get('region', None))),
             content_type="application/json")
 
@@ -35,7 +35,7 @@ class PlayerBattleTagAPIView(View):
                 json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
         return HttpResponse(
-            json.dumps({"battletag": get_player_battletag(self.request.user)}),
+            json.dumps({"battletag": get_player_battletag(self.request.user.pk)}),
             content_type="application/json")
 
 

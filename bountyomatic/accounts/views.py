@@ -30,7 +30,7 @@ class HomeView(TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
-        if not get_player_battletag(self.request.user):
+        if not request.user.is_authenticated():
             logout(request)
         return super().get(request, *args, **kwargs)
 
