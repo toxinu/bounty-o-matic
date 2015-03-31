@@ -70,6 +70,20 @@
                     <span class="label label-default">{{ bounty.destination_class_display }}</span>
                   {% endif %}
                 </dd>
+                {% if bounty.winner_character %}
+                <dt>{% trans "Winner" %}</dt>
+                <dd>
+                 <a class="character-armory-link" href="{{ bounty.winner_armory }}">
+                    {{ bounty.winner_character }} - {{ bounty.winner_realm_display }}
+                    {% if bounty.winner_guild %} - {{ bounty.winner_guild }}{% endif %}</a>
+                  {% if bounty.winner_faction_display %}
+                    <span class="label {% if bounty.winner_faction == 0 %}label-info{% elif bounty.winner_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.winner_faction_display }}</span>
+                  {% endif %}
+                  {% if bounty.winner_class_display %}
+                    <span class="label label-default">{{ bounty.winner_class_display }}</span>
+                  {% endif %}
+                </dd>
+                {% endif %}
               </dl>
             </div>
           </div>

@@ -149,6 +149,15 @@ class BountyBaseView:
             'destination_class_display': bounty.destination_class_display,
             'destination_guild': bounty.destination_detail.get('guild', {}).get('name'),
             'destination_level': bounty.destination_detail.get('level'),
+            'winner_character': bounty.winner_character,
+            'winner_realm': bounty.winner_realm,
+            'winner_realm_display': bounty.get_winner_realm_display(),
+            'winner_armory': bounty.winner_armory,
+            'winner_faction': bounty.winner_detail.get('faction'),
+            'winner_faction_display': bounty.winner_faction_display,
+            'winner_class_display': bounty.winner_class_display,
+            'winner_guild': bounty.winner_detail.get('guild', {}).get('name'),
+            'winner_level': bounty.winner_detail.get('level'),
             'added_date': added_date,
             'updated_date': updated_date,
             'reward': bounty.reward,
@@ -218,7 +227,9 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
 class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     http_method_names = ['get', 'post']
     model = Bounty
-    fields = ['description', 'reward', 'status', 'is_private']
+    fields = [
+        'description', 'reward', 'status',
+        'is_private', 'winner_character', 'winner_realm']
 
     def get(self, request, *args, **kwargs):
         try:
@@ -264,13 +275,17 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
                     value = True
                 else:
                     value = False
-            print(field, value)
             if value is not None and value != getattr(bounty, field):
                 setattr(bounty, field, value)
                 modified = True
         if modified:
-            bounty.clean()
-            bounty.save()
+            try:
+                bounty.clean()
+                bounty.save()
+            except ValidationError as err:
+                return HttpResponseBadRequest(
+                    json.dumps({'status': 'nok', 'reasons': err.messages}),
+                    content_type="application/json")
         return HttpResponse(json.dumps(
             self.get_serializable_bounty_detail(bounty, 1)),
             content_type="application/json")

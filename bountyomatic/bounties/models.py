@@ -45,17 +45,17 @@ class Bounty(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     region = models.CharField(
-        max_length=2,
-        choices=REGION_CHOICES,
-        default=REGION_EU,
-        verbose_name=_("Region"))
+        max_length=2, choices=REGION_CHOICES, default=REGION_EU, verbose_name=_("Region"))
 
     source_realm = models.CharField(max_length=50, verbose_name=_("Source realm"))
-    source_character = models.CharField(
-        max_length=50, verbose_name=_("Source character"))
+    source_character = models.CharField(max_length=50, verbose_name=_("Source character"))
     destination_realm = models.CharField(max_length=50, verbose_name=_("Target realm"))
     destination_character = models.CharField(
         max_length=50, verbose_name=_("Target character"))
+    winner_realm = models.CharField(
+        max_length=50, verbose_name=_("Winner realm"), null=True, blank=True)
+    winner_character = models.CharField(
+        max_length=50, verbose_name=_("Winner character"), null=True, blank=True)
 
     added_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Creation date"))
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("Latest update"))
@@ -83,15 +83,28 @@ class Bounty(models.Model):
                 raise ValidationError(
                     _("Your character and target must be different."))
 
+        previous_obj = Bounty.objects.get(pk=self.pk)
+        # Check status workflow
+        if self.pk:
+            if previous_obj.status in [self.STATUS_CLOSE, self.STATUS_CANCELLED]:
+                if self.status == self.STATUS_OPEN:
+                    raise ValidationError(_("Bounty can't be re-open. Create a new one."))
+
+        # Destination checks
         exists, destination = is_character_exists(
             self.region, self.destination_realm, self.destination_character)
-        if not exists and not self.pk:
+        if not exists and not self.pk or not exists and (
+                (self.destination_realm, self.destination_character) !=
+                (previous_obj.source_realm, previous_obj.source_character)):
             raise ValidationError(
                 _("Target character does not exists or is below level 10."))
 
+        # Source checks
         exists, source = is_character_exists(
             self.region, self.source_realm, self.source_character)
-        if not exists and not self.pk:
+        if not exists and not self.pk or not exists and (
+                (self.source_realm, self.source_character) !=
+                (previous_obj.source_realm, previous_obj.source_character)):
             raise ValidationError(
                 _("Your character is below level 10 or on inactive account."))
 
@@ -100,6 +113,31 @@ class Bounty(models.Model):
                 self.source_character,
                 self.source_realm, self.region) and not self.pk:
             raise ValidationError(_("This character is not your."))
+
+        # Winner checks
+        if self.winner_realm and self.winner_realm:
+            # Winner character must be different than bounty source
+            if self.winner_realm == self.source_realm \
+                    and self.winner_character == self.source_character:
+                raise ValidationError(_("Winner character can't be bounty author."))
+            # Winner character must be different that bounty target
+            if self.winner_realm == self.destination_realm \
+                    and self.winner_character == self.destination_character:
+                raise ValidationError(_("Winner character can't be bounty target."))
+            exists, winner = is_character_exists(
+                self.region, self.winner_realm, self.winner_character)
+            # Winner character must exists or the same as previous
+            if not exists and not self.pk or not exists and (
+                    (self.winner_realm, self.winner_character) !=
+                    (previous_obj.winner_realm, previous_obj.winner_character)):
+                raise ValidationError(
+                    _("Winner character does not exists or is below level 10."))
+            # Winner character can't be bounty owner's characters
+            if is_player_character(
+                    self.user, self.winner_character, self.winner_realm, self.region):
+                raise ValidationError(_("Winner character can't be your."))
+            # If winner is ok, set status to self.STATUS_CLOSE
+            self.status = self.STATUS_CLOSE
 
         self.reward = strip_tags(self.reward)
         self.description = strip_tags(self.description)
@@ -110,6 +148,9 @@ class Bounty(models.Model):
     def get_destination_realm_display(self):
         return get_pretty_realm(self.destination_realm)
 
+    def get_winner_realm_display(self):
+        return get_pretty_realm(self.destination_realm)
+
     @property
     def source_detail(self):
         return get_character(self.region, self.source_realm, self.source_character) or {}
@@ -118,6 +159,11 @@ class Bounty(models.Model):
     def destination_detail(self):
         return get_character(
             self.region, self.destination_realm, self.destination_character) or {}
+
+    @property
+    def winner_detail(self):
+        return get_character(
+            self.region, self.winner_realm, self.winner_character) or {}
 
     @property
     def source_thumbnail(self):
@@ -140,6 +186,11 @@ class Bounty(models.Model):
             self.region, self.source_realm, self.source_character)
 
     @property
+    def winner_armory(self):
+        return get_character_armory(
+            self.region, self.winner_realm, self.winner_character)
+
+    @property
     def source_faction_display(self):
         for faction_id, races in FACTIONS_RACES.items():
             if self.source_detail.get('race') in races:
@@ -154,6 +205,13 @@ class Bounty(models.Model):
                     return str(FACTIONS.get(faction_id))
 
     @property
+    def winner_faction_display(self):
+        for faction_id, races in FACTIONS_RACES.items():
+            if self.winner_detail.get('race') in races:
+                if FACTIONS.get(faction_id):
+                    return str(FACTIONS.get(faction_id))
+
+    @property
     def source_class_display(self):
         klass = CLASSES.get(self.source_detail.get('class'))
         if klass:
@@ -162,6 +220,12 @@ class Bounty(models.Model):
     @property
     def destination_class_display(self):
         klass = CLASSES.get(self.destination_detail.get('class'))
+        if klass:
+            return str(klass)
+
+    @property
+    def winner_class_display(self):
+        klass = CLASSES.get(self.winner_detail.get('class'))
         if klass:
             return str(klass)
 

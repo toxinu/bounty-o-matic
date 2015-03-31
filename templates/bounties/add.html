@@ -16,6 +16,32 @@
     <option value="3">{% trans "Cancelled" %}</option>
   </select>
   <br>
+  <small id="bounty-winner-help" class="hidden">
+    <p class="help-block">{% trans "If your bounty finally closed, we really encourage you to set the winner just bellow!" %}</p>
+  </small>
+  <br>
+
+  <!-- Winner Realm -->
+  <div id="winner-realms-box" class="hidden">
+    <label id="winner-realms-label" for="winner-realms">
+      {% trans "Winner realm" %}
+    </label>
+    <select class="form-control" id="winner-realms">
+      <option value="">---</option>
+    </select>
+    <br>
+  </div>
+  <!-- End block -->
+  
+  <!-- Winner character -->
+  <div id="winner-character-box" class="hidden">
+    <label id="winner-character-label" for="winner-character">
+      {% trans "Winner name" %}
+    </label>
+    <input id="winner-character" class="form-control" type="text" />
+    <br>
+  </div>
+  <!-- End block -->
 
   <!-- Player Character -->
   <label id="player-characters-label" for="player-characters" class="hidden">
@@ -89,6 +115,8 @@
   var selectedSourceCharacter = null;
   var selectedDestinationRealm = null;
   var selectedDestinationCharacter = null;
+  var selectedWinnerRealm = null;
+  var selectedWinnerCharacter = null;
   var reward = '';
   var description = '';
   var isPrivate = false;
@@ -104,12 +132,14 @@
           selectedSourceCharacter = data.source_character;
           selectedDestinationRealm = data.destination_realm;
           selectedDestinationCharacter = data.destination_character;
+          selectedWinnerRealm = data.winner_realm;
+          selectedWinnerCharacter = data.winner_character;
           reward = data.reward;
           description = data.description;
           selectedStatus = data.status;
           isPrivate = data.is_private;
 
-          // Set character
+          // Set bounty
           $("select#player-characters option").filter(function() {
               return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
@@ -117,8 +147,13 @@
           $("select#realms option").filter(function() {
               return $(this).val() == data.source_realm; 
           }).prop('selected', true);
+          $("select#winner-realms option").filter(function() {
+              return $(this).val() == data.winner_realm; 
+          }).prop('selected', true);
           $("select#realms").attr('disabled', '');
           $("input#destination-character").val(selectedDestinationCharacter);
+          $("div#winner-")
+          $("input#winner-character").val(selectedWinnerCharacter);
           $("input#destination-character").attr('disabled', '');
           $("textarea#reward").text(reward);
           $("textarea#description").text(description);
@@ -132,6 +167,12 @@
           $("select#bounty-status").removeClass('hidden');
           if (isPrivate)
             $("input#is-private-input").prop('checked', true);
+
+          if (selectedStatus == "2") {
+            $("#bounty-winner-help").removeClass("hidden");
+            $("div#winner-realms-box").removeClass("hidden");
+            $("div#winner-character-box").removeClass("hidden");
+          }
         });
       },
       error: function(xhr, status, err) {
@@ -173,6 +214,10 @@
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
         });
+        $.map(data, function(val) {
+          $("select#winner-realms").append(
+            "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+        });
         $("select#realms").removeClass("hidden");
         $("label#realms-label").removeClass("hidden");
         $("input#destination-character").removeClass("hidden");
@@ -194,11 +239,14 @@
   };
 
   function checkFields() {
+    selectedDestinationRealm = $("select#realms").val();
     selectedDestinationCharacter = $("input#destination-character").val();
+    selectedWinnerRealm = $("select#winner-realms").val();
+    selectedWinnerCharacter = $("input#winner-character").val();
     reward = $("textarea#reward").val();
     description = $("textarea#description").val();
     selectedStatus = $("select#bounty-status").val();
-    isPrivate = $("input#is-private-input").prop('checked'); 
+    isPrivate = $("input#is-private-input").prop('checked');
 
     var errorMessage = '';
     if (!selectedRegion)
@@ -234,6 +282,8 @@
       source_character: selectedSourceCharacter,
       destination_realm: selectedDestinationRealm,
       destination_character: selectedDestinationCharacter,
+      winner_realm: selectedWinnerRealm,
+      winner_character: selectedWinnerCharacter,
       description: description,
       reward: reward,
       status: selectedStatus,
@@ -314,15 +364,23 @@
   $(function() {
     // When select character
     $("select#player-characters").change(function() {
-      var character = $("select#player-characters").val()
+      var character = $(this).val()
       selectedRegion = character.split('|')[0];
       selectedSourceRealm = character.split('|')[1];
       selectedSourceCharacter = character.split('|')[2];
       getRealms(selectedRegion);
     });
-    // When select realm
-    $("select#realms").change(function() {
-      selectedDestinationRealm = $("select#realms").val();
+    // When change status
+    $("select#bounty-status").change(function() {
+      // If bounty is set to closed, display winner input
+      if ($(this).val() == "2") {
+        $("#bounty-winner-help").removeClass("hidden");
+        $("div#winner-realms-box").removeClass("hidden");
+        $("div#winner-character-box").removeClass("hidden");
+      } else {
+        $("div#winner-realms-box").addClass("hidden");
+        $("div#winner-character-box").addClass("hidden");
+      }
     });
 
     getPlayerCharacters(function() {
