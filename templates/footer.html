@@ -1,5 +1,28 @@
 {% load i18n %}
 <div class="row">
 	<hr>
-	<em>{% trans "Bounty-O-Matic for World of Warcraft by Bodoc-Conseil des Ombres (Légion de Stormwind)" %}</em><a class="footer-refresh" href=""><small class="pull-right">{% trans "Refresh your BattleNet data" %}</a></small>
+	<em>{% trans "Bounty-O-Matic for World of Warcraft by Bodoc-Conseil des Ombres (Légion de Stormwind)" %}</em><a id="refresh-link" class="footer-refresh" href=""><small class="pull-right">{% trans "Refresh your BattleNet data" %}</a></small>
 </div>
+
+<script>
+  $(function() {
+		$("a#refresh-link").click(function(e) {
+			e.preventDefault();
+      setProgressBar("{% trans 'Refreshing your BattleNet data...' %}");
+      $("a#refresh-link small").text("");
+			$.ajax({
+	      url: "/api/player-refresh",
+	      type: 'GET',
+	      success: function(data) {
+	        $("a#refresh-link small").text(data.reason);
+          getPlayerBattletag(function(data) {
+            unsetProgressBar(data.battletag);
+          });
+	      },
+	      error: function(xhr, status, err) {
+	        console.error("/api/player-refresh", status, err.toString());
+	      }
+	    }); 
+		});
+	});
+</script>
