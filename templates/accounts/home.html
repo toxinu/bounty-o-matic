@@ -1,5 +1,19 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-Welcome page.
+<div class="jumbotron">
+  <div class="container">
+    <h1>{% trans "Travel safe throught Azeroth!" %}</h1>
+    <p>{% trans "Someone waits for you in the dark? Spit on your corpse for the third time?<br>Is a double agent? Killed your cat?" %}</p>
+    <ol>
+	    <li><strong>{% trans "Put a bounty on his head!" %}</strong> - <small>{% trans "Let's describe your Nemesis and found the perfect killer for him." %}</small></li>
+	    <li><strong>{% trans "Choose a reward to pay your mercenary" %}</strong> - <small>{% trans "It can be anything: gold, items, pets, even a date!" %}</small></li>
+	    <li><strong>{% trans "Mercenaries answer your bounty" %}</strong> - <small>{% trans "They can proove the kill with a screenshot uploaded on Imgur for example." %}</small></li>
+	    <li><strong>{% trans "Send the reward and close your bounty" %}</strong> - <small>{% trans "Kill people is hard, so stay clean and send the reward. You are a good guy." %}</small></li>
+	  </ol>
+	  <br>
+    <p><a href="{% url 'bounty-list' %}" class="btn btn-success btn-lg" href="#" role="button">{% trans "View bounties" %} &raquo;</a></p>
+  </div>
+</div>
 {% endblock %}
