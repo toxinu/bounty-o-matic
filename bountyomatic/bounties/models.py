@@ -83,36 +83,43 @@ class Bounty(models.Model):
                 raise ValidationError(
                     _("Your character and target must be different."))
 
-        previous_obj = Bounty.objects.get(pk=self.pk)
+        try:
+            previous_obj = Bounty.objects.get(pk=self.pk)
+        except Bounty.DoesNotExist:
+            previous_obj = Bounty.objects.none()
+
         # Check status workflow
-        if self.pk:
+        if self.pk is not None:
             if previous_obj.status in [self.STATUS_CLOSE, self.STATUS_CANCELLED]:
                 if self.status == self.STATUS_OPEN:
                     raise ValidationError(_("Bounty can't be re-open. Create a new one."))
+            if self.status in [self.STATUS_CANCELLED, self.STATUS_OPEN]:
+                self.winner_realm = None
+                self.winner_character = None
 
         # Destination checks
         exists, destination = is_character_exists(
             self.region, self.destination_realm, self.destination_character)
-        if not exists and not self.pk or not exists and (
+        if not exists and self.pk is None or not exists and (
                 (self.destination_realm, self.destination_character) !=
                 (previous_obj.source_realm, previous_obj.source_character)):
             raise ValidationError(
-                _("Target character does not exists or is below level 10."))
+                _("Target character does not exist or is below level 10."))
 
         # Source checks
         exists, source = is_character_exists(
             self.region, self.source_realm, self.source_character)
-        if not exists and not self.pk or not exists and (
+        if not exists and self.pk is None or not exists and (
                 (self.source_realm, self.source_character) !=
                 (previous_obj.source_realm, previous_obj.source_character)):
             raise ValidationError(
-                _("Your character is below level 10 or on inactive account."))
+                _("Your character is below level 10 or on an inactive account."))
 
         if not is_player_character(
                 self.user,
                 self.source_character,
-                self.source_realm, self.region) and not self.pk:
-            raise ValidationError(_("This character is not your."))
+                self.source_realm, self.region) and self.pk is None:
+            raise ValidationError(_("This character is not yours."))
 
         # Winner checks
         if self.winner_realm and self.winner_realm:
@@ -127,15 +134,15 @@ class Bounty(models.Model):
             exists, winner = is_character_exists(
                 self.region, self.winner_realm, self.winner_character)
             # Winner character must exists or the same as previous
-            if not exists and not self.pk or not exists and (
+            if not exists and self.pk is None or not exists and (
                     (self.winner_realm, self.winner_character) !=
                     (previous_obj.winner_realm, previous_obj.winner_character)):
                 raise ValidationError(
-                    _("Winner character does not exists or is below level 10."))
+                    _("Winner character does not exist or is below level 10."))
             # Winner character can't be bounty owner's characters
             if is_player_character(
                     self.user, self.winner_character, self.winner_realm, self.region):
-                raise ValidationError(_("Winner character can't be your."))
+                raise ValidationError(_("Winner character can't be yours."))
             # If winner is ok, set status to self.STATUS_CLOSE
             self.status = self.STATUS_CLOSE
 
@@ -162,6 +169,8 @@ class Bounty(models.Model):
 
     @property
     def winner_detail(self):
+        if not self.winner_realm or not self.winner_character:
+            return {}
         return get_character(
             self.region, self.winner_realm, self.winner_character) or {}
 
@@ -187,6 +196,8 @@ class Bounty(models.Model):
 
     @property
     def winner_armory(self):
+        if not self.winner_realm or not self.winner_character:
+            return
         return get_character_armory(
             self.region, self.winner_realm, self.winner_character)
 
@@ -244,8 +255,8 @@ class BountyImage(models.Model):
         auto_now=True, verbose_name=_("Latest update"), db_index=True)
     image = models.ImageField(upload_to="bounties")
 
-    def is_expired(self, expire_at=60 * 60 * 24 * 7):
-        # Default is 7 days
+    def is_expired(self, expire_at=60 * 60 * 24 * 1):
+        # Default is 1 day
         expire_date = self.updated_date + datetime.timedelta(seconds=expire_at)
         if expire_date < timezone.make_aware(
                 datetime.datetime.now(), timezone.get_current_timezone()):
