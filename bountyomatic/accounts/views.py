@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.views.generic import View
 from django.views.generic import TemplateView
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ..mixins import CacheMixin
 
