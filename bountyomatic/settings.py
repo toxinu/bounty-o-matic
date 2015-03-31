@@ -119,6 +119,8 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "compressor.finders.CompressorFinder",)
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # Battlenet
 SOCIAL_AUTH_BATTLENET_OAUTH2_KEY = ''
 SOCIAL_AUTH_BATTLENET_OAUTH2_SECRET = ''
