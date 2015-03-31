@@ -264,7 +264,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
 
         if bounty.user != self.request.user:
             return HttpResponseForbidden(
-                json.dumps({'status': 'nok', 'reason': _('Bounty is not your.')}),
+                json.dumps({'status': 'nok', 'reason': _('Bounty is not yours.')}),
                 content_type="application/json")
 
         modified = False
@@ -275,6 +275,8 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
                     value = True
                 else:
                     value = False
+            elif field == 'status':
+                value = int(value)
             if value is not None and value != getattr(bounty, field):
                 setattr(bounty, field, value)
                 modified = True
