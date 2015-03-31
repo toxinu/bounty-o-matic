@@ -101,7 +101,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">{% trans "Reward" %}</h3>
         </div>
-        <div class="panel-body" id="bounty-reward">{{ bounty.reward|safe }}</div>
+        <div class="panel-body" id="bounty-reward">{{ bounty.reward_as_html|safe }}</div>
       </div>
     </div>
     <div class="col-md-6">
@@ -109,7 +109,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">{% trans "Description" %}</h3>
         </div>
-        <div class="panel-body" id="bounty-description">{{ bounty.description|safe }}</div>
+        <div class="panel-body" id="bounty-description">{{ bounty.description_as_html|safe }}</div>
       </div>
     </div>
   </div>
