@@ -1,0 +1,15 @@
+- fields:
+    date_joined: 2015-03-31 08:37:49.205674+00:00
+    email: ''
+    first_name: ''
+    groups: []
+    is_active: true
+    is_staff: false
+    is_superuser: false
+    last_login: 2015-03-31 08:37:49.373478+00:00
+    last_name: ''
+    password: '!fr2qNcMuRyo7z2h51lEUsbZdwK9qFKed0q57ABXm'
+    user_permissions: []
+    username: d38b435373d34f6da4f39c79e60d75
+  model: accounts.user
+  pk: 1

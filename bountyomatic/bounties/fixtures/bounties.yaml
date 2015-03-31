@@ -1,0 +1,6 @@
+- fields: {added_date: ! '2015-03-31 08:39:33.123341+00:00', description: test, destination_character: Numeil,
+    destination_realm: conseil-des-ombres, is_private: false, region: eu, reward: test,
+    source_character: Bodoc, source_realm: conseil-des-ombres, status: 1, updated_date: ! '2015-03-31
+      08:39:33.123408+00:00', user: 1}
+  model: bounties.bounty
+  pk: 1

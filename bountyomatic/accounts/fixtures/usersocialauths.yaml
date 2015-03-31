@@ -1,0 +1,4 @@
+- fields: {extra_data: '{"expires": 2591999, "access_token": "m77r3sxsv2qvneqfjxjse9pm",
+      "token_type": "bearer"}', provider: battlenet-oauth2, uid: '1479029', user: 1}
+  model: default.usersocialauth
+  pk: 1
