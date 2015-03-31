@@ -8,3 +8,4 @@ django-cachalot==1.0.0
 django-compressor==1.4
 WeasyPrint==0.23
 requests-cache==0.4.9
+Pillow==2.7.0
