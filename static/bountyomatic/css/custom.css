@@ -31,6 +31,9 @@ dl.bounty-detail dd,dt{
   color:#e74c3c !important;
   font-weight: bold;
 }
+.footer-refresh {
+  color: #464545;
+}
 .glyphicon-spin {
   -webkit-animation: spin 1000ms infinite linear;
   animation: spin 1000ms infinite linear;
