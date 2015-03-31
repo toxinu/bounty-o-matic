@@ -174,6 +174,21 @@ class Bounty(models.Model):
         return markdown.parse_bounty(self.description)
 
 
+class BountyImage(models.Model):
+    bounty = models.OneToOneField(Bounty)
+    updated_date = models.DateTimeField(
+        auto_now=True, verbose_name=_("Latest update"), db_index=True)
+    image = models.ImageField(upload_to="bounties")
+
+    def is_expired(self, expire_at=60 * 60 * 24 * 7):
+        # Default is 7 days
+        expire_date = self.updated_date + datetime.timedelta(seconds=expire_at)
+        if expire_date < timezone.make_aware(
+                datetime.datetime.now(), timezone.get_current_timezone()):
+            return True
+        return False
+
+
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     text = models.TextField(verbose_name=_("Comment"))
