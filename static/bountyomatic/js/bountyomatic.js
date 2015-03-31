@@ -1,14 +1,3 @@
-function loadLanguageSwitcher() {
-	// Language switcher
-  $("ul#language-switcher li a").click(function() {
-    var lang = $(this).attr('value');
-    var $form = $('<form style="display:none;" action="/i18n/setlang/" method="POST">' +
-      "{% csrf_token %}" + 
-      '<input type="hidden" name="language" value="' + lang + '">' +
-      '</form>');
-    $form.appendTo("body").submit();
-  });
-};
 function getPlayerBattletag(callback) {
 	$.ajax({
     url: "/api/player-battletag",
@@ -98,7 +87,7 @@ $(function() {
             // Send the token only if the method warrants CSRF protection
             // Using the CSRFToken value acquired earlier
             var csrftoken = getCookie('csrftoken');
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            jqXHR.setRequestHeader("X-CSRFToken", csrftoken);
           }
         },
         complete: function(jqXHR) {

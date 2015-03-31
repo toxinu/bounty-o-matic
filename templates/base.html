@@ -26,6 +26,18 @@
 	{% block javascripts %}{% endblock %}
   <script>
     $(function() {
+      function loadLanguageSwitcher() {
+        // Language switcher
+        $("ul#language-switcher li a").click(function() {
+          console.log('!!')
+          var lang = $(this).attr('value');
+          var $form = $('<form style="display:none;" action="/i18n/setlang/" method="POST">' +
+            "{% csrf_token %}" + 
+            '<input type="hidden" name="language" value="' + lang + '">' +
+            '</form>');
+          $form.appendTo("body").submit();
+        });
+      };
       loadLanguageSwitcher();
       getPlayerBattletag(function(data) {
         unsetProgressBar(data.battletag);
