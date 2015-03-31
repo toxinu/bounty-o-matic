@@ -22,13 +22,13 @@ from ..battlenet.api import get_character_thumbnail
 class Bounty(models.Model):
     REGION_EU = 'eu'
     REGION_US = 'us'
-    REGION_KR = 'kr'
-    REGION_TW = 'tw'
+    # REGION_KR = 'kr'
+    # REGION_TW = 'tw'
     REGION_CHOICES = (
         (REGION_EU, _('Europe')),
-        (REGION_US, _('US')),
-        (REGION_KR, _('Korea')),
-        (REGION_TW, _('Taiwan')),)
+        (REGION_US, _('US')), )
+    # (REGION_KR, _('Korea')),
+    # (REGION_TW, _('Taiwan')),)
 
     STATUS_OPEN = 1
     STATUS_CLOSE = 2
