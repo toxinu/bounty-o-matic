@@ -94,10 +94,10 @@ def get_regions():
 
 
 def refresh_player_cache(user):
-    delete_memoized(get_player_battletag, user)
-    get_player_battletag(user)
-    delete_memoized(get_player_characters, user)
-    get_player_characters(user)
+    delete_memoized(get_player_battletag, user.pk)
+    get_player_battletag(user.pk)
+    delete_memoized(get_player_characters, user.pk)
+    get_player_characters(user.pk)
 
 
 # 5 days
