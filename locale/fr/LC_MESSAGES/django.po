@@ -284,11 +284,11 @@ msgstr "Commentaire"
 
 #: bountyomatic/bounties/models.py:271
 msgid "Character realm"
-msgstr "Royaume de la cible"
+msgstr "Royaume du personnage"
 
 #: bountyomatic/bounties/models.py:273
 msgid "Character name"
-msgstr "Nom de la cible"
+msgstr "Nom du personnage"
 
 #: bountyomatic/bounties/models.py:276
 msgid "Hidden"
