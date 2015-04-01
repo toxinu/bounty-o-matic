@@ -7,7 +7,7 @@
   <center><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Loading...</center>
 </div>
 <form id="bounty-for">
-  <div id="bounty-status-box" class="hidden">
+  <div id="bounty-status-box" class="hidden well">
     <label id="bounty-status-label" for="bounty-status">
       {% trans "Select your bounty status" %}
     </label>
@@ -19,10 +19,8 @@
       <option value="2">{% trans "Closed" %}</option>
       <option value="3">{% trans "Cancelled" %}</option>
     </select>
+    <div id="winner-box" class="hidden">
     <br>
-  </div>
-
-  <div id="winner-box" class="well hidden">
     <p class="help-block">{% trans "If your bounty finally closed, we really encourage you to set the winner just bellow!" %}</p>
     <!-- Winner Realm -->
     <label id="winner-realms-label" for="winner-realms">
@@ -42,6 +40,9 @@
     <br>
     <!-- End block -->
   </div>
+  </div>
+
+  
 
   <!-- Player Character -->
   <label id="player-characters-label" for="player-characters" class="hidden">

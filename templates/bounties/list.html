@@ -197,7 +197,6 @@
   $(function() {
     // Update form based on url parameters or cookie
     selectedStatus = getUrlParameter('status') || $.cookie('search-status');
-    console.log(selectedStatus)
     if (selectedStatus) {
       $("select#bounty-status option").filter(function() {
         return $(this).val() == selectedStatus; 

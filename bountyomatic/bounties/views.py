@@ -124,7 +124,6 @@ class BountyBaseView:
                 'objects': self.get_serializable_comment_list(
                     comments_paginator.page(comments_page), as_datetime=as_datetime)
             }
-            print(comments_page, comments_paginator.num_pages)
             if comments_page > 1:
                 comments_dict.update({
                     'has_previous': True,
@@ -371,7 +370,6 @@ class BountyListView(BountyBaseView, TemplateView):
                     {'destination_realm': self.request.COOKIES.get('search-realm')})
         filter_kwargs = self.get_filter_kwargs(params)
 
-        print(filter_kwargs)
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         try:
             bounties = self.get_serializable_bounty_list(p.page(page), as_datetime=True)
