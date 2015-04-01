@@ -41,7 +41,7 @@ class BountyAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'status', 'region', 'source',
         'destination', 'added_date', 'updated_date',
-        'comments_counter', )
+        'comments_counter', 'external', )
     list_filter = ('added_date', 'updated_date', 'is_private', 'status', )
 
     def battletag(self, obj):
@@ -70,6 +70,13 @@ class BountyAdmin(admin.ModelAdmin):
     def comments_counter(self, obj):
         return obj.comment_set.count()
     comments_counter.short_description = _("Comments")
+
+    def external(self, obj):
+        return '<a href="%s" target="_blank">%s</a>' % (
+            reverse('bounty-detail', args=(obj.pk,)),
+            'View')
+    external.allow_tags = True
+    external.short_description = _("Context")
 
 admin.site.register(Bounty, BountyAdmin)
 admin.site.register(Comment, CommentAdmin)
