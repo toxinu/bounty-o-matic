@@ -24,7 +24,7 @@ class CommentAdmin(admin.ModelAdmin):
 
     def external(self, obj):
         return '<a href="%s#comments" target="_blank">%s</a>' % (
-            reverse('bounty-detail', args=(obj.pk,)),
+            reverse('bounty-detail', args=(obj.bounty.pk,)),
             'View')
     external.allow_tags = True
     external.short_description = _("Context")
