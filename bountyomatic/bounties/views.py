@@ -20,8 +20,8 @@ from ..mixins import CSRFExemptMixin
 
 
 class BountyBaseView:
-    def get_filter_kwargs(self):
-        filter_kwargs = {}
+    def get_filter_kwargs(self, extra_params={}):
+        filter_kwargs = extra_params
         region = self.request.GET.get('region', None)
         status = self.request.GET.get('status', None)
         realm = self.request.GET.get('realm', None)
@@ -355,7 +355,14 @@ class BountyListView(BountyBaseView, TemplateView):
         except ValueError:
             page = 1
 
-        filter_kwargs = self.get_filter_kwargs()
+        params = {}
+        if self.request.COOKIES.get('search-status'):
+            params.update({'status': self.request.COOKIES.get('search-status')})
+        if self.request.COOKIES.get('search-region'):
+            params.update({'region': self.request.COOKIES.get('search-region')})
+        if self.request.COOKIES.get('search-realm'):
+            params.update({'destination_realm': self.request.COOKIES.get('search-realm')})
+        filter_kwargs = self.get_filter_kwargs(params)
 
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         try:
