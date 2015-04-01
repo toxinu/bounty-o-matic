@@ -27,8 +27,7 @@ function unsetProgressBar(text) {
   battletag.addClass("progress-bar");
   battletag.removeClass("progress-bar-warning");
 };
-function getUrlParameter(sParam)
-{
+function getUrlParameter(sParam) {
   var sPageURL = window.location.search.substring(1);
   var sURLVariables = sPageURL.split('&');
   for (var i = 0; i < sURLVariables.length; i++) {
@@ -38,25 +37,10 @@ function getUrlParameter(sParam)
     }
   }
 };
-function getCookie(name) {
-  var cookieValue = null;
-  if (document.cookie && document.cookie != '') {
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = jQuery.trim(cookies[i]);
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) == (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
 function csrfSafeMethod(method) {
   // these HTTP methods do not require CSRF protection
   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
+};
 function sameOrigin(url) {
   // test that a given url is a same-origin URL
   // url could be relative or scheme relative or absolute
@@ -70,7 +54,6 @@ function sameOrigin(url) {
     // or any other URL that isn't scheme relative or absolute i.e relative.
     !(/^(\/\/|http:|https:).*/.test(url));
 }
-
 $(function() {
     $.xhrPool = [];
     $.xhrPool.abortAll = function() {
@@ -86,7 +69,7 @@ $(function() {
             // Send the token to same-origin, relative URLs only.
             // Send the token only if the method warrants CSRF protection
             // Using the CSRFToken value acquired earlier
-            var csrftoken = getCookie('csrftoken');
+            var csrftoken = $.cookie('csrftoken');
             jqXHR.setRequestHeader("X-CSRFToken", csrftoken);
           }
         },

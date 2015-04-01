@@ -175,12 +175,18 @@
 
     var url = '?'
     params = {}
-    if (selectedRegion)
+    if (selectedRegion) {
       params.region = selectedRegion;
-    if (selectedStatus)
+      $.cookie('search-region', selectedRegion, {expires: 21});
+    };
+    if (selectedStatus) {
       params.status = selectedStatus;
-    if (selectedRealm)
+      $.cookie('search-status', selectedStatus; {expires: 21});
+    };
+    if (selectedRealm) {
       params.realm = selectedRealm;
+      $.cookie('search-realm', selectedRealm, {expires: 21});
+    };
     if (destinationCharacter)
       params.destination = destinationCharacter;
     if (onlyOwned)
@@ -189,25 +195,30 @@
   }
 
   $(function() {
-    if (getUrlParameter('status')) {
+    // Update form based on url parameters or cookie
+    selectedStatus = getUrlParameter('status') || $.cookie('search-status') || 1;
+    if (selectedStatus) {
       $("select#bounty-status option").filter(function() {
-        return $(this).val() == getUrlParameter('status'); 
+        return $(this).val() == selectedStatus; 
       }).prop('selected', true);
     };
+
     if (getUrlParameter('destination'))
       $("input#destination-character").val(getUrlParameter('destination'));
     if (getUrlParameter('owned'))
       $("input#is-private-input").prop('checked', true);
 
     getRegions(function() {
-      if (getUrlParameter('region')) {
+      selectedRegion = getUrlParameter('region') || $.cookie('search-region');
+      if (selectedRegion) {
         $("select#regions option").filter(function() {
-              return $(this).val() == getUrlParameter('region'); 
+              return $(this).val() == selectedRegion; 
           }).prop('selected', true);
-        getRealms(getUrlParameter('region') || $("select#regions").val(), function() {
-          if (getUrlParameter('realm')) {
+        getRealms(selectedRegion || $("select#regions").val(), function() {
+          selectedRealm = getUrlParameter('realm') || $.cookie('search-realm');
+          if (selectedRealm) {
             $("select#realms option").filter(function() {
-              return $(this).val() == getUrlParameter('realm'); 
+              return $(this).val() == selectedRealm; 
             }).prop('selected', true);  
           };
         });
