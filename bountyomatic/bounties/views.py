@@ -113,7 +113,7 @@ class BountyBaseView:
         comments_dict = {}
         if comments_page:
             comments_paginator = Paginator(
-                bounty.comment_set.filter(is_hidden=False), 2)
+                bounty.comment_set.filter(is_hidden=False), 10)
             comments_dict = {
                 'count': comments_paginator.count,
                 'num_pages': comments_paginator.num_pages,
