@@ -34,11 +34,15 @@
   <input id="destination-character" class="form-control" type="text" />
 
   <center>
-    <div class="checkbox">
-      <label>
-        <input id="is-private-input" type="checkbox"> {% trans "Show only your bounties" %}
-      </label>
-    </div>
+    {% if user.is_authenticated %}
+      <div class="checkbox">
+        <label>
+          <input id="is-private-input" type="checkbox"> {% trans "Show only your bounties" %}
+        </label>
+      </div>
+    {% else %}
+      <br>
+    {% endif %}
     <button class="btn btn-success btn-lg" id="search">
       {% trans "Search me bounties!" %}
     </button>

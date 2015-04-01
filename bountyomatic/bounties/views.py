@@ -37,7 +37,7 @@ class BountyBaseView:
                 {'destination_character__icontains': destination_character})
 
         if 'owned' in self.request.GET:
-            filter_kwargs.update({'user': self.request.user})
+            filter_kwargs.update({'user': self.request.user.pk})
         else:
             filter_kwargs.update({'is_private': False})
         return filter_kwargs
@@ -176,6 +176,7 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
         page = self.request.GET.get('page', 1)
         filter_kwargs = self.get_filter_kwargs()
 
+        import ipdb; ipdb.set_trace()
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         result = {
             'count': p.count,
