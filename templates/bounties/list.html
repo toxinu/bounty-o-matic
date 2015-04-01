@@ -11,7 +11,7 @@
   <select
       class="form-control"
       id="bounty-status">
-    <option value="" selected>---</option>
+    <option value="all" selected>---</option>
     <option value="1">{% trans "Open" %}</option>
     <option value="2">{% trans "Closed" %}</option>
     <option value="3">{% trans "Cancelled" %}</option>
@@ -26,7 +26,7 @@
     {% trans "Target realm" %}
   </label>
   <select class="form-control hidden" id="realms">
-    <option value="">---</option>
+    <option value="all">---</option>
   </select>
   <br>
   <label id="destination-character-label" for="realms">
@@ -116,7 +116,7 @@
 
 {% block javascripts %}
 <script>
-  var selectedStatus = 1;
+  var selectedStatus = 'all';
   var selectedRegion = null;
   var selectedRealm = null;
   var onlyOwned = false;
@@ -127,7 +127,7 @@
         dataType: 'json',
         success: function(data) {
           $("select#regions").text('');
-          $("select#regions").append("<option value=\"\">---</option>");
+          $("select#regions").append("<option value=\"all\">---</option>");
           $.map(data, function(val) {
             $("select#regions").append(
               "<option value=\"" + val.slug + "\">" + val.name + "</option>");
@@ -149,7 +149,7 @@
       dataType: 'json',
       success: function(data) {
         $("select#realms").text('');
-        $("select#realms").append("<option value=\"\">---</option>");
+        $("select#realms").append("<option value=\"all\">---</option>");
         $.map(data, function(val) {
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
@@ -196,7 +196,8 @@
 
   $(function() {
     // Update form based on url parameters or cookie
-    selectedStatus = getUrlParameter('status') || $.cookie('search-status') || 1;
+    selectedStatus = getUrlParameter('status') || $.cookie('search-status');
+    console.log(selectedStatus)
     if (selectedStatus) {
       $("select#bounty-status option").filter(function() {
         return $(this).val() == selectedStatus; 
