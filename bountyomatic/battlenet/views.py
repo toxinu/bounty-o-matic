@@ -5,6 +5,10 @@ from django.http import HttpResponseBadRequest
 from django.views.generic import View
 from django.utils.translation import ugettext as _
 
+from .api import CLASSES
+from .api import FACTIONS
+from .api import FACTIONS_RACES
+
 from .api import get_realms
 from .api import get_regions
 from .api import get_player_battletag
@@ -19,11 +23,18 @@ class PlayerCharactersAPIView(View):
             return HttpResponseBadRequest(
                 json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
-        return HttpResponse(
-            json.dumps(get_player_characters(
-                self.request.user.pk,
-                self.request.GET.get('region', None))),
-            content_type="application/json")
+        characters = get_player_characters(
+            self.request.user.pk, self.request.GET.get('region', None))
+        for character in characters:
+            klass = CLASSES.get(character.get('class'))
+            if klass:
+                character.update({'class_display': str(klass)})
+            for faction_id, races in FACTIONS_RACES.items():
+                if character.get('race') in races:
+                    if FACTIONS.get(faction_id):
+                        character.update(
+                            {'faction_display': str(FACTIONS.get(faction_id))})
+        return HttpResponse(json.dumps(characters), content_type="application/json")
 
 
 class PlayerBattleTagAPIView(View):

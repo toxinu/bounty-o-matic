@@ -27,11 +27,14 @@ class BountyBaseView:
         realm = self.request.GET.get('realm', None)
         destination_character = self.request.GET.get('destination', None)
         if region:
-            filter_kwargs.update({'region': region})
+            if region != "all":
+                filter_kwargs.update({'region': region})
         if status:
-            filter_kwargs.update({'status': status})
+            if status != "all":
+                filter_kwargs.update({'status': status})
         if realm:
-            filter_kwargs.update({'destination_realm': realm})
+            if realm != "all":
+                filter_kwargs.update({'destination_realm': realm})
         if destination_character:
             filter_kwargs.update(
                 {'destination_character__icontains': destination_character})
@@ -357,13 +360,18 @@ class BountyListView(BountyBaseView, TemplateView):
 
         params = {}
         if self.request.COOKIES.get('search-status'):
-            params.update({'status': self.request.COOKIES.get('search-status')})
+            if self.request.COOKIES.get('search-status') != "all":
+                params.update({'status': self.request.COOKIES.get('search-status')})
         if self.request.COOKIES.get('search-region'):
-            params.update({'region': self.request.COOKIES.get('search-region')})
+            if self.request.COOKIES.get('search-region') != "all":
+                params.update({'region': self.request.COOKIES.get('search-region')})
         if self.request.COOKIES.get('search-realm'):
-            params.update({'destination_realm': self.request.COOKIES.get('search-realm')})
+            if self.request.COOKIES.get('search-realm') != "all":
+                params.update(
+                    {'destination_realm': self.request.COOKIES.get('search-realm')})
         filter_kwargs = self.get_filter_kwargs(params)
 
+        print(filter_kwargs)
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         try:
             bounties = self.get_serializable_bounty_list(p.page(page), as_datetime=True)
