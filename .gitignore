@@ -4,3 +4,4 @@ __pycache__
 bountyomatic/local_settings.py
 venv
 media
+battlenet-api.log

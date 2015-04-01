@@ -11,7 +11,8 @@
   <select
       class="form-control"
       id="bounty-status">
-    <option value="1" selected>{% trans "Open" %}</option>
+    <option value="" selected>---</option>
+    <option value="1">{% trans "Open" %}</option>
     <option value="2">{% trans "Closed" %}</option>
     <option value="3">{% trans "Cancelled" %}</option>
   </select>
@@ -125,6 +126,8 @@
         url: "/api/regions",
         dataType: 'json',
         success: function(data) {
+          $("select#regions").text('');
+          $("select#regions").append("<option value=\"\">---</option>");
           $.map(data, function(val) {
             $("select#regions").append(
               "<option value=\"" + val.slug + "\">" + val.name + "</option>");
@@ -164,29 +167,30 @@
 
 
   function updateBounties() {
-    selectedStatus = $("select#status").val();
+    selectedStatus = $("select#bounty-status").val();
     selectedRegion = $("select#regions").val();
     selectedRealm = $("select#realms").val();
     destinationCharacter = $("input#destination-character").val();
     onlyOwned = $("input#is-private-input").prop('checked');
 
     var url = '?'
+    params = {}
     if (selectedRegion)
-      url += 'region=' + selectedRegion;
+      params.region = selectedRegion;
     if (selectedStatus)
-      url += '&status=' + selectedStatus;
+      params.status = selectedStatus;
     if (selectedRealm)
-      url += '&realm=' + selectedRealm;
+      params.realm = selectedRealm;
     if (destinationCharacter)
-      url += '&destination=' + destinationCharacter;
+      params.destination = destinationCharacter;
     if (onlyOwned)
-      url += '&owned';
-    window.location = "/bounty" + url;
+      params.owned = true;
+    window.location = "/bounty/?" + $.param(params, true);
   }
 
   $(function() {
     if (getUrlParameter('status')) {
-      $("select#status option").filter(function() {
+      $("select#bounty-status option").filter(function() {
         return $(this).val() == getUrlParameter('status'); 
       }).prop('selected', true);
     };
@@ -200,14 +204,14 @@
         $("select#regions option").filter(function() {
               return $(this).val() == getUrlParameter('region'); 
           }).prop('selected', true);
-      }
-      getRealms(getUrlParameter('region') || $("select#regions").val(), function() {
+        getRealms(getUrlParameter('region') || $("select#regions").val(), function() {
           if (getUrlParameter('realm')) {
             $("select#realms option").filter(function() {
               return $(this).val() == getUrlParameter('realm'); 
             }).prop('selected', true);  
           };
         });
+      };
     });
     $("select#regions").change(function() {
       getRealms($("select#regions").val());
