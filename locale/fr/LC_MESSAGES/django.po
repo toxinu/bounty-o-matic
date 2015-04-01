@@ -391,7 +391,7 @@ msgstr "Voir les primes"
 
 #: templates/bounties/add.html:12
 msgid "Select your bounty status"
-msgstr "Ta prime est-elle privée ?"
+msgstr "Choisis le statut de ta prime"
 
 #: templates/bounties/add.html:15
 msgid ""
