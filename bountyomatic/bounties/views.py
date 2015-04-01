@@ -113,7 +113,7 @@ class BountyBaseView:
         comments_dict = {}
         if comments_page:
             comments_paginator = Paginator(
-                bounty.comment_set.filter(is_hidden=False), 20)
+                bounty.comment_set.filter(is_hidden=False), 2)
             comments_dict = {
                 'count': comments_paginator.count,
                 'num_pages': comments_paginator.num_pages,
@@ -121,6 +121,15 @@ class BountyBaseView:
                 'objects': self.get_serializable_comment_list(
                     comments_paginator.page(comments_page), as_datetime=as_datetime)
             }
+            print(comments_page, comments_paginator.num_pages)
+            if comments_page > 1:
+                comments_dict.update({
+                    'has_previous': True,
+                    'previous_page_number': comments_page - 1})
+            if comments_page < comments_paginator.num_pages:
+                comments_dict.update({
+                    'has_next': True,
+                    'next_page_number': comments_page + 1})
         return {
             'id': bounty.pk,
             'user': bounty.user.pk,
@@ -244,7 +253,10 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
                 json.dumps({'status': 'nok', 'reason': _('Bounty does not exist.')}),
                 content_type="application/json")
 
-        comments_page = self.request.GET.get('comments_page', 1)
+        try:
+            comments_page = int(self.request.GET.get('comments_page', 1))
+        except ValueError:
+            comments_page = 1
 
         return HttpResponse(json.dumps(
             self.get_serializable_bounty_detail(bounty, comments_page)),
@@ -313,7 +325,11 @@ class BountyDetailView(BountyBaseView, TemplateView):
 
     def get_context_data(self, bounty_id):
         context = super().get_context_data()
-        comments_page = self.request.GET.get('comments_page', 1)
+
+        try:
+            comments_page = int(self.request.GET.get('comments_page', 1))
+        except ValueError:
+            comments_page = 1
 
         try:
             bounty = Bounty.objects.get(pk=bounty_id)

@@ -146,6 +146,8 @@ class Bounty(models.Model):
             # If winner is ok, set status to self.STATUS_CLOSE
             self.status = self.STATUS_CLOSE
 
+        self.source_character = self.source_character.title()
+        self.destination_character = self.destination_character.title()
         self.reward = strip_tags(self.reward)
         self.description = strip_tags(self.description)
 
@@ -284,10 +286,10 @@ class Comment(models.Model):
         if not is_player_character(
                 self.user,
                 self.character_name,
-                self.character_realm, self.bounty.region) and not self.pk:
+                self.character_realm, self.bounty.region) and self.pk is None:
             raise ValidationError(_("This character is not your."))
 
-        if Comment.objects.filter(
+        if not self.user.is_staff and Comment.objects.filter(
                 user=self.user,
                 added_date__gte=timezone.make_aware(
                     datetime.datetime.now(),
@@ -296,6 +298,7 @@ class Comment(models.Model):
             raise ValidationError(
                 _("Comment limit reached. Wait before sending a new one."))
 
+        self.character_name = self.character_name.title()
         self.text = strip_tags(self.text)
 
     def get_character_realm_display(self):

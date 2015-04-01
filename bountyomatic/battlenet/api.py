@@ -136,7 +136,8 @@ def get_character(region, realm, character):
 def is_player_character(user, character, realm, regions=None):
     characters = get_player_characters(user, regions)
     for c in characters:
-        if character == c['name'] and realm == c['normalized_realm']:
+        if character.lower() == c['name'].lower() and \
+                realm == c['normalized_realm']:
             return True
     return False
 
