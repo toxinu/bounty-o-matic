@@ -176,7 +176,6 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
         page = self.request.GET.get('page', 1)
         filter_kwargs = self.get_filter_kwargs()
 
-        import ipdb; ipdb.set_trace()
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         result = {
             'count': p.count,
