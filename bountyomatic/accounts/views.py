@@ -10,7 +10,6 @@ from django.utils.translation import ugettext as _
 from ..mixins import CacheMixin
 
 from ..battlenet.api import refresh_player_cache
-from ..battlenet.api import get_player_battletag
 
 
 class LogoutView(View):
@@ -40,6 +39,12 @@ class RefreshBattleNetAPIView(CacheMixin, View):
     cache_timeout = 60 * 5
 
     def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponse(
+                json.dumps({
+                    'status': 'nok',
+                    'reasion': _('Need an authenticated user.')}),
+                content_type="application/json")
         refresh_player_cache(self.request.user)
         return HttpResponse(
             json.dumps({
