@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 14:49+0000\n"
+"POT-Creation-Date: 2015-04-01 19:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,8 +22,8 @@ msgstr ""
 msgid "Battletag not found"
 msgstr "Battletag non trouvé"
 
-#: bountyomatic/accounts/views.py:46 bountyomatic/battlenet/views.py:20
-#: bountyomatic/battlenet/views.py:35
+#: bountyomatic/accounts/views.py:46 bountyomatic/battlenet/views.py:24
+#: bountyomatic/battlenet/views.py:46
 msgid "Need an authenticated user."
 msgstr "Utilisateur authentifié requis."
 
@@ -150,7 +150,7 @@ msgstr "Moine"
 msgid "Druid"
 msgstr "Druide"
 
-#: bountyomatic/battlenet/views.py:48
+#: bountyomatic/battlenet/views.py:59
 msgid "Need region parameter."
 msgstr "Une région est requise."
 
@@ -158,7 +158,7 @@ msgstr "Une région est requise."
 msgid "Context"
 msgstr "Contexte"
 
-#: bountyomatic/bounties/admin.py:72 templates/bounties/detail.html:115
+#: bountyomatic/bounties/admin.py:72
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -271,7 +271,7 @@ msgstr "Le personnage gagnant n'existe pas ou est en dessous du niveau 10."
 msgid "Winner character can't be yours."
 msgstr "Le personnage gagnant ne peut être un de vos personnages."
 
-#: bountyomatic/bounties/models.py:271 templates/bounties/detail.html:131
+#: bountyomatic/bounties/models.py:271 templates/bounties/detail.html:134
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -300,29 +300,29 @@ msgid "Comment limit reached. Wait before sending a new one."
 msgstr ""
 "Limite de commentaire atteinte. Attends un instant pour en poster un nouveau."
 
-#: bountyomatic/bounties/views.py:249 bountyomatic/bounties/views.py:270
-#: bountyomatic/bounties/views.py:319
+#: bountyomatic/bounties/views.py:252 bountyomatic/bounties/views.py:273
+#: bountyomatic/bounties/views.py:322
 msgid "Invalid bounty."
 msgstr "Prime invalide."
 
-#: bountyomatic/bounties/views.py:253 bountyomatic/bounties/views.py:274
-#: bountyomatic/bounties/views.py:406
+#: bountyomatic/bounties/views.py:256 bountyomatic/bounties/views.py:277
+#: bountyomatic/bounties/views.py:414
 msgid "Bounty does not exist."
 msgstr "Cette prime n'existe pas."
 
-#: bountyomatic/bounties/views.py:279
+#: bountyomatic/bounties/views.py:282
 msgid "Bounty is not yours."
 msgstr "Cette prime ne t'appartient pas."
 
-#: bountyomatic/bounties/views.py:422
+#: bountyomatic/bounties/views.py:430
 msgid "Bad captcha"
 msgstr "Mauvaise captcha"
 
-#: bountyomatic/bounties/views.py:433
+#: bountyomatic/bounties/views.py:441
 msgid "Your comment is a spam."
 msgstr "Ton commentaire est un spam."
 
-#: bountyomatic/bounties/views.py:442
+#: bountyomatic/bounties/views.py:450
 msgid "Comment added."
 msgstr "Commentaire ajouté."
 
@@ -417,7 +417,7 @@ msgstr "Nom du gagnant"
 
 #: templates/bounties/add.html:48
 msgid "Choose your character that will be the bounty author"
-msgstr "Choisis ton personnage qui sera l'auteur de la prime."
+msgstr "Choisis ton personnage qui sera l'auteur de la prime"
 
 #: templates/bounties/add.html:58
 msgid "Select the target realm"
@@ -447,7 +447,7 @@ msgstr "Ta prime est-elle privée ?"
 msgid "Your bounty will not be visible in other unless you share link."
 msgstr "Ta prime ne sera pas visible tant que tu ne partages pas son lien."
 
-#: templates/bounties/add.html:99 templates/bounties/detail.html:143
+#: templates/bounties/add.html:99 templates/bounties/detail.html:146
 msgid "Loading..."
 msgstr "Chargement..."
 
@@ -485,7 +485,7 @@ msgid "Bounty is incorrect"
 msgstr "La prime est incorrecte"
 
 #: templates/bounties/add.html:309 templates/bounties/add.html.py:355
-#: templates/bounties/detail.html:263
+#: templates/bounties/detail.html:273
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -493,7 +493,7 @@ msgstr "Erreur inconnue"
 msgid "Bounty"
 msgstr "Prime"
 
-#: templates/bounties/detail.html:8 templates/bounties/detail.html.py:188
+#: templates/bounties/detail.html:8 templates/bounties/detail.html.py:198
 #: templates/bounties/list.html:97
 msgid "on"
 msgstr "sur"
@@ -518,15 +518,15 @@ msgstr "Ajouté"
 msgid "Updated"
 msgstr "Mise à jour"
 
-#: templates/bounties/detail.html:49
+#: templates/bounties/detail.html:49 templates/bounties/detail.html.py:163
 msgid "Author"
 msgstr "Auteur"
 
-#: templates/bounties/detail.html:60
+#: templates/bounties/detail.html:60 templates/bounties/detail.html.py:165
 msgid "Target"
 msgstr "Cible"
 
-#: templates/bounties/detail.html:72
+#: templates/bounties/detail.html:72 templates/bounties/detail.html.py:167
 msgid "Winner"
 msgstr "Gagnant"
 
@@ -534,47 +534,55 @@ msgstr "Gagnant"
 msgid "Not mentioned"
 msgstr "Non mentionné"
 
+#: templates/bounties/detail.html:115
+msgid "Discussion"
+msgstr "Discussion"
+
 #: templates/bounties/detail.html:117
+msgid "Discuss with other mercenaries interested in this bounty."
+msgstr "Discute avec les mercenaires intéressés par cette prime."
+
+#: templates/bounties/detail.html:120
 msgid "Add a comment"
 msgstr "Ajoute un commentaire"
 
-#: templates/bounties/detail.html:124
+#: templates/bounties/detail.html:127
 msgid "Your character"
 msgstr "Ton personnage"
 
-#: templates/bounties/detail.html:134
+#: templates/bounties/detail.html:137
 msgid "Markdown allowed but images and raw html won't be rendered."
 msgstr "Markdown autorisé. Images et html non rendus."
 
-#: templates/bounties/detail.html:144
+#: templates/bounties/detail.html:147
 msgid "Publish"
 msgstr "Publier"
 
-#: templates/bounties/detail.html:150
+#: templates/bounties/detail.html:153
 msgid "You need to be logged in to post a comment."
 msgstr "Tu dois être connecté pour poster un commentaire."
 
-#: templates/bounties/detail.html:188 templates/bounties/list.html:97
+#: templates/bounties/detail.html:198 templates/bounties/list.html:97
 msgid "Page"
 msgstr "Page"
 
-#: templates/bounties/detail.html:208
+#: templates/bounties/detail.html:218
 msgid "Bounty not found."
 msgstr "Cette prime ne t'appartient pas."
 
-#: templates/bounties/detail.html:225
+#: templates/bounties/detail.html:235
 msgid "Need a character to comment."
 msgstr "Il faut un personnage pour commenter."
 
-#: templates/bounties/detail.html:227
+#: templates/bounties/detail.html:237
 msgid "Comment can not be empty."
 msgstr "Ton commentaire ne peut être vide."
 
-#: templates/bounties/detail.html:229
+#: templates/bounties/detail.html:239
 msgid "Missing captcha."
 msgstr "Il manque le captcha."
 
-#: templates/bounties/detail.html:231 templates/bounties/detail.html.py:265
+#: templates/bounties/detail.html:241 templates/bounties/detail.html.py:275
 msgid "Comment is incorrect"
 msgstr "Le commentaire incorrect"
 
