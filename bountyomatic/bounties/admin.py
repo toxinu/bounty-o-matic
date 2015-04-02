@@ -11,8 +11,10 @@ from ..battlenet.api import get_player_battletag
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'character', 'bounty',
-        'added_date', 'is_hidden', 'external',)
+        'added_date', 'is_hidden', 'external', )
+    list_editable = ('is_hidden', )
     list_filter = ('added_date', 'is_hidden', )
+    search_fields = ('id', 'character_name', 'character_realm', )
 
     def battletag(self, obj):
         return '<a href="%s" target="_blank">%s</a>' % (
@@ -25,7 +27,7 @@ class CommentAdmin(admin.ModelAdmin):
     def external(self, obj):
         return '<a href="%s#comments" target="_blank">%s</a>' % (
             reverse('bounty-detail', args=(obj.bounty.pk,)),
-            'View')
+            _('View'))
     external.allow_tags = True
     external.short_description = _("Context")
 
@@ -41,8 +43,11 @@ class BountyAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'status', 'region', 'source',
         'destination', 'added_date', 'updated_date',
-        'comments_counter', 'external', )
+        'comments_counter', 'is_private', 'external', )
     list_filter = ('added_date', 'updated_date', 'is_private', 'status', )
+    search_fields = (
+        'id', 'region', 'source_character', 'source_realm',
+        'destination_character', 'destination_realm', )
 
     def battletag(self, obj):
         try:

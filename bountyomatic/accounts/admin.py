@@ -8,7 +8,9 @@ from ..battlenet.api import get_player_battletag
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'battletag', 'email', 'is_staff', )
+    list_display = (
+        'username', 'battletag', 'email',
+        'date_joined', 'last_login', 'is_staff',)
 
     def battletag(self, obj):
         try:
