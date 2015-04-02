@@ -20,26 +20,26 @@
       <option value="3">{% trans "Cancelled" %}</option>
     </select>
     <div id="winner-box" class="hidden">
-    <br>
-    <p class="help-block">{% trans "If your bounty finally closed, we really encourage you to set the winner just bellow!" %}</p>
-    <!-- Winner Realm -->
-    <label id="winner-realms-label" for="winner-realms">
-      {% trans "Winner realm" %}
-    </label>
-    <select class="form-control" id="winner-realms">
-      <option value="">---</option>
-    </select>
-    <br>
-    <!-- End block -->
-    
-    <!-- Winner character -->
-    <label id="winner-character-label" for="winner-character">
-      {% trans "Winner name" %}
-    </label>
-    <input id="winner-character" class="form-control" type="text" />
-    <br>
-    <!-- End block -->
-  </div>
+      <br>
+      <p class="help-block">{% trans "If your bounty finally closed, we really encourage you to set the winner just bellow!" %}</p>
+      <!-- Winner Realm -->
+      <label id="winner-realms-label" for="winner-realms">
+        {% trans "Winner realm" %}
+      </label>
+      <select class="form-control" id="winner-realms">
+        <option value="">---</option>
+      </select>
+      <br>
+      <!-- End block -->
+      
+      <!-- Winner character -->
+      <label id="winner-character-label" for="winner-character">
+        {% trans "Winner name" %}
+      </label>
+      <input id="winner-character" class="form-control" type="text" />
+      <br>
+      <!-- End block -->
+    </div>
   </div>
 
   
@@ -144,7 +144,6 @@
           $("select#player-characters option").filter(function() {
               return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
-          $("select#player-characters").attr('disabled', '');
           $("select#realms option").filter(function() {
               return $(this).val() == data.source_realm; 
           }).prop('selected', true);
@@ -153,7 +152,6 @@
           }).prop('selected', true);
           $("select#realms").attr('disabled', '');
           $("input#destination-character").val(selectedDestinationCharacter);
-          $("div#winner-")
           $("input#winner-character").val(selectedWinnerCharacter);
           $("input#destination-character").attr('disabled', '');
           $("textarea#reward").text(reward);

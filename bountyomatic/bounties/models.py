@@ -60,7 +60,7 @@ class Bounty(models.Model):
     added_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Creation date"))
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("Latest update"))
 
-    is_private = models.BooleanField(default=False)
+    is_private = models.BooleanField(default=False, verbose_name=_('Is private'))
 
     class Meta:
         verbose_name_plural = 'bounties'

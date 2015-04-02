@@ -239,8 +239,8 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     http_method_names = ['get', 'post']
     model = Bounty
     fields = [
-        'description', 'reward', 'status',
-        'is_private', 'winner_character', 'winner_realm']
+        'description', 'reward', 'status', 'source_character',
+        'source_realm' 'is_private', 'winner_character', 'winner_realm']
 
     def get(self, request, *args, **kwargs):
         try:
