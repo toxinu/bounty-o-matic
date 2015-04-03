@@ -1,8 +1,13 @@
+import pytz
 import json
+import GeoIP as GeoIPC
+
+from django.utils import timezone
 from django.http import HttpResponse
+from django.contrib.gis.geoip import GeoIP
 
 
-class NonHtmlDebugToolbarMiddleware(object):
+class NonHtmlDebugToolbarMiddleware:
     """
     The Django Debug Toolbar usually only works for views that return HTML.
     This middleware wraps any non-HTML response in HTML if the request
@@ -28,4 +33,19 @@ class NonHtmlDebugToolbarMiddleware(object):
                 response = HttpResponse('<html><body><pre>{}'
                                         '</pre></body></html>'.format(content))
 
+        return response
+
+
+class TimezoneMiddleware:
+    @staticmethod
+    def process_response(request, response):
+        if request.COOKIES.get('timezone'):
+            return response
+        data = GeoIP().city(request.META['REMOTE_ADDR']) or None
+        _timezone = pytz.timezone(timezone.get_current_timezone_name())
+        if data:
+            _timezone = GeoIPC.time_zone_by_country_and_region(
+                data.get('country_code'), data.get('region'))
+            _timezone = pytz.timezone(_timezone)
+        response.set_cookie('timezone', _timezone.zone)
         return response
