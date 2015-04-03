@@ -132,7 +132,7 @@ class BountyBaseView:
         comments_dict = {}
         if comments_page:
             comments_paginator = Paginator(
-                bounty.comment_set.filter(is_hidden=False), 10)
+                bounty.comment_set.filter(is_hidden=False).select_related('user'), 10)
             comments_dict = {
                 'count': comments_paginator.count,
                 'num_pages': comments_paginator.num_pages,
@@ -351,7 +351,7 @@ class BountyDetailView(BountyBaseView, TemplateView):
             comments_page = 1
 
         try:
-            bounty = Bounty.objects.get(pk=bounty_id)
+            bounty = Bounty.objects.select_related('user').get(pk=bounty_id)
             context.update({'bounty': self.get_serializable_bounty_detail(
                 bounty, comments_page, as_datetime=True)})
         except (Bounty.DoesNotExist, ValueError):
@@ -390,7 +390,8 @@ class BountyListView(BountyBaseView, TemplateView):
                         self.request.COOKIES.get('search-realm'))})
         filter_kwargs = self.get_filter_kwargs(params)
 
-        p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
+        p = Paginator(self.model.objects.filter(
+            **filter_kwargs).select_related('user'), 50)
         try:
             bounties = self.get_serializable_bounty_list(
                 p.page(page), as_datetime=True)
@@ -444,7 +445,7 @@ class CommentBaseView:
         bounty_id = self.kwargs.get('bounty_id')
         comment_id = self.kwargs.get('comment_id')
         try:
-            comment = Comment.objects.get(pk=int(comment_id))
+            comment = Comment.objects.select_related('user', 'bounty').get(pk=int(comment_id))
             bounty_id = int(bounty_id)
         except (Comment.DoesNotExist, ValueError):
             raise ValidationError(_("Can't found this comment."))
@@ -564,7 +565,7 @@ class CommentEditView(CommentBaseView, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         self.clean()
-        comment = Comment.objects.prefetch_related('bounty').get(
+        comment = Comment.objects.select_related('bounty', 'user').get(
             pk=int(self.kwargs.get('comment_id')))
         characters = get_player_characters(self.request.user.id, comment.bounty.region)
         for character in characters:
