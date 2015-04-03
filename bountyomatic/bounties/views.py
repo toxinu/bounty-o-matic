@@ -1,6 +1,10 @@
 import json
+import pytz
+import GeoIP as GeoIPC
 
 from django.conf import settings
+from django.utils import timezone
+from django.contrib.gis.geoip import GeoIP
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.views.generic import View
@@ -20,6 +24,17 @@ from ..mixins import CSRFExemptMixin
 
 
 class BountyBaseView:
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        data = GeoIP().city(self.request.META['REMOTE_ADDR']) or None
+        _timezone = timezone.get_current_timezone()
+        if data:
+            _timezone = GeoIPC.time_zone_by_country_and_region(
+                data.get('country_code'), data.get('region'))
+            _timezone = pytz.timezone(_timezone)
+        context.update({'user_timezone': _timezone.zone})
+        return context
+
     def get_filter_kwargs(self, extra_params={}):
         filter_kwargs = extra_params
         region = self.request.GET.get('region', None)
@@ -372,7 +387,8 @@ class BountyListView(BountyBaseView, TemplateView):
 
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
         try:
-            bounties = self.get_serializable_bounty_list(p.page(page), as_datetime=True)
+            bounties = self.get_serializable_bounty_list(
+                p.page(page), as_datetime=True)
         except EmptyPage:
             bounties = []
 
