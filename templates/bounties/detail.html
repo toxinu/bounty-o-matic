@@ -186,7 +186,7 @@
                 <img class="img-rounded media-object" src="{{ comment.character_thumbnail }}" style="height:60%;width:auto;">
               </a>
             </div>
-            <div class="media-body comment-text">{{ comment.text|safe }}{% if comment.edited %}<hr><small class="comment-edited">{% trans "Edited at" %} {{ comment.updated_date|date:"l d M Y" }} {{ comment.updated_date|time:"H:i" }}</small>{% endif %}</div>
+            <div class="media-body comment-text">{{ comment.text|safe }}{% if comment.edited %}<hr><span class="comment-edited">{% trans "Edited at" %} {{ comment.updated_date|date:"l d M Y" }} {{ comment.updated_date|time:"H:i" }}</span>{% endif %}</div>
           </div>
         </div>
       </div>
