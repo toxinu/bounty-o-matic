@@ -11,6 +11,7 @@ class CustomUserAdmin(UserAdmin):
     list_display = (
         'username', 'battletag', 'email',
         'date_joined', 'last_login', 'is_staff',)
+    ordering = ['-date_joined']
 
     def battletag(self, obj):
         try:
