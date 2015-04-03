@@ -36,6 +36,7 @@ dl.bounty-detail dd,dt{
 }
 .footer {
   font-size: 70%;
+  margin-bottom: 15px;
 }
 .footer-refresh {
   color: #464545;
