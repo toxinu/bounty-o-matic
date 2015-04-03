@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load tz %}
 {% load i18n %}
 {% load staticfiles %}
 
@@ -30,10 +31,12 @@
             </div>
             <div class="col-md-10">
               <dl class="dl-horizontal bounty-detail">
+                {% timezone user_timezone %}
                 <dt>{% trans "Added" %}</dt>
                 <dd>{{ bounty.added_date|date:"l d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
                 <dt>{% trans "Updated" %}</dt>
                 <dd>{{ bounty.updated_date|date:"l d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
+                {% endtimezone %}
                 <dt>{% trans "Region" %}</dt>
                 <dd><span class="label label-default">{{ bounty.region_display }}</span></dd>
                 <dt>{% trans "Status" %}</dt>
@@ -155,6 +158,7 @@
     </div>
     <br>
     <br>
+    {% timezone user_timezone %}
     {% for comment in bounty.comments.objects %}
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -180,6 +184,7 @@
         </div>
       </div>
     {% endfor %}
+    {% end timezone %}
     {% if bounty.comments.num_pages > 1 %}
       <nav>
         <ul class="pagination pagination-sm">
