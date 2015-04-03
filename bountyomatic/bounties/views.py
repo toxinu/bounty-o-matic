@@ -1,10 +1,6 @@
 import json
-import pytz
-import GeoIP as GeoIPC
 
 from django.conf import settings
-from django.utils import timezone
-from django.contrib.gis.geoip import GeoIP
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.views.generic import View
@@ -21,6 +17,7 @@ from .utils import export
 from .utils import akismet
 from .utils import recaptcha
 from ..mixins import CSRFExemptMixin
+from ..utils import get_timezone_from_ip
 from ..battlenet.api import CLASSES
 from ..battlenet.api import FACTIONS
 from ..battlenet.api import FACTIONS_RACES
@@ -30,13 +27,9 @@ from ..battlenet.api import get_player_characters
 
 class BountyBaseView:
     def get_user_timezone(self, *args, **kwargs):
-        data = GeoIP().city(self.request.META['REMOTE_ADDR']) or None
-        _timezone = pytz.timezone(timezone.get_current_timezone_name())
-        if data:
-            _timezone = GeoIPC.time_zone_by_country_and_region(
-                data.get('country_code'), data.get('region'))
-            _timezone = pytz.timezone(_timezone)
-        return _timezone.zone
+        if self.request.COOKIES.get('timezone'):
+            return self.request.COOKIES.get('timezone')
+        return get_timezone_from_ip(self.request.META['REMOTE_ADDR'])
 
     def get_filter_kwargs(self, extra_params={}):
         filter_kwargs = extra_params
