@@ -21,6 +21,7 @@ from .utils import export
 from .utils import akismet
 from .utils import recaptcha
 from ..mixins import CSRFExemptMixin
+from ..battlenet.api import get_connected_realms
 
 
 class BountyBaseView:
@@ -49,7 +50,8 @@ class BountyBaseView:
                 filter_kwargs.update({'status': status})
         if realm:
             if realm != "all":
-                filter_kwargs.update({'destination_realm': realm})
+                filter_kwargs.update({'destination_realm__in': get_connected_realms(
+                    filter_kwargs.get('region'), realm)})
         if destination_character:
             filter_kwargs.update(
                 {'destination_character__icontains': destination_character})
@@ -381,8 +383,10 @@ class BountyListView(BountyBaseView, TemplateView):
                 params.update({'region': self.request.COOKIES.get('search-region')})
         if self.request.COOKIES.get('search-realm'):
             if self.request.COOKIES.get('search-realm') != "all":
-                params.update(
-                    {'destination_realm': self.request.COOKIES.get('search-realm')})
+                params.update({
+                    'destination_realm__in': get_connected_realms(
+                        params.get('region'),
+                        self.request.COOKIES.get('search-realm'))})
         filter_kwargs = self.get_filter_kwargs(params)
 
         p = Paginator(self.model.objects.filter(**filter_kwargs), 50)
