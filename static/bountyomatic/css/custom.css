@@ -34,6 +34,9 @@ dl.bounty-detail dd,dt{
 .comment-edited {
   font-size: 70%;
 }
+.navbar-brand img {
+  margin-top: -20px;
+}
 .footer {
   font-size: 70%;
   margin-bottom: 15px;
