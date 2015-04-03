@@ -69,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'bountyomatic.middleware.TimezoneMiddleware',
 )
 
 GEOIP_PATH = os.path.join(BASE_DIR, "geoip")
