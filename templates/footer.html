@@ -14,7 +14,7 @@
 	      url: "/api/player-refresh",
 	      type: 'GET',
 	      success: function(data) {
-	        $("a#refresh-link").text(data.reason);
+	        $("a#refresh-link").text(data.reasons[0]);
           	getPlayerBattletag(function(data) {
             unsetProgressBar(data.battletag);
           });
