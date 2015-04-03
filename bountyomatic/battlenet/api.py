@@ -84,6 +84,13 @@ def _retry(url, params={}, **kwargs):
         count += 1
 
 
+def get_connected_realms(region, realm):
+    for r in get_realms(region):
+        if r['slug'] == realm:
+            return r.get("connected_realms", tuple())
+    return [realm]
+
+
 def get_regions():
     from ..bounties.models import Bounty
 
@@ -107,9 +114,7 @@ def get_realms(region):
     r = _retry('http://%s.battle.net/api/wow/realm/status' % region)
     if not r:
         return realms
-    for realm in r.json().get('realms'):
-        realms.append({'name': realm.get('name'), 'slug': realm.get('slug')})
-    return realms
+    return r.json().get('realms')
 
 
 def is_character_exists(region, realm, character):
@@ -209,7 +214,7 @@ def get_normalized_realm(realm, region=None):
     for region in regions:
         realms = get_realms(region)
         for r in realms:
-            if realm == r['name']:
+            if realm.lower() == r['name'].lower():
                 return r['slug']
 
 
