@@ -2,7 +2,7 @@
 
 ## Installation
 
-Ubuntu packages: `libxml2-dev`, `libxslt1-dev`, `libffi-dev`, `libcairo2`i, `libpango1.0-0`.
+Ubuntu packages: `libxml2-dev`, `libxslt1-dev`, `libffi-dev`, `libcairo2`i, `libpango1.0-0`, `libgeoip-dev`.
 
 ```
 git clone git@github.com:socketubs/bounty-o-matic.git
