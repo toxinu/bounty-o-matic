@@ -71,6 +71,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
 )
 
+GEOIP_PATH = os.path.join(BASE_DIR, "geoip")
+
 ROOT_URLCONF = 'bountyomatic.urls'
 
 WSGI_APPLICATION = 'bountyomatic.wsgi.application'
