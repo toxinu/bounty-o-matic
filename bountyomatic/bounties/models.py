@@ -63,7 +63,7 @@ class Bounty(models.Model):
     is_private = models.BooleanField(default=False, verbose_name=_('Is private'))
 
     class Meta:
-        verbose_name_plural = 'bounties'
+        verbose_name_plural = _('bounties')
         ordering = ['-updated_date']
         unique_together = ((
             'user', 'source_realm', 'source_character',
