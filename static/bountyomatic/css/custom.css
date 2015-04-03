@@ -31,6 +31,9 @@ dl.bounty-detail dd,dt{
   color:#e74c3c !important;
   font-weight: bold;
 }
+.comment-edited {
+  font-size: 70%;
+}
 .footer {
   font-size: 70%;
 }
