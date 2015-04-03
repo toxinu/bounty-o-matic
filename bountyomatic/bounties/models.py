@@ -150,6 +150,10 @@ class Bounty(models.Model):
         self.destination_character = self.destination_character.title()
         self.reward = strip_tags(self.reward)
         self.description = strip_tags(self.description)
+        self.source_realm = self.source_realm.strip()
+        self.source_character = self.source_character.strip()
+        self.destination_realm = self.destination_realm.strip()
+        self.destination_character = self.destination_character.strip()
 
     def get_source_realm_display(self):
         return get_pretty_realm(self.source_realm)
@@ -275,6 +279,8 @@ class Comment(models.Model):
         max_length=50, verbose_name=_("Character name"))
     added_date = models.DateTimeField(
         auto_now_add=True, verbose_name=_("Creation date"), db_index=True)
+    updated_date = models.DateTimeField(
+        auto_now=True, verbose_name=_("Latest update"), db_index=True)
     is_hidden = models.BooleanField(default=False, verbose_name=_("Hidden"))
     user_ip = models.GenericIPAddressField(
         _('IP address'), unpack_ipv4=True, blank=True, null=True)
@@ -324,3 +330,9 @@ class Comment(models.Model):
     @property
     def text_as_html(self):
         return markdown.parse_comment(self.text)
+
+    @property
+    def edited(self):
+        if self.updated_date - self.added_date > datetime.timedelta(seconds=1):
+            return True
+        return False
