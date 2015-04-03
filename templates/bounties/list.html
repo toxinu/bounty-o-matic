@@ -30,6 +30,7 @@
       <option value="all">---</option>
     </select>
     <br>
+    <br>
   </div>
   <label id="destination-character-label" for="realms">
     {% trans "Target name" %}
@@ -155,6 +156,7 @@
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
         });
+        $("select#realms").chosen()
         $("select#realms").trigger('list:updated');;
         $("div#realms-box").removeClass("hidden");
         if (callback)
