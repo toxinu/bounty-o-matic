@@ -304,7 +304,9 @@ class Comment(models.Model):
             raise ValidationError(
                 _("Comment limit reached. Wait before sending a new one."))
 
+        self.character_realm = self.character_realm.strip()
         self.character_name = self.character_name.title()
+        self.character_name = self.character_name.strip()
         self.text = strip_tags(self.text)
 
     def get_character_realm_display(self):
