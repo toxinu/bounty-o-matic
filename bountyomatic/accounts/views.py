@@ -43,13 +43,13 @@ class RefreshBattleNetAPIView(CacheMixin, View):
             return HttpResponse(
                 json.dumps({
                     'status': 'nok',
-                    'reasion': _('Need an authenticated user.')}),
+                    'reasons': [_('Need an authenticated user.')]}),
                 content_type="application/json")
         refresh_player_cache(self.request.user)
         return HttpResponse(
             json.dumps({
                 'status': 'ok',
-                'reason': _(
+                'reasons': [_(
                     "All data refreshed. "
-                    "You'll be able to refresh again in 5 minutes.")}),
+                    "You'll be able to refresh again in 5 minutes.")]}),
             content_type="application/json")
