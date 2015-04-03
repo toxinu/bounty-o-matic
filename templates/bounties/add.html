@@ -72,19 +72,19 @@
   <br>
   <label for="reward" id="reward-label" class="hidden">
     {% trans "Choose the reward" %}
-	</label>
+  </label>
   <small class="help hidden">
     <p class="help-block">{% trans "Markdown allowed." %}</p>
   </small>
-	<textarea class="form-control hidden" id="reward" rows="4" cols="50"></textarea>
+  <textarea class="form-control hidden" id="reward" rows="4" cols="50"></textarea>
   <br>
-	<label for="description" id="description-label" class="hidden">
+  <label for="description" id="description-label" class="hidden">
     {% trans "Describe the bounty motivation and kill conditions" %}
-	</label>
+  </label>
   <small class="help hidden">
     <p class="help-block">{% trans "Markdown allowed." %}</p>
   </small>
-	<textarea class="form-control hidden" id="description" rows="4" cols="50"></textarea>
+  <textarea class="form-control hidden" id="description" rows="4" cols="50"></textarea>
   <br>
   <div class="checkbox hidden" id="is-private">
     <label>
@@ -94,15 +94,17 @@
       <p class="help-block">{% trans "Your bounty will not be visible in other unless you share link." %}</p>
     </small>
   </div>
-	<br>
-	<button
-			class="btn btn-success pull-right hidden"
-      data-loading-text="{% trans 'Loading...' %}"
-	    id="save">
-    {% trans "Save" %}
-	</button>
-  <div class="clearfix"></div>
-</form>	
+  <br>
+  <div class="pull-right">
+    <a id="bounty-return" href="#" class="btn btn-link hidden">{% trans "Return to bounty" %}</a>
+    <button
+        class="btn btn-success pull-right hidden"
+        data-loading-text="{% trans 'Loading...' %}"
+        id="save">
+        {% trans "Save" %}
+    </button>
+  </div>
+</form> 
 <!-- End block -->
 
 
@@ -141,6 +143,7 @@
           isPrivate = data.is_private;
 
           // Set bounty
+          $("#bounty-return").attr('href', '/bounty/' + id).removeClass('hidden');
           $("select#player-characters option").filter(function() {
               return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
@@ -151,9 +154,8 @@
               return $(this).val() == data.winner_realm; 
           }).prop('selected', true);
           $("select#realms").attr('disabled', '');
-          $("input#destination-character").val(selectedDestinationCharacter);
+          $("input#destination-character").val(selectedDestinationCharacter).attr('disabled', '');
           $("input#winner-character").val(selectedWinnerCharacter);
-          $("input#destination-character").attr('disabled', '');
           $("textarea#reward").text(reward);
           $("textarea#description").text(description);
           $("select#player-characters option").filter(function() {
