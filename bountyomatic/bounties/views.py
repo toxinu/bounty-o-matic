@@ -21,20 +21,22 @@ from .utils import export
 from .utils import akismet
 from .utils import recaptcha
 from ..mixins import CSRFExemptMixin
+from ..battlenet.api import CLASSES
+from ..battlenet.api import FACTIONS
+from ..battlenet.api import FACTIONS_RACES
 from ..battlenet.api import get_connected_realms
+from ..battlenet.api import get_player_characters
 
 
 class BountyBaseView:
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
+    def get_user_timezone(self, *args, **kwargs):
         data = GeoIP().city(self.request.META['REMOTE_ADDR']) or None
-        _timezone = timezone.get_current_timezone()
+        _timezone = pytz.timezone(timezone.get_current_timezone_name())
         if data:
             _timezone = GeoIPC.time_zone_by_country_and_region(
                 data.get('country_code'), data.get('region'))
             _timezone = pytz.timezone(_timezone)
-        context.update({'user_timezone': _timezone.zone})
-        return context
+        return _timezone.zone
 
     def get_filter_kwargs(self, extra_params={}):
         filter_kwargs = extra_params
@@ -66,13 +68,16 @@ class BountyBaseView:
         objects = []
         for comment in qs:
             added_date = comment.added_date
+            updated_date = comment.updated_date
             if not as_datetime:
                 added_date = str(added_date)
+                updated_date = str(updated_date)
 
             objects.append({
                 'id': comment.pk,
                 'user': comment.user.pk,
                 'text': comment.text_as_html,
+                'edited': comment.edited,
                 'region': comment.bounty.region,
                 'region_display': comment.bounty.get_region_display(),
                 'character_realm': comment.character_realm,
@@ -81,7 +86,8 @@ class BountyBaseView:
                 'character_thumbnail': comment.character_thumbnail,
                 'character_armory': comment.character_armory,
                 'character_guild': comment.character_detail.get('guild', {}).get('name'),
-                'added_date': added_date
+                'added_date': added_date,
+                'updated_date': updated_date
             })
         return objects
 
@@ -344,6 +350,7 @@ class BountyDetailView(BountyBaseView, TemplateView):
 
     def get_context_data(self, bounty_id):
         context = super().get_context_data()
+        context.update({'user_timezone': self.get_user_timezone()})
 
         try:
             comments_page = int(self.request.GET.get('comments_page', 1))
@@ -354,7 +361,7 @@ class BountyDetailView(BountyBaseView, TemplateView):
             bounty = Bounty.objects.get(pk=bounty_id)
             context.update({'bounty': self.get_serializable_bounty_detail(
                 bounty, comments_page, as_datetime=True)})
-        except Bounty.DoesNotExist:
+        except (Bounty.DoesNotExist, ValueError):
             pass
 
         context.update({'RECAPTCHA_KEY': settings.RECAPTCHA_KEY})
@@ -368,6 +375,7 @@ class BountyListView(BountyBaseView, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context.update({'user_timezone': self.get_user_timezone()})
 
         try:
             page = int(self.request.GET.get('page', 1))
@@ -414,7 +422,48 @@ class BountyListView(BountyBaseView, TemplateView):
         return context
 
 
-class BountyAddCommentAPIView(CSRFExemptMixin, View):
+class CommentBaseView:
+    def get_serializable_comment_detail(self, comment, as_datetime=False):
+        added_date = comment.added_date
+        updated_date = comment.updated_date
+        if not as_datetime:
+            added_date = str(added_date)
+            updated_date = str(updated_date)
+
+        return {
+            'id': comment.pk,
+            'user': comment.user.pk,
+            'text': comment.text,
+            'text_as_html': comment.text_as_html,
+            'region': comment.bounty.region,
+            'region_display': comment.bounty.get_region_display(),
+            'character_realm': comment.character_realm,
+            'character_realm_display': comment.get_character_realm_display(),
+            'character_name': comment.character_name,
+            'character_thumbnail': comment.character_thumbnail,
+            'character_armory': comment.character_armory,
+            'character_guild': comment.character_detail.get('guild', {}).get('name'),
+            'added_date': added_date,
+            'updated_date': updated_date
+        }
+
+    def clean(self):
+        bounty_id = self.kwargs.get('bounty_id')
+        comment_id = self.kwargs.get('comment_id')
+        try:
+            comment = Comment.objects.get(pk=int(comment_id))
+            bounty_id = int(bounty_id)
+        except (Comment.DoesNotExist, ValueError):
+            raise ValidationError(_("Can't found this comment."))
+
+        if bounty_id != comment.bounty.pk:
+            raise ValidationError(_("Can't found this comment."))
+
+        if comment.user != self.request.user:
+            raise ValidationError(_("This comment is not yours."))
+
+
+class CommentAPIView(CommentBaseView, CSRFExemptMixin, View):
     model = Comment
     http_method_names = ['post']
 
@@ -441,12 +490,6 @@ class BountyAddCommentAPIView(CSRFExemptMixin, View):
             user_ip=self.request.META.get('REMOTE_ADDR'))
         try:
             comment.clean()
-            if not recaptcha.check(self.request.META.get('REMOTE_ADDR'), captcha):
-                return HttpResponseBadRequest(
-                    json.dumps({
-                        'status': 'nok',
-                        'reason': _('Bad captcha')}),
-                    content_type="application/json")
             if akismet.verify_key():
                 if akismet.comment_check(
                         request.META.get('REMOTE_ADDR', ''),
@@ -458,6 +501,13 @@ class BountyAddCommentAPIView(CSRFExemptMixin, View):
                             'status': 'nok',
                             'reason': _('Your comment is a spam.')}),
                         content_type="application/json")
+            if not recaptcha.check(self.request.META.get('REMOTE_ADDR'), captcha):
+                return HttpResponseBadRequest(
+                    json.dumps({
+                        'status': 'nok',
+                        'reason': _('Bad captcha')}),
+                    content_type="application/json")
+
             comment.save()
         except ValidationError as err:
             return HttpResponseBadRequest(
@@ -467,3 +517,74 @@ class BountyAddCommentAPIView(CSRFExemptMixin, View):
         return HttpResponse(
             json.dumps({"status": "ok", "reason": _("Comment added.")}),
             content_type="application/json")
+
+
+class CommentDetailAPIView(CommentBaseView, CSRFExemptMixin, View):
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.clean()
+        except ValidationError as err:
+            return HttpResponseBadRequest(json.dumps(
+                {'status': 'nok', 'reasons': err.messages}),
+                content_type="application/json")
+
+        comment = Comment.objects.get(pk=int(self.kwargs.get('comment_id')))
+        return HttpResponse(
+            json.dumps(self.get_serializable_comment_detail(comment)),
+            content_type="application/json")
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.clean()
+        except ValidationError as err:
+            return HttpResponseBadRequest(json.dumps(
+                {'status': 'nok', 'reasons': err.messages}),
+                content_type="application/json")
+
+        comment = Comment.objects.get(pk=int(self.kwargs.get('comment_id')))
+        if self.request.POST.get('comment'):
+            comment.text = self.request.POST.get('comment')
+        if self.request.POST.get('character_name'):
+            comment.character_name = self.request.POST.get('character_name')
+        if self.request.POST.get('character_realm'):
+            comment.character_realm = self.request.POST.get('character_realm')
+
+        try:
+            comment.clean()
+            comment.save()
+        except ValidationError as err:
+            return HttpResponseBadRequest(json.dumps(
+                {'status': 'nok', 'reasons': err.messages}),
+                content_type="application/json")
+
+        return HttpResponse(json.dumps(
+            {'status': 'ok', 'reasons': _('Comment updated.')}),
+            content_type="application/json")
+
+
+class CommentEditView(CommentBaseView, TemplateView):
+    http_method_names = ['get']
+    template_name = "bounties/comment-edit.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        self.clean()
+        comment = Comment.objects.prefetch_related('bounty').get(
+            pk=int(self.kwargs.get('comment_id')))
+        characters = get_player_characters(self.request.user.id, comment.bounty.region)
+        for character in characters:
+            klass = CLASSES.get(character.get('class'))
+            if klass:
+                character.update({'class_display': str(klass)})
+            for faction_id, races in FACTIONS_RACES.items():
+                if character.get('race') in races:
+                    if FACTIONS.get(faction_id):
+                        character.update(
+                            {'faction_display': str(FACTIONS.get(faction_id))})
+        context.update({
+            'comment': self.get_serializable_comment_detail(comment, as_datetime=True),
+            'bounty': comment.bounty,
+            'characters': characters})
+        return context
