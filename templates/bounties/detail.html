@@ -163,7 +163,7 @@
     {% for comment in bounty.comments.objects %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          {{ comment.character_name }} - {{ comment.character_realm_display }}{% if comment.character_guild %} - {{ comment.character_guild }}{% endif %}
+          {{ comment.character_name }} - {{ comment.character_realm_display }}<span class="hidden-xs">{% if comment.character_guild %} - {{ comment.character_guild }}{% endif %}</span>
           {% if comment.character_name == bounty.source_character and comment.character_realm == bounty.source_realm %}
             <span class="label label-primary">{% trans "Author" %}</span>
           {% elif comment.character_name == bounty.destination_character and comment.character_realm == bounty.destination_realm %}
