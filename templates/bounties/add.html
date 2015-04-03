@@ -30,6 +30,7 @@
         <option value="">---</option>
       </select>
       <br>
+      <br>
       <!-- End block -->
       
       <!-- Winner character -->
@@ -173,6 +174,8 @@
           if (selectedStatus == "2") {
             $("div#winner-box").removeClass("hidden");
           }
+          $("select#winner-realms").chosen();
+
         });
       },
       error: function(xhr, status, err) {

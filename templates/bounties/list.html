@@ -17,7 +17,6 @@
     <option value="3">{% trans "Cancelled" %}</option>
   </select>
   <br>
-  <br>
   <label id="regions-label" for="region" class="hidden">
     {% trans "Region" %}
   </label>
@@ -31,7 +30,6 @@
     <select class="form-control" id="realms">
       <option value="all">---</option>
     </select>
-    <br>
     <br>
   </div>
   <label id="destination-character-label" for="realms">
@@ -205,7 +203,6 @@
       $("select#bounty-status option").filter(function() {
         return $(this).val() == selectedStatus; 
       }).prop('selected', true);
-      $("select#bounty-status").chosen({disable_search_threshold:5});
     };
 
     if (getUrlParameter('destination'))
@@ -219,7 +216,6 @@
         $("select#regions option").filter(function() {
               return $(this).val() == selectedRegion; 
         }).prop('selected', true);
-        $("#regions").chosen({disable_search_threshold:5});
         if (selectedRegion == "all")
           return;
         getRealms(selectedRegion || $("select#regions").val(), function() {
