@@ -52,6 +52,7 @@
     <option value="">---</option>
   </select>
   <br>
+  <br>
   <!-- End block -->
 
   <!-- Realm -->
@@ -61,6 +62,7 @@
   <select class="form-control hidden" id="realms">
     <option value="">---</option>
   </select>
+  <br>
   <br>
   <!-- End block -->
   
@@ -373,13 +375,17 @@
   };
 
   $(function() {
+    // Init choosen
     // When select character
     $("select#player-characters").change(function() {
       var character = $(this).val()
       selectedRegion = character.split('|')[0];
       selectedSourceRealm = character.split('|')[1];
       selectedSourceCharacter = character.split('|')[2];
-      getRealms(selectedRegion);
+      getRealms(selectedRegion, function() {
+        $("select#realms").chosen();
+        $("select#realms").trigger('list:updated');;
+      });
     });
     // When change status
     $("select#bounty-status").change(function() {
@@ -392,6 +398,7 @@
     });
 
     getPlayerCharacters(function() {
+      $("select#player-characters").chosen();
       if (getUrlParameter('update')) {
         loadBounty(getUrlParameter('update'));
         $("form#bounty-form").submit(function(e) {

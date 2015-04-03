@@ -17,18 +17,23 @@
     <option value="3">{% trans "Cancelled" %}</option>
   </select>
   <br>
+  <br>
   <label id="regions-label" for="region" class="hidden">
     {% trans "Region" %}
   </label>
   <select class="form-control hidden" id="regions"></select>
   <br>
-  <label id="realms-label" for="realms" class="hidden">
-    {% trans "Target realm" %}
-  </label>
-  <select class="form-control hidden" id="realms">
-    <option value="all">---</option>
-  </select>
   <br>
+  <div id="realms-box" class="hidden">
+    <label id="realms-label" for="realms">
+      {% trans "Target realm" %}
+    </label>
+    <select class="form-control" id="realms">
+      <option value="all">---</option>
+    </select>
+    <br>
+    <br>
+  </div>
   <label id="destination-character-label" for="realms">
     {% trans "Target name" %}
   </label>
@@ -148,14 +153,13 @@
       url: "/api/realms?region=" + region,
       dataType: 'json',
       success: function(data) {
-        $("select#realms").text('');
-        $("select#realms").append("<option value=\"all\">---</option>");
+        $("select#realms").text('').append("<option value=\"all\">---</option>");
         $.map(data, function(val) {
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
         });
-        $("select#realms").removeClass("hidden");
-        $("label#realms-label").removeClass("hidden");
+        $("select#realms").trigger('list:updated');;
+        $("div#realms-box").removeClass("hidden");
         if (callback)
           callback();
       },
@@ -201,6 +205,7 @@
       $("select#bounty-status option").filter(function() {
         return $(this).val() == selectedStatus; 
       }).prop('selected', true);
+      $("select#bounty-status").chosen({disable_search_threshold:5});
     };
 
     if (getUrlParameter('destination'))
@@ -213,13 +218,17 @@
       if (selectedRegion) {
         $("select#regions option").filter(function() {
               return $(this).val() == selectedRegion; 
-          }).prop('selected', true);
+        }).prop('selected', true);
+        $("#regions").chosen({disable_search_threshold:5});
+        if (selectedRegion == "all")
+          return;
         getRealms(selectedRegion || $("select#regions").val(), function() {
           selectedRealm = getUrlParameter('realm') || $.cookie('search-realm');
           if (selectedRealm) {
             $("select#realms option").filter(function() {
               return $(this).val() == selectedRealm; 
             }).prop('selected', true);  
+            $("select#realms").chosen()
           };
         });
       };

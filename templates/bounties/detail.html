@@ -133,6 +133,7 @@
             <option value="">---</option>
           </select>
           <br>
+          <br>
           <label for="reward" id="comment-input-label">
             {% trans "Comment" %}
           </label>
@@ -303,6 +304,7 @@
                 " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>");
             });
             $("form#comment-form").css("display", "block");
+            $("form#comment-form #player-characters").chosen();
             if (callback)
               callback();
           },

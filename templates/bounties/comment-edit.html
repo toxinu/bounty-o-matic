@@ -9,11 +9,10 @@
   <select class="form-control" id="player-characters">
     <option value="">---</option>
     {% for character in characters %}
-    	<option value="{{ character.region }}|{{ character.normalized_realm }}|{{ character.name }}" {% if character.name == comment.character_name and character.normalized_realm == comment.character_realm %} selected {% endif %}>
-    		{{ character.name }} - {{ character.realm }} ({{ character.class_display }}) ({{ character.level }}) ( {{ character.faction_display }})
-    	</option>
+    	<option value="{{ character.region }}|{{ character.normalized_realm }}|{{ character.name }}" {% if character.name == comment.character_name and character.normalized_realm == comment.character_realm %} selected{% endif %}>{{ character.name }} - {{ character.realm }} ({{ character.class_display }}) ({{ character.level }}) ( {{ character.faction_display }})</option>
     {% endfor %}
   </select>
+  <br>
   <br>
   <label for="reward" id="comment-input-label">
     {% trans "Comment" %}
@@ -91,6 +90,7 @@
       }); 
     };
     $(function() {
+      $("#player-characters").chosen();
 			$("button#comment-save").click(function(e) {
         e.preventDefault();
         updateComment();
