@@ -445,12 +445,15 @@ class CommentBaseView:
         bounty_id = self.kwargs.get('bounty_id')
         comment_id = self.kwargs.get('comment_id')
         try:
-            comment = Comment.objects.select_related('user', 'bounty').get(pk=int(comment_id))
+            comment = Comment.objects\
+                .select_related('bounty', 'user')\
+                .only('user__id', 'bounty__id')\
+                .get(pk=int(comment_id))
             bounty_id = int(bounty_id)
         except (Comment.DoesNotExist, ValueError):
             raise ValidationError(_("Can't found this comment."))
 
-        if bounty_id != comment.bounty.pk:
+        if bounty_id != comment.bounty.id:
             raise ValidationError(_("Can't found this comment."))
 
         if comment.user != self.request.user:
@@ -537,7 +540,10 @@ class CommentDetailAPIView(CommentBaseView, CSRFExemptMixin, View):
                 {'status': 'nok', 'reasons': err.messages}),
                 content_type="application/json")
 
-        comment = Comment.objects.get(pk=int(self.kwargs.get('comment_id')))
+        comment = Comment.objects\
+            .select_related('bounty', 'user')\
+            .defer('bounty__description', 'bounty__reward')\
+            .get(pk=int(self.kwargs.get('comment_id')))
         if self.request.POST.get('comment'):
             comment.text = self.request.POST.get('comment')
         if self.request.POST.get('character_name'):
@@ -565,8 +571,10 @@ class CommentEditView(CommentBaseView, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         self.clean()
-        comment = Comment.objects.select_related('bounty', 'user').get(
-            pk=int(self.kwargs.get('comment_id')))
+        comment = Comment.objects\
+            .select_related('bounty', 'user')\
+            .defer('bounty__description', 'bounty__reward')\
+            .get(pk=int(self.kwargs.get('comment_id')))
         characters = get_player_characters(self.request.user.id, comment.bounty.region)
         for character in characters:
             klass = CLASSES.get(character.get('class'))
