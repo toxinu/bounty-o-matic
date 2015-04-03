@@ -287,6 +287,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-added_date']
+        verbose_name_plural = _('comments')
 
     def clean(self):
         if not is_player_character(
