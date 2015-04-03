@@ -28,7 +28,7 @@
       cols="50">{{ comment.text }}</textarea>
   <br>
   <div class="pull-right">
-  	<button class="btn btn-link">{% trans "Return to bounty" %}</button>
+  	<a href="{% url 'bounty-detail' bounty.id %}#comments" class="btn btn-link">{% trans "Return to bounty" %}</a>
   	<button class="btn btn-success" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
     	{% trans "Save" %}
   	</button>
