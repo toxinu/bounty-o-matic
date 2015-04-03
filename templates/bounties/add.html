@@ -145,7 +145,7 @@
               return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
           $("select#realms option").filter(function() {
-              return $(this).val() == data.source_realm; 
+              return $(this).val() == data.destination_realm; 
           }).prop('selected', true);
           $("select#winner-realms option").filter(function() {
               return $(this).val() == data.winner_realm; 
@@ -214,6 +214,16 @@
           $("select#winner-realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
         });
+        if (selectedDestinationRealm) {
+          $("select#realms option").filter(function() {
+            return $(this).val() == selectedDestinationRealm; 
+          }).prop('selected', true);  
+        };
+        if (selectedWinnerRealm) {
+          $("select#winner-realms option").filter(function() {
+              return $(this).val() == selectedWinnerRealm; 
+          }).prop('selected', true);
+        };
         $("select#realms").removeClass("hidden");
         $("label#realms-label").removeClass("hidden");
         $("input#destination-character").removeClass("hidden");
