@@ -170,16 +170,23 @@
           {% elif comment.character_name == bounty.winner_character and comment.character_realm == bounty.winner_realm %}
             <span class="label label-primary">{% trans "Winner" %}</span>
           {% endif %}
-          <small class="pull-right">{{ comment.added_date|date:"l d M Y" }} {{ comment.added_date|time:"H:i" }}</small>
+          <span class="pull-right">
+            <small>
+              {% if comment.user == request.user.id %}
+                <a href="{% url 'comment-detail' bounty.id comment.id %}">{% trans "Edit" %}</a> | 
+              {% endif %}
+              {{ comment.added_date|date:"l d M Y" }} {{ comment.added_date|time:"H:i" }}
+            </small>
+          </span>
         </div>
         <div class="panel-body comment-body">
           <div class="media">
             <div class="media-left media-top">
               <a href="{{ comment.character_armory }}" target="_blank">
-                <img class="img-rounded media-object" src="{{ comment.character_thumbnail }}" style="height:60%; width:auto;">
+                <img class="img-rounded media-object" src="{{ comment.character_thumbnail }}" style="height:60%;width:auto;">
               </a>
             </div>
-            <div class="media-body comment-text">{{ comment.text|safe }}</div>
+            <div class="media-body comment-text">{{ comment.text|safe }}{% if comment.edited %}<hr><small class="comment-edited">{% trans "Edited at" %} {{ comment.updated_date|date:"l d M Y" }} {{ comment.updated_date|time:"H:i" }}</small>{% endif %}</div>
           </div>
         </div>
       </div>
