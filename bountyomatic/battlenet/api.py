@@ -130,7 +130,7 @@ def get_character(region, realm, character):
     r = _retry('http://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
         region, realm, character))
     if not r or r.json().get('status') == 'nok':
-        return None
+        return {}
     result = r.json()
     for faction_id, races in FACTIONS_RACES.items():
         if result.get('race') in races:
@@ -192,17 +192,17 @@ def get_player_battletag(user):
     if not isinstance(user, User):
         user = User.objects.get(pk=user)
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
-        return None
+        return False
     r = _retry(
         'http://eu.battle.net/api/account/user/battletag',
         params={'access_token': user.social_auth.first().access_token})
     try:
         if not r or r.json().get('status') == 'nok':
-            return None
+            return False
         else:
             return r.json().get('battletag')
     except ValueError:
-        return None
+        return False
 
 
 def get_normalized_realm(realm, region=None):
@@ -216,6 +216,7 @@ def get_normalized_realm(realm, region=None):
         for r in realms:
             if realm.lower() == r['name'].lower():
                 return r['slug']
+    return False
 
 
 def get_pretty_realm(realm, region=None):
@@ -229,6 +230,7 @@ def get_pretty_realm(realm, region=None):
         for r in realms:
             if realm == r['slug']:
                 return r['name']
+    return False
 
 
 def get_character_thumbnail(region, realm, character):
