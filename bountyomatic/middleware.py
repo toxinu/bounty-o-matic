@@ -45,7 +45,7 @@ class TimezoneMiddleware:
         IP = request.META.get('HTTP_X_REAL_IP', request.META.get('REMOTE_ADDR'))
         data = GeoIP().city(IP) or None
         _timezone = pytz.timezone(timezone.get_current_timezone_name())
-        if data:
+        if data and 'country_code' in data and 'region' in data:
             _timezone = GeoIPC.time_zone_by_country_and_region(
                 data.get('country_code'), data.get('region'))
             _timezone = pytz.timezone(_timezone)
