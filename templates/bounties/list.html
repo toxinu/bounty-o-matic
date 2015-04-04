@@ -59,7 +59,7 @@
     {% with bounty.destination_faction as faction %}
       <li class="list-group-item {% if faction == 0 %}character-alliance{% elif faction == 1 %}character-horde{% else %}character-neutral{% endif %}">
     {% endwith %}
-    <strong>{{ bounty.destination_character }}</strong><span class="hidden-xs hidden-sm"> - {{ bounty.destination_realm_display }}</span>{% if bounty.destination_guild %}<span class="hidden-xs hidden-sm hidden-md"> - {{ bounty.destination_guild }}</span>{% endif %} <span class="label label-default hidden-xs">{{ bounty.region|upper }}</span> <span class="label label-default hidden-xs hidden-sm">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}{% if bounty.source_guild %}<span class="hidden-md"> - {{ bounty.source_guild }}</span>{% endif %}</span> 
+    <strong>{{ bounty.destination_character }}</strong> - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %}<span class="hidden-xs hidden-sm"> - {{ bounty.destination_guild }}</span>{% endif %} <span class="label label-default hidden-xs hidden-sm">{{ bounty.region|upper }}</span> <span class="label label-default hidden-xs">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}{% if bounty.source_guild %}<span class="hidden-sm hidden-md"> - {{ bounty.source_guild }}</span>{% endif %}</span> 
     {% if bounty.status == 1 %}
       <span class="label label-success">{{ bounty.status_display }}</span>
     {% elif bounty.status == 2 %}
