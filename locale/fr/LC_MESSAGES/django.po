@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-04 19:46+0000\n"
+"POT-Creation-Date: 2015-04-04 20:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -466,8 +466,8 @@ msgid "Choose the reward"
 msgstr "Choisis la récompense"
 
 #: templates/bounties/add.html:80 templates/bounties/add.html.py:88
-msgid "Markdown allowed."
-msgstr "Markdown autorisé."
+msgid "Markdown allowed:"
+msgstr "Markdown autorisé :"
 
 #: templates/bounties/add.html:85
 msgid "Describe the bounty motivation and kill conditions"
@@ -494,46 +494,46 @@ msgstr "Chargement..."
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: templates/bounties/add.html:177 templates/bounties/add.html.py:389
+#: templates/bounties/add.html:175 templates/bounties/add.html.py:387
 #: templates/bounties/list.html:162
 msgid "Oops, no realm found!"
 msgstr "Oups, aucun royaume trouvé !"
 
-#: templates/bounties/add.html:266
+#: templates/bounties/add.html:264
 msgid "Missing region"
 msgstr "Région manquante"
 
-#: templates/bounties/add.html:268
+#: templates/bounties/add.html:266
 msgid "Your character is missing"
 msgstr "Il manque ton personnage"
 
-#: templates/bounties/add.html:270
+#: templates/bounties/add.html:268
 msgid "Missing target realm"
 msgstr "Royaume de la cible manquant"
 
-#: templates/bounties/add.html:272
+#: templates/bounties/add.html:270
 msgid "Missing target name"
 msgstr "Nom de la cible manquant"
 
-#: templates/bounties/add.html:274
+#: templates/bounties/add.html:272
 msgid "Missing reward"
 msgstr "Récompense manquante"
 
-#: templates/bounties/add.html:276
+#: templates/bounties/add.html:274
 msgid "Missing description"
 msgstr "Description manquante"
 
-#: templates/bounties/add.html:279 templates/bounties/add.html.py:327
-#: templates/bounties/add.html:373
+#: templates/bounties/add.html:277 templates/bounties/add.html.py:325
+#: templates/bounties/add.html:371
 msgid "Bounty is incorrect"
 msgstr "La prime est incorrecte"
 
-#: templates/bounties/add.html:325 templates/bounties/add.html.py:371
+#: templates/bounties/add.html:323 templates/bounties/add.html.py:369
 #: templates/bounties/comment-edit.html:84 templates/bounties/detail.html:286
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: templates/bounties/add.html:404 templates/bounties/comment-edit.html:93
+#: templates/bounties/add.html:402 templates/bounties/comment-edit.html:93
 #: templates/bounties/detail.html:307
 msgid "Oops, no character found!"
 msgstr "Oups, aucun personnage trouvé !"
@@ -543,8 +543,8 @@ msgid "Your character"
 msgstr "Ton personnage"
 
 #: templates/bounties/comment-edit.html:21 templates/bounties/detail.html:141
-msgid "Markdown allowed but images and raw html won't be rendered."
-msgstr "Markdown autorisé. Images et html non rendus."
+msgid "Markdown allowed but images and raw html won't be rendered:"
+msgstr "Markdown autorisé. Images et html non rendus :"
 
 #: templates/bounties/comment-edit.html:49 templates/bounties/detail.html:248
 msgid "Need a character to comment."
@@ -671,10 +671,14 @@ msgid "for"
 msgstr "pour"
 
 #: templates/footer.html:5
+msgid "Admin"
+msgstr "Admin"
+
+#: templates/footer.html:5
 msgid "Refresh your BattleNet data"
 msgstr "Rafraichir tes données BattleNet"
 
-#: templates/footer.html:13
+#: templates/footer.html:14
 msgid "Refreshing your BattleNet data..."
 msgstr "Rafraichissement des données..."
 
@@ -682,36 +686,29 @@ msgstr "Rafraichissement des données..."
 msgid "Toggle navigation"
 msgstr "Basculer la navigation"
 
-#: templates/header.html:22
+#: templates/header.html:23
 msgid "Loading data from Blizzard..."
 msgstr "Chargement des données depuis Blizzard..."
 
-#: templates/header.html:25
-msgid "Admin"
-msgstr "Admin"
-
-#: templates/header.html:30
+#: templates/header.html:28
 msgid "Bounties"
 msgstr "Les primes"
 
-#: templates/header.html:32
+#: templates/header.html:30
 msgid "Sign in"
 msgstr "Se connecter"
 
-#: templates/header.html:37
+#: templates/header.html:35
 msgid "Add bounty"
 msgstr "Ajouter une prime"
 
-#: templates/header.html:43
+#: templates/header.html:39 templates/header.html.py:41
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: templates/header.html:48
+#: templates/header.html:46
 msgid "Language"
 msgstr "Langue"
-
-#~ msgid "Access admin"
-#~ msgstr "Accéder au back office"
 
 #~ msgid "Korea"
 #~ msgstr "Corée"
