@@ -39,8 +39,9 @@ class NonHtmlDebugToolbarMiddleware:
 class TimezoneMiddleware:
     @staticmethod
     def process_response(request, response):
-        if request.COOKIES.get('timezone'):
-            return response
+        # Uncomment for now
+        # if request.COOKIES.get('timezone'):
+        #    return response
         IP = request.META.get('HTTP_X_REAL_IP', request.META.get('REMOTE_ADDR'))
         data = GeoIP().city(IP) or None
         _timezone = pytz.timezone(timezone.get_current_timezone_name())
