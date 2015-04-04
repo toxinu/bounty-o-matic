@@ -752,7 +752,7 @@ msgid ""
 "certify player's identities. Blizzard has of course thought of everything, "
 "just like WoWHead, we can't have any of your personnal data. Bounty-O-Matic "
 "is ultra safe."
-msgstr "Bounty-O-Matic a accès qu'à votre battletag et votre liste de personnages. Afin de pouvoir certifier que les joueurs n'usurpent pas l'identité de quelqu'un d'autre. Blizzard a bien entendu fait en sorte que les services tiers comme: WoWHead, utilisant cette méthode n'aient pas accès aux informations privées. Vous n'avez absolument rien à craindre."
+msgstr "Bounty-O-Matic n'a accès qu'à votre battletag et votre liste de personnages. Afin de pouvoir certifier que les joueurs n'usurpent pas l'identité de quelqu'un d'autre. Blizzard a bien entendu fait en sorte que les services tiers comme: WoWHead, utilisant cette méthode n'aient pas accès aux informations privées. Vous n'avez absolument rien à craindre."
 
 #: templates/home/help.html:23
 msgid "Who is behind Bounty-O-Matic?"
@@ -764,7 +764,7 @@ msgid ""
 "la Rive Noire). In real life, I'm Geoffrey, Python web developer and World "
 "of Warcraft player since 10 years.<br>More questions? You can reach me via "
 "email:"
-msgstr "Je suis Bodoc fils d'Eorl, guerrier Légionnaire dans la Légion de Stormwind (EU - Culte de la Rive Noire). En vrai, je suis Geoffrey, développeur web Python et joueur depuis une dizaine d'années sur World of Warcraft. N'hésité pas à me contacter via l'email suivante :"
+msgstr "Je suis Bodoc fils d'Eorl, guerrier Légionnaire dans la Légion de Stormwind (EU - Culte de la Rive Noire). En vrai, je suis Geoffrey, développeur web Python et joueur depuis une dizaine d'années sur World of Warcraft. N'hésitez pas à me contacter via l'email suivante :"
 
 #~ msgid "Korea"
 #~ msgstr "Corée"
