@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Need help?" %}</h1>
+<hr>
+<div class="row">
+	<div class="col-md-6">
+		<h3>{% trans "How to get my reward?" %}</h3>
+		<p>{% trans "Bounty-O-Matic can't guarantee anything regarding the kill and reward.<br>Do not forget that World of Warcraft is a game and it's important to play fair.<br>The bounty author needs to specify the realm where he can send the reward. The mercenary must double check this information." %}</p>
+	</div>
+	<div class="col-md-6">
+		<h3>{% trans "My character is not on the list. How to do?" %}</h3>
+		<p>{% trans "Blizzard itself does not update Armory in real time. It's the same for Bounty-O-Matic. Moreover, in order to have a faster than ever website, we do not retrieve data from Blizzard servers everytime. You can find a link at the bottom of each page to refresh your data." %}</p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<h3>{% trans "Does Bounty-O-Matic have access to my data?" %}</h3>
+		<p>{% trans "Bounty-O-Matic only has access to your Battletag and your characters, to certify player's identities. Blizzard has of course thought of everything, just like WoWHead, we can't have any of your personnal data. Bounty-O-Matic is ultra safe." %}</p>
+	</div>
+	<div class="col-md-6">
+		<h3>{% trans "Who is behind Bounty-O-Matic?" %}</h3>
+		<p>{% trans "I'm Bodoc son of Eorl, mighty warrior of the Stormwind Legion (EU - Culte de la Rive Noire). In real life, I'm Geoffrey, Python web developer and World of Warcraft player since 10 years.<br>More questions? You can reach me via email:" %} <a href="mailto:contact@bounty-o-matic.com">contact@bounty-o-matic.com</a></p>
+	</div>
+</div>
+{% endblock %}
