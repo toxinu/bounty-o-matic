@@ -90,7 +90,7 @@
       }); 
     };
     $(function() {
-      $("#player-characters").chosen();
+      $("#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
 			$("button#comment-save").click(function(e) {
         e.preventDefault();
         updateComment();

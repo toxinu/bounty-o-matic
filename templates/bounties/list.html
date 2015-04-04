@@ -67,6 +67,9 @@
     {% elif bounty.status == 3 %}
       <span class="label label-default">{{ bounty.status_display }}</span>
     {% endif %}
+    {% if bounty.comments_count %}
+      <span class="label label-default">{{ bounty.comments_count }}</span>
+    {% endif %}
     <div class="pull-right">
       {% if bounty.is_private %}
         <span class="label label-default">{% trans "Private" %}</span>
@@ -156,8 +159,8 @@
           $("select#realms").append(
             "<option value=\"" + val.slug + "\">" + val.name + "</option>");
         });
-        $("select#realms").chosen()
-        $("select#realms").trigger('list:updated');;
+        $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"})
+        $("select#realms").trigger('chosen:updated');;
         $("div#realms-box").removeClass("hidden");
         if (callback)
           callback();
@@ -223,9 +226,10 @@
           selectedRealm = getUrlParameter('realm') || $.cookie('search-realm');
           if (selectedRealm) {
             $("select#realms option").filter(function() {
+              if ($(this).val() == selectedRealm)
               return $(this).val() == selectedRealm; 
-            }).prop('selected', true);  
-            $("select#realms").chosen()
+            }).prop('selected', true);
+            $("select#realms").trigger('chosen:updated');;
           };
         });
       };

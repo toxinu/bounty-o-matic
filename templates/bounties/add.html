@@ -174,7 +174,7 @@
           if (selectedStatus == "2") {
             $("div#winner-box").removeClass("hidden");
           }
-          $("select#winner-realms").chosen();
+          $("select#winner-realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
 
         });
       },
@@ -386,7 +386,7 @@
       selectedSourceRealm = character.split('|')[1];
       selectedSourceCharacter = character.split('|')[2];
       getRealms(selectedRegion, function() {
-        $("select#realms").chosen();
+        $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
         $("select#realms").trigger('list:updated');;
       });
     });
@@ -401,7 +401,7 @@
     });
 
     getPlayerCharacters(function() {
-      $("select#player-characters").chosen();
+      $("select#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
       if (getUrlParameter('update')) {
         loadBounty(getUrlParameter('update'));
         $("form#bounty-form").submit(function(e) {

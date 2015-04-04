@@ -304,7 +304,7 @@
                 " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>");
             });
             $("form#comment-form").css("display", "block");
-            $("form#comment-form #player-characters").chosen();
+            $("form#comment-form #player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
             if (callback)
               callback();
           },
