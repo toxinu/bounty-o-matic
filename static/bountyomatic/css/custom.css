@@ -68,3 +68,15 @@ dl.bounty-detail dd,dt{
     transform: rotate(359deg);
   }
 }
+
+#loading-bar {
+  width:270px;margin-top:16px;margin-bottom:-16px;height:30px
+}
+#loading-bar .progress-bar {
+  width:100%;padding-top:8px;font-weight:bold;font-size:90%
+}
+@media (max-width: 768px) {
+  #loading-bar {
+    margin: 0 auto;
+  }
+}
