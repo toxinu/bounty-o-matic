@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-04 20:21+0000\n"
+"POT-Creation-Date: 2015-04-04 21:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -694,7 +694,7 @@ msgstr "Chargement des données depuis Blizzard..."
 msgid "Bounties"
 msgstr "Les primes"
 
-#: templates/header.html:30
+#: templates/header.html:31
 msgid "Sign in"
 msgstr "Se connecter"
 
@@ -702,13 +702,69 @@ msgstr "Se connecter"
 msgid "Add bounty"
 msgstr "Ajouter une prime"
 
-#: templates/header.html:39 templates/header.html.py:41
+#: templates/header.html:40 templates/header.html.py:42
+msgid "Help"
+msgstr "Aide"
+
+#: templates/header.html:47 templates/header.html.py:49
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: templates/header.html:46
+#: templates/header.html:54
 msgid "Language"
 msgstr "Langue"
+
+#: templates/home/help.html:5
+msgid "Need help?"
+msgstr "Besoin d'aide ?"
+
+#: templates/home/help.html:9
+msgid "How to get my reward?"
+msgstr "Comment récupérer ma récompense ?"
+
+#: templates/home/help.html:10
+msgid ""
+"Bounty-O-Matic can't guarantee anything regarding the kill and reward.<br>Do "
+"not forget that World of Warcraft is a game and it's important to play fair."
+"<br>The bounty author needs to specify the realm where he can send the "
+"reward. The mercenary must double check this information."
+msgstr "Bounty-O-Matic ne peut pas garantir la bonne livraison de la récompense, ni même la véracité de son bon accomplissement. Il ne faut pas oublier que World of Warcraft est un jeu et qu'il est important de jouer dans la bonne humeur. C'est pour cela qu'il faut l'auteur précise bien sur quel royaume il peut livrer la récompense. De plus le mercenaire doit bien vérifer cela avant de se lancer à la chasse."
+
+#: templates/home/help.html:13
+msgid "My character is not on the list. How to do?"
+msgstr "Mon personnage n'est pas listé. Comment faire ?"
+
+#: templates/home/help.html:14
+msgid ""
+"Blizzard itself does not update Armory in real time. It's the same for "
+"Bounty-O-Matic. Moreover, in order to have a faster than ever website, we do "
+"not retrieve data from Blizzard servers everytime. You can find a link at "
+"the bottom of each page to refresh your data."
+msgstr "Blizzard lui même ne peut mettre à jour l'armurerie en temps réel. Bounty-O-Matic a donc les mêmes contraintes. De plus, afin de rendre le site plus rapide, nous n'accèdons pas toujours aux serveurs de Blizzard pour rapatrier vos personnages. Tu pourras trouver un lien dans le bas de la page pour rafraichir tes données."
+
+#: templates/home/help.html:19
+msgid "Does Bounty-O-Matic have access to my data?"
+msgstr "Bounty-O-Matic accède-t'il à mes données ?"
+
+#: templates/home/help.html:20
+msgid ""
+"Bounty-O-Matic only has access to your Battletag and your characters, to "
+"certify player's identities. Blizzard has of course thought of everything, "
+"just like WoWHead, we can't have any of your personnal data. Bounty-O-Matic "
+"is ultra safe."
+msgstr "Bounty-O-Matic a accès qu'à votre battletag et votre liste de personnages. Afin de pouvoir certifier que les joueurs n'usurpent pas l'identité de quelqu'un d'autre. Blizzard a bien entendu fait en sorte que les services tiers comme: WoWHead, utilisant cette méthode n'aient pas accès aux informations privées. Vous n'avez absolument rien à craindre."
+
+#: templates/home/help.html:23
+msgid "Who is behind Bounty-O-Matic?"
+msgstr "Qui est derrière Bounty-O-Matic ?"
+
+#: templates/home/help.html:24
+msgid ""
+"I'm Bodoc son of Eorl, mighty warrior of the Stormwind Legion (EU - Culte de "
+"la Rive Noire). In real life, I'm Geoffrey, Python web developer and World "
+"of Warcraft player since 10 years.<br>More questions? You can reach me via "
+"email:"
+msgstr "Je suis Bodoc fils d'Eorl, guerrier Légionnaire dans la Légion de Stormwind (EU - Culte de la Rive Noire). En vrai, je suis Geoffrey, développeur web Python et joueur depuis une dizaine d'années sur World of Warcraft. N'hésité pas à me contacter via l'email suivante :"
 
 #~ msgid "Korea"
 #~ msgstr "Corée"
