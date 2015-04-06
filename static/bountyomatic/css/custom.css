@@ -59,9 +59,10 @@ div.chosen-container.chosen-container-active.chosen-with-drop a.chosen-single {
 }
 .chosen-container .chosen-drop {
   margin-top: -3px;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  border: none;
+  -webkit-box-shadow: 0px 15px 25px -5px rgba(0,0,0,0.32);
+  -moz-box-shadow: 0px 15px 25px -5px rgba(0,0,0,0.32);
+  box-shadow: 0px 15px 25px -5px rgba(0,0,0,0.32);
+  border: 1px solid #f1f1f1;
 }
 .chosen-container-single .chosen-single div b {
   background: url(../img/chosen-sprite.png) no-repeat 1px 11px;
