@@ -269,6 +269,7 @@
           type: 'POST',
           data: comment,
           success: function(data) {
+            $.cookie('comment-character', character, {expires: 21});
             window.location = "/bounty/{{ bounty.id }}";
           },
           error: function(xhr, status, err) {
@@ -300,8 +301,13 @@
             " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>");
         });
         $("form#comment-form").css("display", "block");
-        $("form#comment-form #player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
-      }
+        if ($.cookie('comment-character')) {
+          $("select#player-characters option").filter(function() {
+            return $(this).val() == $.cookie('comment-character');
+          }).prop('selected', true);
+        };
+        $("select#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
+      };
 
       $("form#comment-form").submit(function(e) {
         e.preventDefault();
