@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-04 21:02+0000\n"
+"POT-Creation-Date: 2015-04-06 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -235,12 +235,12 @@ msgstr "Royaume du gagnant"
 msgid "Winner character"
 msgstr "Personnage gagnant"
 
-#: bountyomatic/bounties/models.py:60 bountyomatic/bounties/models.py:281
+#: bountyomatic/bounties/models.py:60 bountyomatic/bounties/models.py:282
 msgid "Creation date"
 msgstr "Date de création"
 
-#: bountyomatic/bounties/models.py:61 bountyomatic/bounties/models.py:261
-#: bountyomatic/bounties/models.py:283
+#: bountyomatic/bounties/models.py:61 bountyomatic/bounties/models.py:262
+#: bountyomatic/bounties/models.py:284
 msgid "Latest update"
 msgstr "Dernière mise à jour"
 
@@ -264,60 +264,60 @@ msgstr "Cette prime ne peut être réouverte. Crées en une nouvelle."
 msgid "Target character does not exist or is below level 10."
 msgstr "Le personnage cible n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:116
+#: bountyomatic/bounties/models.py:117
 msgid "Your character is below level 10 or on an inactive account."
 msgstr "Ton personnage est en dessous du niveau 10 ou sur un compte inactif."
 
-#: bountyomatic/bounties/models.py:122
+#: bountyomatic/bounties/models.py:123
 msgid "This character is not yours."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:129
+#: bountyomatic/bounties/models.py:130
 msgid "Winner character can't be bounty author."
 msgstr "Le gagnant ne peut être l'auteur de la prime."
 
-#: bountyomatic/bounties/models.py:133
+#: bountyomatic/bounties/models.py:134
 msgid "Winner character can't be bounty target."
 msgstr "Le gagnant ne peut être la cible de la prime."
 
-#: bountyomatic/bounties/models.py:141
+#: bountyomatic/bounties/models.py:142
 msgid "Winner character does not exist or is below level 10."
 msgstr "Le personnage gagnant n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:145
+#: bountyomatic/bounties/models.py:146
 msgid "Winner character can't be yours."
 msgstr "Le personnage gagnant ne peut être un de vos personnages."
 
-#: bountyomatic/bounties/models.py:275 templates/bounties/comment-edit.html:18
+#: bountyomatic/bounties/models.py:276 templates/bounties/comment-edit.html:18
 #: templates/bounties/detail.html:138
 msgid "Comment"
 msgstr "Commentaire"
 
-#: bountyomatic/bounties/models.py:277
+#: bountyomatic/bounties/models.py:278
 msgid "Character realm"
 msgstr "Royaume du personnage"
 
-#: bountyomatic/bounties/models.py:279
+#: bountyomatic/bounties/models.py:280
 msgid "Character name"
 msgstr "Nom du personnage"
 
-#: bountyomatic/bounties/models.py:284
+#: bountyomatic/bounties/models.py:285
 msgid "Hidden"
 msgstr "Cachée"
 
-#: bountyomatic/bounties/models.py:286
+#: bountyomatic/bounties/models.py:287
 msgid "IP address"
 msgstr "Adresse IP"
 
-#: bountyomatic/bounties/models.py:290
+#: bountyomatic/bounties/models.py:291
 msgid "comments"
 msgstr "commentaires"
 
-#: bountyomatic/bounties/models.py:297
+#: bountyomatic/bounties/models.py:298
 msgid "This character is not your."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:306
+#: bountyomatic/bounties/models.py:307
 msgid "Comment limit reached. Wait before sending a new one."
 msgstr ""
 "Limite de commentaire atteinte. Attends un instant pour en poster un nouveau."
@@ -423,6 +423,11 @@ msgstr ""
 msgid "View bounties"
 msgstr "Voir les primes"
 
+#: templates/bounties/add.html:7 templates/bounties/add.html.py:105
+#: templates/bounties/comment-edit.html:31 templates/bounties/detail.html:150
+msgid "Loading..."
+msgstr "Chargement..."
+
 #: templates/bounties/add.html:12
 msgid "Select your bounty status"
 msgstr "Choisis le statut de ta prime"
@@ -484,11 +489,6 @@ msgstr "Ta prime ne sera pas visible tant que tu ne partages pas son lien."
 #: templates/bounties/add.html:102 templates/bounties/comment-edit.html:30
 msgid "Return to bounty"
 msgstr "Retourner sur la prime"
-
-#: templates/bounties/add.html:105 templates/bounties/comment-edit.html:31
-#: templates/bounties/detail.html:150
-msgid "Loading..."
-msgstr "Chargement..."
 
 #: templates/bounties/add.html:107 templates/bounties/comment-edit.html:32
 msgid "Save"
@@ -728,7 +728,13 @@ msgid ""
 "not forget that World of Warcraft is a game and it's important to play fair."
 "<br>The bounty author needs to specify the realm where he can send the "
 "reward. The mercenary must double check this information."
-msgstr "Bounty-O-Matic ne peut pas garantir la bonne livraison de la récompense, ni même la véracité de son bon accomplissement. Il ne faut pas oublier que World of Warcraft est un jeu et qu'il est important de jouer dans la bonne humeur. C'est pour cela qu'il faut l'auteur précise bien sur quel royaume il peut livrer la récompense. De plus le mercenaire doit bien vérifer cela avant de se lancer à la chasse."
+msgstr ""
+"Bounty-O-Matic ne peut pas garantir la bonne livraison de la récompense, ni "
+"même la véracité de son bon accomplissement. Il ne faut pas oublier que "
+"World of Warcraft est un jeu et qu'il est important de jouer dans la bonne "
+"humeur. C'est pour cela qu'il faut l'auteur précise bien sur quel royaume il "
+"peut livrer la récompense. De plus le mercenaire doit bien vérifer cela "
+"avant de se lancer à la chasse."
 
 #: templates/home/help.html:13
 msgid "My character is not on the list. How to do?"
@@ -740,7 +746,12 @@ msgid ""
 "Bounty-O-Matic. Moreover, in order to have a faster than ever website, we do "
 "not retrieve data from Blizzard servers everytime. You can find a link at "
 "the bottom of each page to refresh your data."
-msgstr "Blizzard lui même ne peut mettre à jour l'armurerie en temps réel. Bounty-O-Matic a donc les mêmes contraintes. De plus, afin de rendre le site plus rapide, nous n'accèdons pas toujours aux serveurs de Blizzard pour rapatrier vos personnages. Tu pourras trouver un lien dans le bas de la page pour rafraichir tes données."
+msgstr ""
+"Blizzard lui même ne peut mettre à jour l'armurerie en temps réel. Bounty-O-"
+"Matic a donc les mêmes contraintes. De plus, afin de rendre le site plus "
+"rapide, nous n'accèdons pas toujours aux serveurs de Blizzard pour rapatrier "
+"vos personnages. Tu pourras trouver un lien dans le bas de la page pour "
+"rafraichir tes données."
 
 #: templates/home/help.html:19
 msgid "Does Bounty-O-Matic have access to my data?"
@@ -752,7 +763,12 @@ msgid ""
 "certify player's identities. Blizzard has of course thought of everything, "
 "just like WoWHead, we can't have any of your personnal data. Bounty-O-Matic "
 "is ultra safe."
-msgstr "Bounty-O-Matic n'a accès qu'à votre battletag et votre liste de personnages. Afin de pouvoir certifier que les joueurs n'usurpent pas l'identité de quelqu'un d'autre. Blizzard a bien entendu fait en sorte que les services tiers comme: WoWHead, utilisant cette méthode n'aient pas accès aux informations privées. Vous n'avez absolument rien à craindre."
+msgstr ""
+"Bounty-O-Matic n'a accès qu'à votre battletag et votre liste de personnages. "
+"Afin de pouvoir certifier que les joueurs n'usurpent pas l'identité de "
+"quelqu'un d'autre. Blizzard a bien entendu fait en sorte que les services "
+"tiers comme: WoWHead, utilisant cette méthode n'aient pas accès aux "
+"informations privées. Vous n'avez absolument rien à craindre."
 
 #: templates/home/help.html:23
 msgid "Who is behind Bounty-O-Matic?"
@@ -764,7 +780,11 @@ msgid ""
 "la Rive Noire). In real life, I'm Geoffrey, Python web developer and World "
 "of Warcraft player since 10 years.<br>More questions? You can reach me via "
 "email:"
-msgstr "Je suis Bodoc fils d'Eorl, guerrier Légionnaire dans la Légion de Stormwind (EU - Culte de la Rive Noire). En vrai, je suis Geoffrey, développeur web Python et joueur depuis une dizaine d'années sur World of Warcraft. N'hésitez pas à me contacter via l'email suivante :"
+msgstr ""
+"Je suis Bodoc fils d'Eorl, guerrier Légionnaire dans la Légion de Stormwind "
+"(EU - Culte de la Rive Noire). En vrai, je suis Geoffrey, développeur web "
+"Python et joueur depuis une dizaine d'années sur World of Warcraft. "
+"N'hésitez pas à me contacter via l'email suivante :"
 
 #~ msgid "Korea"
 #~ msgstr "Corée"
