@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 from .utils import markdown
 from ..battlenet.api import CLASSES
 from ..battlenet.api import FACTIONS
-from ..battlenet.api import FACTIONS_RACES
 from ..battlenet.api import get_character
 from ..battlenet.api import get_pretty_realm
 from ..battlenet.api import is_player_character
@@ -38,6 +37,14 @@ class Bounty(models.Model):
         (STATUS_CLOSE, _('Closed')),
         (STATUS_CANCELLED, _('Cancelled')),)
 
+    FACTION_ALLIANCE = 0
+    FACTION_HORDE = 1
+    FACTION_NEUTRAL = 2
+    FACTION_CHOICES = (
+        (FACTION_ALLIANCE, FACTIONS[FACTION_ALLIANCE]),
+        (FACTION_HORDE, FACTIONS[FACTION_HORDE]),
+        (FACTION_NEUTRAL, FACTIONS[FACTION_NEUTRAL]),)
+
     reward = models.TextField(verbose_name=_("Reward"))
     description = models.TextField(verbose_name=_("Description"))
     status = models.PositiveSmallIntegerField(
@@ -52,6 +59,8 @@ class Bounty(models.Model):
     destination_realm = models.CharField(max_length=50, verbose_name=_("Target realm"))
     destination_character = models.CharField(
         max_length=50, verbose_name=_("Target character"))
+    destination_faction = models.PositiveSmallIntegerField(
+        choices=FACTION_CHOICES, verbose_name=_("Faction"), null=True)
     winner_realm = models.CharField(
         max_length=50, verbose_name=_("Winner realm"), null=True, blank=True)
     winner_character = models.CharField(
@@ -106,6 +115,7 @@ class Bounty(models.Model):
             raise ValidationError(
                 _("Target character does not exist or is below level 10."))
         self.destination_character = destination.get('name')
+        self.destination_faction = destination.get('faction')
 
         # Source checks
         exists, source = is_character_exists(
@@ -210,42 +220,27 @@ class Bounty(models.Model):
 
     @property
     def source_faction_display(self):
-        for faction_id, races in FACTIONS_RACES.items():
-            if self.source_detail.get('race') in races:
-                if FACTIONS.get(faction_id):
-                    return str(FACTIONS.get(faction_id))
+        return str(FACTIONS.get(self.source_detail.get('faction', ''), '')) or None
 
     @property
     def destination_faction_display(self):
-        for faction_id, races in FACTIONS_RACES.items():
-            if self.destination_detail.get('race') in races:
-                if FACTIONS.get(faction_id):
-                    return str(FACTIONS.get(faction_id))
+        return str(FACTIONS.get(self.destination_detail.get('faction', ''), '')) or None
 
     @property
     def winner_faction_display(self):
-        for faction_id, races in FACTIONS_RACES.items():
-            if self.winner_detail.get('race') in races:
-                if FACTIONS.get(faction_id):
-                    return str(FACTIONS.get(faction_id))
+        return str(FACTIONS.get(self.winner_detail.get('faction', ''), '')) or None
 
     @property
     def source_class_display(self):
-        klass = CLASSES.get(self.source_detail.get('class'))
-        if klass:
-            return str(klass)
+        return str(CLASSES.get(self.source_detail.get('class', ''), '')) or None
 
     @property
     def destination_class_display(self):
-        klass = CLASSES.get(self.destination_detail.get('class'))
-        if klass:
-            return str(klass)
+        return str(CLASSES.get(self.destination_detail.get('class', ''), '')) or None
 
     @property
     def winner_class_display(self):
-        klass = CLASSES.get(self.winner_detail.get('class'))
-        if klass:
-            return str(klass)
+        return str(CLASSES.get(self.winner_detail.get('class', ''), '')) or None
 
     @property
     def reward_as_html(self):

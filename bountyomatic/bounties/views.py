@@ -36,6 +36,7 @@ class BountyBaseView:
         region = self.request.GET.get('region', None)
         status = self.request.GET.get('status', None)
         realm = self.request.GET.get('realm', None)
+        faction = self.request.GET.get('faction', None)
         destination_character = self.request.GET.get('destination', None)
         if region:
             if region != "all":
@@ -47,6 +48,9 @@ class BountyBaseView:
             if realm != "all":
                 filter_kwargs.update({'destination_realm__in': get_connected_realms(
                     filter_kwargs.get('region'), realm)})
+        if faction:
+            if faction != "all":
+                filter_kwargs.update({'destination_faction': faction})
         if destination_character:
             filter_kwargs.update(
                 {'destination_character__icontains': destination_character})
@@ -239,7 +243,9 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
             is_private=is_private)
 
         try:
-            bounty.full_clean()
+            bounty.clean_fields(exclude=('destination_faction', ))
+            bounty.clean()
+            bounty.validate_unique()
             bounty.save()
         except ValidationError as err:
             return HttpResponseBadRequest(
@@ -256,7 +262,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     model = Bounty
     fields = [
         'description', 'reward', 'status', 'source_character',
-        'source_realm' 'is_private', 'winner_character', 'winner_realm']
+        'source_realm', 'is_private', 'winner_character', 'winner_realm']
 
     def get(self, request, *args, **kwargs):
         try:
@@ -382,6 +388,10 @@ class BountyListView(BountyBaseView, TemplateView):
         if self.request.COOKIES.get('search-region'):
             if self.request.COOKIES.get('search-region') != "all":
                 params.update({'region': self.request.COOKIES.get('search-region')})
+        if self.request.COOKIES.get('search-faction'):
+            if self.request.COOKIES.get('search-faction') != "all":
+                params.update({
+                    'destination_faction': self.request.COOKIES.get('search-faction')})
         if self.request.COOKIES.get('search-realm'):
             if self.request.COOKIES.get('search-realm') != "all":
                 params.update({
@@ -390,7 +400,7 @@ class BountyListView(BountyBaseView, TemplateView):
                         self.request.COOKIES.get('search-realm'))})
         filter_kwargs = self.get_filter_kwargs(params)
 
-        p = Paginator(self.model.objects.filter(
+        p = Paginator(self.model.objects.defer('description', 'reward').filter(
             **filter_kwargs).select_related('user'), 50)
         try:
             bounties = self.get_serializable_bounty_list(
