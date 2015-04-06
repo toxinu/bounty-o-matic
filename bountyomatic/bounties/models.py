@@ -105,6 +105,7 @@ class Bounty(models.Model):
                 (previous_obj.source_realm, previous_obj.source_character)):
             raise ValidationError(
                 _("Target character does not exist or is below level 10."))
+        self.destination_character = destination.get('name')
 
         # Source checks
         exists, source = is_character_exists(
@@ -114,6 +115,7 @@ class Bounty(models.Model):
                 (previous_obj.source_realm, previous_obj.source_character)):
             raise ValidationError(
                 _("Your character is below level 10 or on an inactive account."))
+        self.source_character = source.get('name')
 
         if not is_player_character(
                 self.user,
@@ -143,17 +145,16 @@ class Bounty(models.Model):
             if is_player_character(
                     self.user, self.winner_character, self.winner_realm, self.region):
                 raise ValidationError(_("Winner character can't be yours."))
+
             # If winner is ok, set status to self.STATUS_CLOSE
             self.status = self.STATUS_CLOSE
+            self.winner_character = winner.get('name')
+            self.winner_realm = self.winner_realm.strip()
 
-        self.source_character = self.source_character.title()
-        self.destination_character = self.destination_character.title()
         self.reward = strip_tags(self.reward)
         self.description = strip_tags(self.description)
         self.source_realm = self.source_realm.strip()
-        self.source_character = self.source_character.strip()
         self.destination_realm = self.destination_realm.strip()
-        self.destination_character = self.destination_character.strip()
 
     def get_source_realm_display(self):
         return get_pretty_realm(self.source_realm)
@@ -296,6 +297,13 @@ class Comment(models.Model):
                 self.character_realm, self.bounty.region) and self.pk is None:
             raise ValidationError(_("This character is not your."))
 
+        exists, character = is_character_exists(
+            self.bounty.region, self.character_realm, self.character_name)
+        if not exists and self.pk is None:
+            raise ValidationError(
+                _("Your character is below level 10 or on an inactive account."))
+        self.character_name = character.get('name')
+
         if not self.user.is_staff and Comment.objects.filter(
                 user=self.user,
                 added_date__gte=timezone.make_aware(
@@ -306,8 +314,6 @@ class Comment(models.Model):
                 _("Comment limit reached. Wait before sending a new one."))
 
         self.character_realm = self.character_realm.strip()
-        self.character_name = self.character_name.title()
-        self.character_name = self.character_name.strip()
         self.text = strip_tags(self.text)
 
     def get_character_realm_display(self):
