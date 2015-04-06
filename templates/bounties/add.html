@@ -130,7 +130,9 @@
       url: "/api/bounty/" + id,
       dataType: 'json',
       success: function(data) {
-        getRealms(data.region, function() {
+        getRealms(data.region, function(realms_data) {
+          setRealms(realms_data);
+
           selectedRegion = data.region;
           selectedSourceRealm = data.source_realm;
           selectedSourceCharacter = data.source_character;
@@ -182,72 +184,50 @@
     });
   };
 
-  function getPlayerCharacters(callback) {
-    $.ajax({
-      url: "/api/player-characters",
-      dataType: 'json',
-      success: function(data) {
-        $.map(data, function(val) {
-          $("select#player-characters").append(
-            "<option value=\"" + val.region + "|" + val.normalized_realm +
-            "|"  + val.name + "\">" + val.name + " - " + val.realm +
-            " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>");
-        });
-        $("div#loading").addClass("hidden");
-        $("select#player-characters").removeClass("hidden");
-        $("label#player-characters-label").removeClass("hidden");
-        if (callback)
-          callback();
-      },
-      error: function(xhr, status, err) {
-        console.error("/api/player-characters", status, err.toString());
-      }
-    });  
+  function setPlayerCharacters(data) {
+    $.map(data, function(val) {
+      $("select#player-characters").append(
+        "<option value=\"" + val.region + "|" + val.normalized_realm +
+        "|"  + val.name + "\">" + val.name + " - " + val.realm +
+        " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>");
+    });
+    $("div#loading").addClass("hidden");
+    $("select#player-characters").removeClass("hidden");
+    $("label#player-characters-label").removeClass("hidden");
   };
 
-  function getRealms(region, callback) {
-    $.ajax({
-      url: "/api/realms?region=" + region,
-      dataType: 'json',
-      success: function(data) {
-        $("select#realms").text('');
-        $.map(data, function(val) {
-          $("select#realms").append(
-            "<option value=\"" + val.slug + "\">" + val.name + "</option>");
-        });
-        $.map(data, function(val) {
-          $("select#winner-realms").append(
-            "<option value=\"" + val.slug + "\">" + val.name + "</option>");
-        });
-        if (selectedDestinationRealm) {
-          $("select#realms option").filter(function() {
-            return $(this).val() == selectedDestinationRealm; 
-          }).prop('selected', true);  
-        };
-        if (selectedWinnerRealm) {
-          $("select#winner-realms option").filter(function() {
-              return $(this).val() == selectedWinnerRealm; 
-          }).prop('selected', true);
-        };
-        $("select#realms").removeClass("hidden");
-        $("label#realms-label").removeClass("hidden");
-        $("input#destination-character").removeClass("hidden");
-        $("label#destination-character-label").removeClass("hidden");
-        $("textarea#reward").removeClass("hidden");
-        $("label#reward-label").removeClass("hidden");
-        $("textarea#description").removeClass("hidden");
-        $("label#description-label").removeClass("hidden");
-        $("button#save").removeClass("hidden");
-        $(".help").removeClass("hidden");
-        $("div#is-private").removeClass("hidden");
-        if (callback)
-          callback();
-      },
-      error: function(xhr, status, err) {
-        console.error("/api/realms?region=" + region, status, err.toString());
-      }
-    }); 
-  };
+  function setRealms(data) {
+    $("select#realms").text('');
+    $.map(data, function(val) {
+      $("select#realms").append(
+        "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+    });
+    $.map(data, function(val) {
+      $("select#winner-realms").append(
+        "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+    });
+    if (selectedDestinationRealm) {
+      $("select#realms option").filter(function() {
+        return $(this).val() == selectedDestinationRealm; 
+      }).prop('selected', true);  
+    };
+    if (selectedWinnerRealm) {
+      $("select#winner-realms option").filter(function() {
+          return $(this).val() == selectedWinnerRealm; 
+      }).prop('selected', true);
+    };
+    $("select#realms").removeClass("hidden");
+    $("label#realms-label").removeClass("hidden");
+    $("input#destination-character").removeClass("hidden");
+    $("label#destination-character-label").removeClass("hidden");
+    $("textarea#reward").removeClass("hidden");
+    $("label#reward-label").removeClass("hidden");
+    $("textarea#description").removeClass("hidden");
+    $("label#description-label").removeClass("hidden");
+    $("button#save").removeClass("hidden");
+    $(".help").removeClass("hidden");
+    $("div#is-private").removeClass("hidden");
+  }
 
   function checkFields() {
     selectedDestinationRealm = $("select#realms").val();
@@ -383,7 +363,8 @@
       selectedRegion = character.split('|')[0];
       selectedSourceRealm = character.split('|')[1];
       selectedSourceCharacter = character.split('|')[2];
-      getRealms(selectedRegion, function() {
+      getRealms(selectedRegion, function(data) {
+        setRealms(data);
         $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
         $("select#realms").trigger('list:updated');;
       });
@@ -398,7 +379,8 @@
       }
     });
 
-    getPlayerCharacters(function() {
+    getPlayerCharacters(function(data) {
+      setPlayerCharacters(data);
       $("select#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
       if (getUrlParameter('update')) {
         loadBounty(getUrlParameter('update'));

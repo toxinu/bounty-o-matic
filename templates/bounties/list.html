@@ -127,50 +127,27 @@
   var selectedRealm = null;
   var onlyOwned = false;
 
-  function getRegions(callback) {
-    $.ajax({
-        url: "/api/regions",
-        dataType: 'json',
-        success: function(data) {
-          $("select#regions").text('');
-          $("select#regions").append("<option value=\"all\">---</option>");
-          $.map(data, function(val) {
-            $("select#regions").append(
-              "<option value=\"" + val.slug + "\">" + val.name + "</option>");
-          });
-          $("select#regions").removeClass("hidden");
-          $("label#regions-label").removeClass("hidden");
-          if (callback)
-            callback();
-        },
-        error: function(xhr, status, err) {
-          console.error("/api/regions", status, err.toString());
-        }
-      }); 
-  }
-
-  function getRealms(region, callback) {
-    $.ajax({
-      url: "/api/realms?region=" + region,
-      dataType: 'json',
-      success: function(data) {
-        $("select#realms").text('').append("<option value=\"all\">---</option>");
-        $.map(data, function(val) {
-          $("select#realms").append(
-            "<option value=\"" + val.slug + "\">" + val.name + "</option>");
-        });
-        $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"})
-        $("select#realms").trigger('chosen:updated');;
-        $("div#realms-box").removeClass("hidden");
-        if (callback)
-          callback();
-      },
-      error: function(xhr, status, err) {
-        console.error("/api/realms?region=" + region, status, err.toString());
-      }
-    }); 
+  function setRegions(data) {
+    $("select#regions").text('');
+    $("select#regions").append("<option value=\"all\">---</option>");
+    $.map(data, function(val) {
+      $("select#regions").append(
+        "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+    });
+    $("select#regions").removeClass("hidden");
+    $("label#regions-label").removeClass("hidden");
   };
 
+  function setRealms(data) {
+    $("select#realms").text('').append("<option value=\"all\">---</option>");
+    $.map(data, function(val) {
+      $("select#realms").append(
+        "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+    });
+    $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"})
+    $("select#realms").trigger('chosen:updated');;
+    $("div#realms-box").removeClass("hidden");
+  };
 
   function updateBounties() {
     selectedStatus = $("select#bounty-status").val();
@@ -214,7 +191,9 @@
     if (getUrlParameter('owned'))
       $("input#is-private-input").prop('checked', true);
 
-    getRegions(function() {
+    getRegions(function(data) {
+      setRegions(data);
+
       selectedRegion = getUrlParameter('region') || $.cookie('search-region');
       if (selectedRegion) {
         $("select#regions option").filter(function() {
@@ -222,7 +201,9 @@
         }).prop('selected', true);
         if (selectedRegion == "all")
           return;
-        getRealms(selectedRegion || $("select#regions").val(), function() {
+        getRealms(selectedRegion || $("select#regions").val(), function(realms_data) {
+          setRealms(realms_data);
+
           selectedRealm = getUrlParameter('realm') || $.cookie('search-realm');
           if (selectedRealm) {
             $("select#realms option").filter(function() {
@@ -235,7 +216,9 @@
       };
     });
     $("select#regions").change(function() {
-      getRealms($("select#regions").val());
+      getRealms($("select#regions").val(), function(data) {
+        setRealms(data);
+      });
     });
     $("button#search").on('click', function() {
       updateBounties();

@@ -36,65 +36,65 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script>
-  	function updateComment() {
-      $("button#comment-save").button("loading");
-      var character = $("select#player-characters").val()
-      var characterRealm = character.split('|')[1];
-      var characterName = character.split('|')[2];
-      var comment = $("textarea#comment-input").val();
+<script>
+	function updateComment() {
+    $("button#comment-save").button("loading");
+    var character = $("select#player-characters").val()
+    var characterRealm = character.split('|')[1];
+    var characterName = character.split('|')[2];
+    var comment = $("textarea#comment-input").val();
 
-      var errorMessage = '';
-      if (!characterName || !characterRealm)
-        errorMessage += '\n- {% trans "Need a character to comment." %}';
-      if (!comment)
-        errorMessage += '\n- {% trans "Comment can not be empty." %}';
-      if (errorMessage) {
-        alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
-        $("button#comment-save").button("reset");
-        return;
-      }
+    var errorMessage = '';
+    if (!characterName || !characterRealm)
+      errorMessage += '\n- {% trans "Need a character to comment." %}';
+    if (!comment)
+      errorMessage += '\n- {% trans "Comment can not be empty." %}';
+    if (errorMessage) {
+      alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
+      $("button#comment-save").button("reset");
+      return;
+    }
 
-      var comment = {
-        character_name: characterName,
-        character_realm: characterRealm,
-        comment: comment,
-      }
+    var comment = {
+      character_name: characterName,
+      character_realm: characterRealm,
+      comment: comment,
+    }
 
-      $.ajax({
-      	url: "{% url 'api-comment-detail' bounty.id comment.id %}",
-        dataType: 'json',
-        type: 'POST',
-        data: comment,
-        success: function(data) {
-          window.location = "{% url 'bounty-detail' bounty.id %}";
-        },
-        error: function(xhr, status, err) {
-          var jsonResponse = $.parseJSON(xhr.responseText)
-          var errorMessage = '';
-          if (jsonResponse.reasons) {
-            $.map(jsonResponse.reasons, function(val) {
-              errorMessage += '\n- ' + val;
-            })
-          }
-          if (jsonResponse.reason) {
-            errorMessage += '\n- ' + jsonResponse.reason;
-          }
-          if (!errorMessage)
-            errorMessage = '\n- {% trans "Unknown error" %}';
-
-          alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
-          console.error("{% url 'api-comment-detail' bounty.id comment.id %}", status, err.toString());
-          $("button#comment-save").button("reset");
+    $.ajax({
+    	url: "{% url 'api-comment-detail' bounty.id comment.id %}",
+      dataType: 'json',
+      type: 'POST',
+      data: comment,
+      success: function(data) {
+        window.location = "{% url 'bounty-detail' bounty.id %}";
+      },
+      error: function(xhr, status, err) {
+        var jsonResponse = $.parseJSON(xhr.responseText)
+        var errorMessage = '';
+        if (jsonResponse.reasons) {
+          $.map(jsonResponse.reasons, function(val) {
+            errorMessage += '\n- ' + val;
+          })
         }
-      }); 
-    };
-    $(function() {
-      $("#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
-			$("button#comment-save").click(function(e) {
-        e.preventDefault();
-        updateComment();
-      });
+        if (jsonResponse.reason) {
+          errorMessage += '\n- ' + jsonResponse.reason;
+        }
+        if (!errorMessage)
+          errorMessage = '\n- {% trans "Unknown error" %}';
+
+        alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
+        console.error("{% url 'api-comment-detail' bounty.id comment.id %}", status, err.toString());
+        $("button#comment-save").button("reset");
+      }
+    }); 
+  };
+  $(function() {
+    $("#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
+		$("button#comment-save").click(function(e) {
+      e.preventDefault();
+      updateComment();
     });
-  </script>
+  });
+</script>
 {% endblock %}
