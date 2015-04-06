@@ -44,6 +44,31 @@ dl.bounty-detail dd,dt{
 .footer-refresh {
   color: #464545;
 }
+div.chosen-container a.chosen-single {
+  font-size: 15px;
+  height: 43px;
+  padding: 3px 15px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  border: none;
+}
+div.chosen-container.chosen-container-active.chosen-with-drop a.chosen-single {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  border: none;
+}
+.chosen-container .chosen-drop {
+  margin-top: -3px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  border: none;
+}
+.chosen-container-single .chosen-single div b {
+  background: url(../img/chosen-sprite.png) no-repeat 1px 11px;
+}
+.chosen-container-active.chosen-with-drop .chosen-single div b {
+  background: url(../img/chosen-sprite.png) no-repeat 1px 11px;
+}
 .glyphicon-spin {
   -webkit-animation: spin 1000ms infinite linear;
   animation: spin 1000ms infinite linear;
