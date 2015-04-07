@@ -7,7 +7,7 @@ function setProgressBar(text) {
   battletag.addClass("active");
   battletag.addClass("progress-bar-striped");
   battletag.addClass("progress-bar-warning");
-};
+}
 function unsetProgressBar(text) {
   var battletag = $("div.battletag");
   battletag.text(text);
@@ -15,7 +15,7 @@ function unsetProgressBar(text) {
   battletag.removeClass("progress-bar-striped");
   battletag.addClass("progress-bar");
   battletag.removeClass("progress-bar-warning");
-};
+}
 //
 // API
 //
@@ -25,14 +25,14 @@ function getPlayerBattletag(callback) {
     dataType: 'json',
     success: function(data) {
       if (callback)
-        callback(data)
+        callback(data);
       unsetProgressBar(data.battletag);
     },
     error: function(xhr, status, err) {
       console.error("/api/player-battletag", status, err.toString());
     },
   });
-};
+}
 function getRegions(callback) {
   $.ajax({
     url: "/api/regions",
@@ -58,7 +58,7 @@ function getRealms(region, callback) {
       console.error("/api/realms?region=" + region, status, err.toString());
     }
   }); 
-};
+}
 function getPlayerCharacters(callback) {
   $.ajax({
     url: "/api/player-characters",
@@ -71,4 +71,4 @@ function getPlayerCharacters(callback) {
       console.error("/api/player-characters", status, err.toString());
     }
   });  
-};
+}

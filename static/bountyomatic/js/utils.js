@@ -7,11 +7,11 @@ function getUrlParameter(sParam) {
       return decodeURIComponent(sParameterName[1]) || true;
     }
   }
-};
+}
 function csrfSafeMethod(method) {
   // these HTTP methods do not require CSRF protection
   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-};
+}
 function sameOrigin(url) {
   // test that a given url is a same-origin URL
   // url could be relative or scheme relative or absolute
@@ -32,7 +32,7 @@ $(function() {
       jqXHR.abort();  //  aborts connection
       $.xhrPool.splice(i, 1); //  removes from list by index
     });
-  }
+  };
   $.ajaxSetup({
     beforeSend: function(jqXHR, settings) {
       $.xhrPool.push(jqXHR);
@@ -50,7 +50,7 @@ $(function() {
   }
   });
 
-  $(window).on('location'), function(e) {
+  $(window).on('location', function(e) {
     $.xhrPool.abortAll();
-  };
-})
+  });
+});
