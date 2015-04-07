@@ -59,7 +59,7 @@
   <ul class="list-group">
   {% for bounty in bounties %}
     {% with bounty.destination_faction as faction %}
-      <li class="list-group-item {% if faction == 0 %}character-alliance{% elif faction == 1 %}character-horde{% else %}character-neutral{% endif %}">
+      <li class="list-group-item clearfix {% if faction == 0 %}character-alliance{% elif faction == 1 %}character-horde{% else %}character-neutral{% endif %}">
     {% endwith %}
     <strong>{{ bounty.destination_character }}</strong> - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %}<span class="hidden-xs hidden-sm"> - {{ bounty.destination_guild }}</span>{% endif %} <span class="label label-default hidden-xs hidden-sm">{{ bounty.region|upper }}</span> <span class="label label-default hidden-xs">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}{% if bounty.source_guild %}<span class="hidden-sm hidden-md"> - {{ bounty.source_guild }}</span>{% endif %}</span> 
     {% if bounty.status == 1 %}
@@ -72,7 +72,7 @@
     {% if bounty.comments_count %}
       <span class="label label-default">{{ bounty.comments_count }}</span>
     {% endif %}
-    <div class="pull-right">
+    <span class="pull-right">
       {% if bounty.is_private %}
         <span class="label label-default">{% trans "Private" %}</span>
       {% endif %}
@@ -80,7 +80,7 @@
         <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
       {% endif %}
       <a class="btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">{% trans "View" %}</a>
-    </div>
+    </span>
     </li>
   {% empty %}
     <p>{% trans "No bounties found..." %}</p>
