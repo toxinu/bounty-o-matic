@@ -311,6 +311,10 @@ class Comment(models.Model):
         self.character_realm = self.character_realm.strip()
         self.text = strip_tags(self.text)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.bounty.save()
+
     def get_character_realm_display(self):
         return get_pretty_realm(self.character_realm)
 
