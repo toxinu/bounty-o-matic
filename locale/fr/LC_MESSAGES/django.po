@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-08 15:03+0000\n"
+"POT-Creation-Date: 2015-04-08 15:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -435,7 +435,9 @@ msgstr "Bounty-O-Matic - Un système de primes pour World of Warcraft"
 msgid ""
 "Bounty-O-Matic is a bounties system for World of Warcraft. Post a bounty on "
 "a player and find mercenaries to kill him."
-msgstr "Bounty-O-Matic est un système de primes pour World of Warcraft. Postes une prime sur un joueur et trouves des mercenaires pour le tuer."
+msgstr ""
+"Bounty-O-Matic est un système de primes pour World of Warcraft. Postes une "
+"prime sur un joueur et trouves des mercenaires pour le tuer."
 
 #: templates/bounties/add.html:7
 msgid "Loading your characters from BattleNet..."
@@ -700,7 +702,14 @@ msgstr "Admin"
 msgid "Refresh your BattleNet data"
 msgstr "Rafraichir tes données BattleNet"
 
-#: templates/footer.html:14
+#: templates/footer.html:10
+msgid ""
+"World of Warcraft, Warcraft and Blizzard Entertainment are trademarks or "
+"registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or "
+"other countries."
+msgstr "World of Warcraft, Warcraft et Blizzard Entertainment sont des marques ou des marques déposées de Blizzard Entertainment, Inc. aux États-Unis d’Amérique et/ou dans d’autres pays."
+
+#: templates/footer.html:18
 msgid "Refreshing your BattleNet data..."
 msgstr "Rafraichissement des données..."
 
