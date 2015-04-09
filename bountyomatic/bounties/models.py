@@ -16,6 +16,7 @@ from ..battlenet.api import is_player_character
 from ..battlenet.api import is_character_exists
 from ..battlenet.api import get_character_armory
 from ..battlenet.api import get_character_thumbnail
+from ..battlenet.api import get_character_thumbnail_fallback
 
 
 class Bounty(models.Model):
@@ -208,8 +209,18 @@ class Bounty(models.Model):
             self.region, self.source_realm, self.source_character)
 
     @property
+    def source_thumbnail_fallback(self):
+        return get_character_thumbnail_fallback(
+            self.region, self.source_realm, self.source_character)
+
+    @property
     def destination_thumbnail(self):
         return get_character_thumbnail(
+            self.region, self.destination_realm, self.destination_character)
+
+    @property
+    def destination_thumbnail_fallback(self):
+        return get_character_thumbnail_fallback(
             self.region, self.destination_realm, self.destination_character)
 
     @property
@@ -332,6 +343,11 @@ class Comment(models.Model):
     @property
     def character_thumbnail(self):
         return get_character_thumbnail(
+            self.bounty.region, self.character_realm, self.character_name)
+
+    @property
+    def character_thumbnail_fallback(self):
+        return get_character_thumbnail_fallback(
             self.bounty.region, self.character_realm, self.character_name)
 
     @property
