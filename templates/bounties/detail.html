@@ -26,7 +26,7 @@
           <div class="row">
             <div class="col-md-2">
               <a href="{{ bounty.destination_armory }}" target="_blank">
-                <img class="img-rounded pull-left" src="{{ bounty.destination_thumbnail }}">
+                <img class="img-rounded pull-left" src="{{ bounty.destination_thumbnail }}" onerror="this.onerror = null; this.src='{{ bounty.destination_thumbnail_fallback }}'">
               </a>
             </div>
             <div class="col-md-10">
@@ -184,7 +184,7 @@
           <div class="media">
             <div class="media-left media-top">
               <a href="{{ comment.character_armory }}" target="_blank">
-                <img class="img-rounded media-object character-thumbnail" src="{{ comment.character_thumbnail }}">
+                <img class="img-rounded media-object character-thumbnail" src="{{ comment.character_thumbnail }}" onerror="this.onerror = null; this.src='{{ comment.character_thumbnail_fallback }}'">
               </a>
             </div>
             <div class="media-body comment-text">{{ comment.text|safe }}{% if comment.edited %}<hr><span class="comment-edited">{% trans "Edited at" %} {{ comment.updated_date|date:"l d M Y" }} {{ comment.updated_date|time:"H:i" }}</span>{% endif %}</div>
