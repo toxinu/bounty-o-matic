@@ -5,46 +5,52 @@
 {% block content %}
   <div class="row">
     <div class="col-md-6">
-      <label id="bounty-status-label" for="status">{% trans "Status" %}</label>
-      <select class="form-control" id="bounty-status">
-        <option value="all" selected>---</option>
-        <option value="1">{% trans "Open" %}</option>
-        <option value="2">{% trans "Closed" %}</option>
-        <option value="3">{% trans "Cancelled" %}</option>
-      </select>
-      <br>
-      <label id="regions-label" for="region">{% trans "Region" %}</label>
-      <select class="form-control" id="regions">
-        <option value="all" selected>---</option>
-        <option value="eu">{% trans "Europe" %}</option>
-        <option value="us">{% trans "US" %}</option>
-      </select>
-      <br>
+      <div class="form-group">
+        <label id="bounty-status-label" for="status">{% trans "Status" %}</label>
+        <select class="form-control" id="bounty-status">
+          <option value="all" selected>---</option>
+          <option value="1">{% trans "Open" %}</option>
+          <option value="2">{% trans "Closed" %}</option>
+          <option value="3">{% trans "Cancelled" %}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="regions-label" for="region">{% trans "Region" %}</label>
+        <select class="form-control" id="regions">
+          <option value="all" selected>---</option>
+          <option value="eu">{% trans "Europe" %}</option>
+          <option value="us">{% trans "US" %}</option>
+        </select>
+      </div>
     </div>
     <div class="col-md-6">
-      <label id="realms-label" for="realms">{% trans "Target realm" %}</label>
-      <select class="form-control" id="realms">
-        <option value="all">---</option>
-      </select>
-      <br>
-      <label id="destination-character-label" for="destination-character">{% trans "Target name" %}</label>
-      <input id="destination-character" class="form-control" type="text" />
-      <br>
+      <div class="form-group">
+        <label id="realms-label" for="realms">{% trans "Target realm" %}</label>
+        <select class="form-control" id="realms" disabled>
+          <option value="all">---</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="destination-character-label" for="destination-character">{% trans "Target name" %}</label>
+        <input id="destination-character" class="form-control" type="text" />
+      </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <label id="factions-label" for="factions">{% trans "Target faction" %}</label>
-      <select class="form-control" id="factions">
-        <option value="all">---</option>
-        <option value="0">{% trans "Alliance" %}</option>
-        <option value="1">{% trans "Horde" %}</option>
-      </select>
-      {% if user.is_authenticated %}
-        <div class="checkbox">
-          <label><input id="is-private-input" type="checkbox"> {% trans "Show only your bounties" %}</label>
-        </div>
-      {% endif %}
+      <div class="form-group">
+        <label id="factions-label" for="factions">{% trans "Target faction" %}</label>
+        <select class="form-control" id="factions">
+          <option value="all">---</option>
+          <option value="0">{% trans "Alliance" %}</option>
+          <option value="1">{% trans "Horde" %}</option>
+        </select>
+        {% if user.is_authenticated %}
+          <div class="checkbox">
+            <label><input id="is-private-input" type="checkbox"> {% trans "Show only your bounties" %}</label>
+          </div>
+        {% endif %}
+      </div>
     </div>
     <div class="col-md-6">
       <br>
@@ -136,9 +142,8 @@
       $("select#realms").append(
         "<option value=\"" + val.slug + "\">" + val.name + "</option>");
     });
-    $("select#realms").after('<br>');
-    $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"})
-    $("select#realms").trigger('chosen:updated');;
+    $("select#realms").removeAttr('disabled');
+    $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"}).trigger('chosen:updated');
   };
 
   function updateBounties() {
