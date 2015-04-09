@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-08 15:12+0000\n"
+"POT-Creation-Date: 2015-04-09 09:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -239,12 +239,12 @@ msgstr "Royaume du gagnant"
 msgid "Winner character"
 msgstr "Personnage gagnant"
 
-#: bountyomatic/bounties/models.py:69 bountyomatic/bounties/models.py:277
+#: bountyomatic/bounties/models.py:69 bountyomatic/bounties/models.py:288
 msgid "Creation date"
 msgstr "Date de création"
 
-#: bountyomatic/bounties/models.py:70 bountyomatic/bounties/models.py:257
-#: bountyomatic/bounties/models.py:279
+#: bountyomatic/bounties/models.py:70 bountyomatic/bounties/models.py:268
+#: bountyomatic/bounties/models.py:290
 msgid "Latest update"
 msgstr "Dernière mise à jour"
 
@@ -256,72 +256,77 @@ msgstr "Privée"
 msgid "bounties"
 msgstr "primes"
 
-#: bountyomatic/bounties/models.py:93
+#: bountyomatic/bounties/models.py:94
 msgid "Your character and target must be different."
 msgstr "Ton personnage et la cible doivent être différentes."
 
 #: bountyomatic/bounties/models.py:104
+msgid "Bounty limit reached. Wait before sending a new one."
+msgstr ""
+"Limite de prime atteinte. Attends un instant pour en poster une nouvelle."
+
+#: bountyomatic/bounties/models.py:115
 msgid "Bounty can't be re-open. Create a new one."
 msgstr "Cette prime ne peut être réouverte. Crées en une nouvelle."
 
-#: bountyomatic/bounties/models.py:116
+#: bountyomatic/bounties/models.py:127
 msgid "Target character does not exist or is below level 10."
 msgstr "Le personnage cible n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:127 bountyomatic/bounties/models.py:299
+#: bountyomatic/bounties/models.py:138 bountyomatic/bounties/models.py:310
 msgid "Your character is below level 10 or on an inactive account."
 msgstr "Ton personnage est en dessous du niveau 10 ou sur un compte inactif."
 
-#: bountyomatic/bounties/models.py:134
+#: bountyomatic/bounties/models.py:145
 msgid "This character is not yours."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:141
+#: bountyomatic/bounties/models.py:152
 msgid "Winner character can't be bounty author."
 msgstr "Le gagnant ne peut être l'auteur de la prime."
 
-#: bountyomatic/bounties/models.py:145
+#: bountyomatic/bounties/models.py:156
 msgid "Winner character can't be bounty target."
 msgstr "Le gagnant ne peut être la cible de la prime."
 
-#: bountyomatic/bounties/models.py:153
+#: bountyomatic/bounties/models.py:164
 msgid "Winner character does not exist or is below level 10."
 msgstr "Le personnage gagnant n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:157
+#: bountyomatic/bounties/models.py:168
 msgid "Winner character can't be yours."
 msgstr "Le personnage gagnant ne peut être un de vos personnages."
 
-#: bountyomatic/bounties/models.py:271 templates/bounties/comment-edit.html:18
+#: bountyomatic/bounties/models.py:282 templates/bounties/comment-edit.html:18
 #: templates/bounties/detail.html:138
 msgid "Comment"
 msgstr "Commentaire"
 
-#: bountyomatic/bounties/models.py:273
+#: bountyomatic/bounties/models.py:284
 msgid "Character realm"
 msgstr "Royaume du personnage"
 
-#: bountyomatic/bounties/models.py:275
+#: bountyomatic/bounties/models.py:286
 msgid "Character name"
 msgstr "Nom du personnage"
 
-#: bountyomatic/bounties/models.py:280
+#: bountyomatic/bounties/models.py:291
 msgid "Hidden"
 msgstr "Cachée"
 
-#: bountyomatic/bounties/models.py:282
+#: bountyomatic/bounties/models.py:293
 msgid "IP address"
 msgstr "Adresse IP"
 
-#: bountyomatic/bounties/models.py:286
+#: bountyomatic/bounties/models.py:297
 msgid "comments"
 msgstr "commentaires"
 
-#: bountyomatic/bounties/models.py:293
+#: bountyomatic/bounties/models.py:304
 msgid "This character is not your."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:309
+#: bountyomatic/bounties/models.py:320
 msgid "Comment limit reached. Wait before sending a new one."
 msgstr ""
 "Limite de commentaire atteinte. Attends un instant pour en poster un nouveau."
@@ -707,7 +712,10 @@ msgid ""
 "World of Warcraft, Warcraft and Blizzard Entertainment are trademarks or "
 "registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or "
 "other countries."
-msgstr "World of Warcraft, Warcraft et Blizzard Entertainment sont des marques ou des marques déposées de Blizzard Entertainment, Inc. aux États-Unis d’Amérique et/ou dans d’autres pays."
+msgstr ""
+"World of Warcraft, Warcraft et Blizzard Entertainment sont des marques ou "
+"des marques déposées de Blizzard Entertainment, Inc. aux États-Unis "
+"d’Amérique et/ou dans d’autres pays."
 
 #: templates/footer.html:18
 msgid "Refreshing your BattleNet data..."
