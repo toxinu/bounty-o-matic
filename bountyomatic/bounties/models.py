@@ -87,10 +87,21 @@ class Bounty(models.Model):
             self.get_source_realm_display())
 
     def clean(self):
+        # Check source and destination are different
         if self.source_realm == self.destination_realm:
             if self.source_character == self.destination_character:
                 raise ValidationError(
                     _("Your character and target must be different."))
+
+        # Delay between creating bounties
+        if not self.user.is_staff and Bounty.objects.filter(
+                user=self.user,
+                added_date__gte=timezone.make_aware(
+                    datetime.datetime.now(),
+                    timezone.get_current_timezone()) - datetime.timedelta(
+                        minutes=3)).exists():
+            raise ValidationError(
+                _("Bounty limit reached. Wait before sending a new one."))
 
         try:
             previous_obj = Bounty.objects.get(pk=self.pk)
