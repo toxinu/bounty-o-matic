@@ -62,7 +62,7 @@
                 </dd>
                 <dt>{% trans "Target" %}</dt>
                 <dd>
-                  <a class="character-armory-link" href="{{ bounty.destination_armory }}">
+                  <a class="character-armory-link" target="_blank" href="{{ bounty.destination_armory }}">
                     {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %} - {{ bounty.destination_guild }}{% endif %}</a>
                   {% if bounty.destination_faction_display %}
                     <span class="label {% if bounty.destination_faction == 0 %}label-info{% elif bounty.destination_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.destination_faction_display }}</span>
@@ -75,7 +75,7 @@
                   <dt>{% trans "Winner" %}</dt>
                   <dd>
                   {% if bounty.winner_character %}
-                    <a class="character-armory-link" href="{{ bounty.winner_armory }}">
+                    <a class="character-armory-link" target="_blank" href="{{ bounty.winner_armory }}">
                       {{ bounty.winner_character }} - {{ bounty.winner_realm_display }}{% if bounty.winner_guild %} - {{ bounty.winner_guild }}{% endif %}</a>
                     {% if bounty.winner_faction_display %}
                       <span class="label {% if bounty.winner_faction == 0 %}label-info{% elif bounty.winner_faction == 1 %}label-danger{% else %}label-default{% endif %}">{{ bounty.winner_faction_display }}</span>
