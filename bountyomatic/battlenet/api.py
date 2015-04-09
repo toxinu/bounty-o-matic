@@ -242,7 +242,15 @@ def get_character_thumbnail(region, realm, character):
         return base_url + detail.get(
             'thumbnail') + "?alt=wow/static/images/2d/avatar/%s-%s.jpg" % (
                 detail.get('race'), detail.get('gender'))
-    return "https://%s.battle.net/wow/static/images/2d/avatar/3-0.jpg" % region
+    return get_character_thumbnail_fallback(region, realm, character)
+
+
+def get_character_thumbnail_fallback(region, realm, character):
+    detail = get_character(region, realm, character)
+    if detail:
+        return settings.STATIC_URL + "bountyomatic/img/thumbnails/%s-%s.jpg" % (
+            detail.get('race'), detail.get('gender'))
+    return settings.STATIC_URL + "bountyomatic/img/thumbnails/1-0.jpg"
 
 
 def get_character_armory(region, realm, character):
