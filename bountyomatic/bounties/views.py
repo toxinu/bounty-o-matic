@@ -73,7 +73,7 @@ class BountyBaseView:
             objects.append({
                 'id': comment.pk,
                 'user': comment.user.pk,
-                'user.is_staff': comment.user.is_staff,
+                'is_staff': comment.user.is_staff,
                 'text': comment.text_as_html,
                 'edited': comment.edited,
                 'region': comment.bounty.region,
