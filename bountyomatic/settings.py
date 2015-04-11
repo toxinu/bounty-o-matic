@@ -85,6 +85,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = "/"
 SITE_URL = "https://bounty-o-matic.com"
+LOGIN_URL = "/login-error"
 
 BATTLENET_API_LOG = os.path.join(BASE_DIR, "battlenet-api.log")
 
