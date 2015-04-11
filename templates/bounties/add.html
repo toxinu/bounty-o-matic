@@ -6,6 +6,7 @@
 <div id="loading">
   <center><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> {% trans "Loading your characters from BattleNet..." %}</center>
 </div>
+
 <form id="bounty-for">
   <div id="bounty-status-box" class="hidden well">
     <label id="bounty-status-label" for="bounty-status">
@@ -22,74 +23,77 @@
     <div id="winner-box" class="hidden">
       <br>
       <p class="help-block">{% trans "If your bounty finally closed, we really encourage you to set the winner just bellow!" %}</p>
-      <!-- Winner Realm -->
-      <label id="winner-realms-label" for="winner-realms">
-        {% trans "Winner realm" %}
-      </label>
-      <select class="form-control" id="winner-realms">
-        <option value="">---</option>
-      </select>
-      <br>
-      <br>
-      <!-- End block -->
+
+      <div class="form-group">
+        <label id="winner-realms-label" for="winner-realms">
+          {% trans "Winner realm" %}
+        </label>
+        <select class="form-control" id="winner-realms">
+          <option value="">---</option>
+        </select>
+      </div>
       
-      <!-- Winner character -->
-      <label id="winner-character-label" for="winner-character">
-        {% trans "Winner name" %}
-      </label>
-      <input id="winner-character" class="form-control" type="text" />
-      <br>
-      <!-- End block -->
+      <div class="form-group">
+        <label id="winner-character-label" for="winner-character">
+          {% trans "Winner name" %}
+        </label>
+        <input id="winner-character" class="form-control" type="text" />
+      </div>
     </div>
   </div>
 
-  
+  <div class="form-group">
+    <label id="player-characters-label" for="player-characters" class="hidden">
+      {% trans "Choose your character that will be the bounty author" %}
+    </label>
+    <select class="form-control hidden" id="player-characters">
+      <option value="">---</option>
+    </select>
+  </div>
 
-  <!-- Player Character -->
-  <label id="player-characters-label" for="player-characters" class="hidden">
-    {% trans "Choose your character that will be the bounty author" %}
-  </label>
-  <select class="form-control hidden" id="player-characters">
-    <option value="">---</option>
-  </select>
-  <br>
-  <br>
-  <!-- End block -->
+  <div class="form-group">
+    <label id="realms-label" for="realms" class="hidden">
+      {% trans "Select the target realm" %}
+    </label>
+    <select class="form-control hidden" id="realms">
+      <option value="">---</option>
+    </select>
+  </div>
 
-  <!-- Realm -->
-  <label id="realms-label" for="realms" class="hidden">
-    {% trans "Select the target realm" %}
-  </label>
-  <select class="form-control hidden" id="realms">
-    <option value="">---</option>
-  </select>
-  <br>
-  <br>
-  <!-- End block -->
-  
-  <!-- Destination character -->
-  <label id="destination-character-label" for="realms" class="hidden">
-    {% trans "Write his name" %}
-  </label>
-  <input id="destination-character" class="form-control hidden" type="text" />
-  <br>
-  <label for="reward" id="reward-label" class="hidden">
-    {% trans "Choose the reward" %}
-  </label>
-  <small class="help hidden">
-    <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
-  </small>
-  <textarea class="form-control hidden" id="reward" rows="4" cols="50"></textarea>
-  <br>
-  <label for="description" id="description-label" class="hidden">
-    {% trans "Describe the bounty motivation and kill conditions" %}
-  </label>
-  <small class="help hidden">
-    <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
-  </small>
-  <textarea class="form-control hidden" id="description" rows="4" cols="50"></textarea>
-  <br>
-  <div class="checkbox hidden" id="is-private">
+  <div class="form-group">
+    <label id="destination-character-label" for="realms" class="hidden">
+      {% trans "Write his name" %}
+    </label>
+    <input id="destination-character" class="form-control hidden" type="text" />
+  </div>
+
+  <div class="form-group">
+    <label for="reward" id="reward-label" class="hidden">
+      {% trans "Choose the reward" %}
+    </label>
+    <small class="help hidden">
+      <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
+    </small>
+    <textarea class="form-control hidden" id="reward" rows="4" cols="50"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="description" id="description-label" class="hidden">
+      {% trans "Describe the bounty motivation and kill conditions" %}
+    </label>
+    <small class="help hidden">
+      <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
+    </small>
+    <textarea class="form-control hidden" id="description" rows="4" cols="50"></textarea>
+  </div>
+
+  <div class="form-group hidden" id="comments-closed">
+    <label>
+      <input id="comments-closed-input" type="checkbox"> {% trans "Are comments closed?" %}
+    </label>
+  </div>
+
+  <div class="form-group hidden" id="is-private">
     <label>
       <input id="is-private-input" type="checkbox"> {% trans "Is your bounty private?" %}
     </label>
@@ -97,7 +101,7 @@
       <p class="help-block">{% trans "Your bounty will not be visible in other unless you share link." %}</p>
     </small>
   </div>
-  <br>
+
   <div class="pull-right">
     <a id="bounty-return" href="#" class="btn btn-link hidden">{% trans "Return to bounty" %}</a>
     <button
@@ -124,6 +128,7 @@
   var reward = '';
   var description = '';
   var isPrivate = false;
+  var commentsClosed = false;
 
   function loadBounty(id) {
     $.ajax({
@@ -144,6 +149,7 @@
           description = data.description;
           selectedStatus = data.status;
           isPrivate = data.is_private;
+          commentsClosed = data.comments_closed
 
           // Set bounty
           $("#bounty-return").attr('href', '/bounty/' + id).removeClass('hidden');
@@ -170,7 +176,8 @@
           $("div#bounty-status-box").removeClass("hidden");
           if (isPrivate)
             $("input#is-private-input").prop('checked', true);
-
+          if (commentsClosed)
+            $("input#comments-closed-input").prop('checked', true);
           if (selectedStatus == "2") {
             $("div#winner-box").removeClass("hidden");
           }
@@ -227,6 +234,7 @@
     $("button#save").removeClass("hidden");
     $(".help").removeClass("hidden");
     $("div#is-private").removeClass("hidden");
+    $("div#comments-closed").removeClass("hidden");
   }
 
   function checkFields() {
@@ -238,6 +246,7 @@
     description = $("textarea#description").val();
     selectedStatus = $("select#bounty-status").val();
     isPrivate = $("input#is-private-input").prop('checked');
+    commentsClosed = $("input#comments-closed-input").prop('checked');
 
     var errorMessage = '';
     if (!selectedRegion)
@@ -277,6 +286,7 @@
       reward: reward,
       status: selectedStatus,
       is_private: isPrivate,
+      comments_closed: commentsClosed,
     };
 
     if (selectedStatus == "2") {
@@ -316,7 +326,7 @@
       alert(errors);
       $("button#save").button("reset");
       return;
-    }
+    };
 
 
     var bounty = {
@@ -328,7 +338,8 @@
       description: description,
       reward: reward,
       is_private: isPrivate,
-    }
+      comments_closed: commentsClosed,
+    };
     $.ajax({
       url: "/api/bounty",
       dataType: 'json',

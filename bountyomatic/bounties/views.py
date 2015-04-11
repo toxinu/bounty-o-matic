@@ -161,6 +161,7 @@ class BountyBaseView:
             'status': bounty.status,
             'status_display': bounty.get_status_display(),
             'is_private': bounty.is_private,
+            'comments_closed': bounty.comments_closed or bounty.comments_closed_by_staff,
             'source_armory': bounty.source_armory,
             'source_realm': bounty.source_realm,
             'source_realm_display': bounty.get_source_realm_display(),
@@ -226,11 +227,16 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
         reward = self.request.POST.get('reward')
         description = self.request.POST.get('description')
         is_private = self.request.POST.get('is_private')
+        comments_closed = self.request.POST.get('comments_closed')
 
         if is_private == "true":
             is_private = True
         else:
             is_private = False
+        if comments_closed == "true":
+            comments_closed = True
+        else:
+            comments_closed = False
 
         bounty = Bounty(
             user=self.request.user,
@@ -241,7 +247,8 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
             source_character=source_character,
             destination_realm=destination_realm,
             destination_character=destination_character,
-            is_private=is_private)
+            is_private=is_private,
+            comments_closed=comments_closed)
 
         try:
             bounty.clean_fields(exclude=('destination_faction', ))
@@ -262,7 +269,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     http_method_names = ['get', 'post']
     model = Bounty
     fields = [
-        'description', 'reward', 'status', 'source_character',
+        'description', 'reward', 'status', 'source_character', 'comments_closed',
         'source_realm', 'is_private', 'winner_character', 'winner_realm']
 
     def get(self, request, *args, **kwargs):
@@ -308,6 +315,11 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
         for field in self.fields:
             value = request.POST.get(field, None)
             if field == 'is_private':
+                if value == 'true':
+                    value = True
+                else:
+                    value = False
+            elif field == 'comments_closed':
                 if value == 'true':
                     value = True
                 else:
