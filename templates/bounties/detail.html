@@ -171,7 +171,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           {{ comment.character_name }} - {{ comment.character_realm_display }}<span class="hidden-xs">{% if comment.character_guild %} - {{ comment.character_guild }}{% endif %}</span>
-          {% if request.user.is_staff and comment.user == request.user.pk %}
+          {% if comment.user.is_staff %}
             <span class="label label-info">{% trans "Staff" %}</span>
           {% endif %}
           {% if comment.character_name == bounty.source_character and comment.character_realm == bounty.source_realm %}
