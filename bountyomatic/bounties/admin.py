@@ -12,9 +12,13 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'character', 'bounty',
         'added_date', 'is_hidden', 'external', )
-    list_editable = ('is_hidden', )
     list_filter = ('added_date', 'is_hidden', )
     search_fields = ('id', 'character_name', 'character_realm', )
+    actions = ('hide_comment', )
+
+    def hide_comment(self, request, queryset):
+        queryset.update(is_hidden=True)
+    hide_comment.short_description = _("Hide selected comment(s)")
 
     def battletag(self, obj):
         return '<a href="%s" target="_blank">%s</a>' % (

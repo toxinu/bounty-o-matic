@@ -74,6 +74,7 @@ class BountyBaseView:
                 'id': comment.pk,
                 'user': comment.user.pk,
                 'is_staff': comment.user.is_staff,
+                'is_hidden': comment.is_hidden,
                 'text': comment.text_as_html,
                 'edited': comment.edited,
                 'region': comment.bounty.region,
@@ -138,7 +139,7 @@ class BountyBaseView:
         comments_dict = {}
         if comments_page:
             comments_paginator = Paginator(
-                bounty.comment_set.filter(is_hidden=False).select_related('user'), 10)
+                bounty.comment_set.filter().select_related('user'), 10)
             comments_dict = {
                 'count': comments_paginator.count,
                 'num_pages': comments_paginator.num_pages,
