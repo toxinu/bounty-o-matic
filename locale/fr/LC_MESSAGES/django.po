@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-11 10:23+0000\n"
+"POT-Creation-Date: 2015-04-11 16:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: bountyomatic/accounts/admin.py:26 bountyomatic/bounties/admin.py:60
+#: bountyomatic/accounts/admin.py:27 bountyomatic/bounties/admin.py:64
 msgid "Battletag not found"
 msgstr "Battletag non trouvé"
 
-#: bountyomatic/accounts/admin.py:32
+#: bountyomatic/accounts/admin.py:33
 msgid "Refresh user BattleNet data"
 msgstr "Rafraichire les données BattleNet"
+
+#: bountyomatic/accounts/admin.py:42
+msgid "Ban user"
+msgstr "Bannir cet utilisateur"
 
 #: bountyomatic/accounts/views.py:46 bountyomatic/battlenet/views.py:24
 #: bountyomatic/battlenet/views.py:46
@@ -158,15 +162,19 @@ msgstr "Druide"
 msgid "Need region parameter."
 msgstr "Une région est requise."
 
-#: bountyomatic/bounties/admin.py:30 templates/bounties/list.html:88
+#: bountyomatic/bounties/admin.py:21
+msgid "Hide selected comment(s)"
+msgstr "Cacher les commentaires sélectionnés"
+
+#: bountyomatic/bounties/admin.py:34 templates/bounties/list.html:88
 msgid "View"
 msgstr "Voir"
 
-#: bountyomatic/bounties/admin.py:32 bountyomatic/bounties/admin.py:84
+#: bountyomatic/bounties/admin.py:36 bountyomatic/bounties/admin.py:88
 msgid "Context"
 msgstr "Contexte"
 
-#: bountyomatic/bounties/admin.py:77
+#: bountyomatic/bounties/admin.py:81
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -343,49 +351,49 @@ msgid "Comment limit reached. Wait before sending a new one."
 msgstr ""
 "Limite de commentaire atteinte. Attends un instant pour en poster un nouveau."
 
-#: bountyomatic/bounties/views.py:281 bountyomatic/bounties/views.py:302
-#: bountyomatic/bounties/views.py:356
+#: bountyomatic/bounties/views.py:283 bountyomatic/bounties/views.py:304
+#: bountyomatic/bounties/views.py:358
 msgid "Invalid bounty."
 msgstr "Prime invalide."
 
-#: bountyomatic/bounties/views.py:285 bountyomatic/bounties/views.py:306
-#: bountyomatic/bounties/views.py:501
+#: bountyomatic/bounties/views.py:287 bountyomatic/bounties/views.py:308
+#: bountyomatic/bounties/views.py:503
 msgid "Bounty does not exist."
 msgstr "Cette prime n'existe pas."
 
-#: bountyomatic/bounties/views.py:311
+#: bountyomatic/bounties/views.py:313
 msgid "Bounty is not yours."
 msgstr "Cette prime ne t'appartient pas."
 
-#: bountyomatic/bounties/views.py:477 bountyomatic/bounties/views.py:480
+#: bountyomatic/bounties/views.py:479 bountyomatic/bounties/views.py:482
 msgid "Can't found this comment."
 msgstr "Commentaire introuvable."
 
-#: bountyomatic/bounties/views.py:483
+#: bountyomatic/bounties/views.py:485
 msgid "This comment is not yours."
 msgstr "Ce commentaire ne t'appartient pas."
 
-#: bountyomatic/bounties/views.py:522
+#: bountyomatic/bounties/views.py:524
 msgid "Your comment is a spam."
 msgstr "Ton commentaire est un spam."
 
-#: bountyomatic/bounties/views.py:528
+#: bountyomatic/bounties/views.py:530
 msgid "Bad captcha"
 msgstr "Mauvaise captcha"
 
-#: bountyomatic/bounties/views.py:538
+#: bountyomatic/bounties/views.py:540
 msgid "Comment added."
 msgstr "Commentaire ajouté."
 
-#: bountyomatic/bounties/views.py:586
+#: bountyomatic/bounties/views.py:588
 msgid "Comment updated."
 msgstr "Commentaire mis à jour."
 
-#: bountyomatic/settings.py:201
+#: bountyomatic/settings.py:202
 msgid "English"
 msgstr "Anglais"
 
-#: bountyomatic/settings.py:202
+#: bountyomatic/settings.py:203
 msgid "French"
 msgstr "Français"
 
@@ -443,6 +451,16 @@ msgstr ""
 #: templates/accounts/home.html:16
 msgid "View bounties"
 msgstr "Voir les primes"
+
+#: templates/accounts/login-error.html:5
+msgid "Oups! Gobelins won't you open that door?"
+msgstr "Oups ! S'il vous plait les Gobelins, allez vous m'ouvrir cette porte ?"
+
+#: templates/accounts/login-error.html:7
+msgid ""
+"Error during login process. Maybe it's a BattleNet error or your Bounty-O-"
+"Matic account has been banned by Gobelins.<br>This is a sad day for you."
+msgstr "Erreur durant la connexion. Peut être est-ce une erreur BattleNet ou ton compte Bounty-O-Matic a été banni.<br>C'est une triste journée pour toi."
 
 #: templates/base.html:7
 msgid "Bounty-O-Matic - Bounties for World of Warcraft"
@@ -570,12 +588,12 @@ msgid "Bounty is incorrect"
 msgstr "La prime est incorrecte"
 
 #: templates/bounties/add.html:313 templates/bounties/add.html.py:360
-#: templates/bounties/comment-edit.html:84 templates/bounties/detail.html:297
+#: templates/bounties/comment-edit.html:84 templates/bounties/detail.html:301
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
 #: templates/bounties/add.html:395 templates/bounties/comment-edit.html:93
-#: templates/bounties/detail.html:319
+#: templates/bounties/detail.html:323
 msgid "Oops, no character found!"
 msgstr "Oups, aucun personnage trouvé !"
 
@@ -587,17 +605,17 @@ msgstr "Ton personnage"
 msgid "Markdown allowed but images and raw html won't be rendered:"
 msgstr "Markdown autorisé. Images et html non rendus :"
 
-#: templates/bounties/comment-edit.html:49 templates/bounties/detail.html:258
+#: templates/bounties/comment-edit.html:49 templates/bounties/detail.html:262
 msgid "Need a character to comment."
 msgstr "Il faut un personnage pour commenter."
 
-#: templates/bounties/comment-edit.html:51 templates/bounties/detail.html:260
+#: templates/bounties/comment-edit.html:51 templates/bounties/detail.html:264
 msgid "Comment can not be empty."
 msgstr "Ton commentaire ne peut être vide."
 
 #: templates/bounties/comment-edit.html:53
-#: templates/bounties/comment-edit.html:86 templates/bounties/detail.html:264
-#: templates/bounties/detail.html.py:299
+#: templates/bounties/comment-edit.html:86 templates/bounties/detail.html:268
+#: templates/bounties/detail.html.py:303
 msgid "Comment is incorrect"
 msgstr "Le commentaire incorrect"
 
@@ -605,7 +623,7 @@ msgstr "Le commentaire incorrect"
 msgid "Bounty"
 msgstr "Prime"
 
-#: templates/bounties/detail.html:9 templates/bounties/detail.html.py:221
+#: templates/bounties/detail.html:9 templates/bounties/detail.html.py:225
 #: templates/bounties/list.html:111
 msgid "on"
 msgstr "sur"
@@ -679,19 +697,23 @@ msgstr "Commentaires désactivés."
 msgid "Staff"
 msgstr "Staff"
 
-#: templates/bounties/detail.html:200
+#: templates/bounties/detail.html:201
+msgid "This comment has been hidden by the Bounty-O-Matic Gobelins."
+msgstr "Ce commentaire a été caché part les Gobelins de Bounty-O-Matic pour votre bien."
+
+#: templates/bounties/detail.html:203
 msgid "Edited at"
 msgstr "Édité le"
 
-#: templates/bounties/detail.html:221 templates/bounties/list.html:111
+#: templates/bounties/detail.html:225 templates/bounties/list.html:111
 msgid "Page"
 msgstr "Page"
 
-#: templates/bounties/detail.html:241
+#: templates/bounties/detail.html:245
 msgid "Bounty not found."
 msgstr "Cette prime ne t'appartient pas."
 
-#: templates/bounties/detail.html:262
+#: templates/bounties/detail.html:266
 msgid "Missing captcha."
 msgstr "Il manque le captcha."
 
