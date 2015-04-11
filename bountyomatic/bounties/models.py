@@ -311,11 +311,11 @@ class Comment(models.Model):
         ordering = ['-added_date']
         verbose_name_plural = _('comments')
 
-    def clean(self, as_admin=False):
-        if self.bounty.comments_closed and not as_admin:
+    def clean(self, as_staff=False):
+        if self.bounty.comments_closed and not as_staff:
             raise ValidationError(_('Comments are closed.'))
 
-        if self.bounty.comments_closed_by_staff and not as_admin:
+        if self.bounty.comments_closed_by_staff and not as_staff:
             raise ValidationError(_('Comments are closed.'))
 
         if not is_player_character(
@@ -331,7 +331,7 @@ class Comment(models.Model):
                 _("Your character is below level 10 or on an inactive account."))
         self.character_name = character.get('name')
 
-        if not as_admin and Comment.objects.filter(
+        if not as_staff and Comment.objects.filter(
                 user=self.user,
                 added_date__gte=timezone.make_aware(
                     datetime.datetime.now(),

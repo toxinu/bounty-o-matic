@@ -510,7 +510,7 @@ class CommentAPIView(CommentBaseView, CSRFExemptMixin, View):
             character_realm=character_realm,
             user_ip=self.request.META.get('REMOTE_ADDR'))
         try:
-            comment.clean()
+            comment.clean(as_staff=request.user.is_staff)
             if akismet.verify_key():
                 if akismet.comment_check(
                         request.META.get('REMOTE_ADDR', ''),
@@ -576,7 +576,7 @@ class CommentDetailAPIView(CommentBaseView, CSRFExemptMixin, View):
             comment.character_realm = self.request.POST.get('character_realm')
 
         try:
-            comment.clean()
+            comment.clean(as_staff=request.user.is_staff)
             comment.save()
         except ValidationError as err:
             return HttpResponseBadRequest(json.dumps(
