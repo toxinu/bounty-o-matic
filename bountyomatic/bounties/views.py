@@ -416,7 +416,7 @@ class BountyListView(BountyBaseView, TemplateView):
         filter_kwargs = self.get_filter_kwargs(params)
 
         p = Paginator(self.model.objects.defer('description', 'reward').filter(
-            **filter_kwargs).select_related('user'), 50)
+            **filter_kwargs).select_related('user'), 20)
         try:
             bounties = self.get_serializable_bounty_list(
                 p.page(page), as_datetime=True)
