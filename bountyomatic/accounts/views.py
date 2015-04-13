@@ -1,7 +1,6 @@
 import json
 
 from django.http import HttpResponse
-from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.views.generic import View
 from django.views.generic import TemplateView
@@ -10,14 +9,6 @@ from django.utils.translation import ugettext as _
 from ..mixins import CacheMixin
 
 from ..battlenet.api import refresh_player_cache
-
-
-class LogoutView(View):
-    http_method_names = ['get']
-
-    def get(self, request, *args, **kwargs):
-        logout(request)
-        return redirect('home')
 
 
 class HomeView(TemplateView):
