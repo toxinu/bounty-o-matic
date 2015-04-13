@@ -34,6 +34,9 @@ dl.bounty-detail dd,dt{
 .comment-edited {
   font-size: 70%;
 }
+.pagination>li>span:hover {
+  background-color: #00bc8c;
+}
 .navbar-brand img {
   margin-top: -20px;
 }
