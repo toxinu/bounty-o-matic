@@ -116,54 +116,64 @@
   <hr>
   <div id="comments">
     <h3>{% trans "Discussion" %} <small>{% if bounty.comments.count %}({{ bounty.comments.count }}){% endif %}</small></h3> 
-    <small class="help">
-      <p class="help-block">{% trans "Discuss with other mercenaries interested in this bounty." %}</p>
-    </small>
-    <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#addCommentCollapse" aria-expanded="false" aria-controls="collapseExample">
-      {% trans "Add a comment" %} <span class="caret"></span>
-    </button>
-    <div class="collapse" id="addCommentCollapse">
+    {% if not bounty.comments_closed or request.user.is_staff %}
+      {% if bounty.comments_closed %}
+        <p class="text-danger"><strong>{% trans "You can comment only because you are a staff user." %}</strong></p>
+      {% endif %}
+      <small class="help">
+        <p class="help-block">{% trans "Discuss with other mercenaries interested in this bounty." %}</p>
+      </small>
+      <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#addCommentCollapse" aria-expanded="false" aria-controls="collapseExample">
+        {% trans "Add a comment" %} <span class="caret"></span>
+      </button>
       <br>
-      {% if user.is_authenticated %}
-        <form id="comment-form" style="display:none">
-          <label id="player-characters-label" for="player-characters">
-            {% trans "Your character" %}
-          </label>
-          <select class="form-control" id="player-characters">
-            <option value="">---</option>
-          </select>
-          <br>
-          <br>
-          <label for="reward" id="comment-input-label">
-            {% trans "Comment" %}
-          </label>
-          <small class="help">
-            <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
-          </small>
-          <textarea
-              class="form-control"
-              id="comment-input"
-              rows="4"
-              cols="50"></textarea>
-          <br>
-          <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="{{ RECAPTCHA_KEY }}"></div>
-          <button class="btn btn-success pull-right" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
-            {% trans "Publish" %}
-          </button>
-          <div class="clearfix"></div>
-        </form>
-        <hr>
+      <div class="collapse" id="addCommentCollapse">
+        <br>
+        {% if user.is_authenticated %}
+          <form id="comment-form" style="display:none">
+            <label id="player-characters-label" for="player-characters">
+              {% trans "Your character" %}
+            </label>
+            <select class="form-control" id="player-characters">
+              <option value="">---</option>
+            </select>
+            <br>
+            <br>
+            <label for="reward" id="comment-input-label">
+              {% trans "Comment" %}
+            </label>
+            <small class="help">
+              <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
+            </small>
+            <textarea
+                class="form-control"
+                id="comment-input"
+                rows="4"
+                cols="50"></textarea>
+            <br>
+            <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="{{ RECAPTCHA_KEY }}"></div>
+            <button class="btn btn-success pull-right" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
+              {% trans "Publish" %}
+            </button>
+            <div class="clearfix"></div>
+          </form>
+          <hr>
+        {% else %}
+          <p>{% trans "You need to be logged in to post a comment." %}</p>
+        {% endif %}
       {% else %}
-        <p>{% trans "You need to be logged in to post a comment." %}</p>
+        <p><strong>{% trans "Comments are disabled." %}</strong></p>
       {% endif %}
     </div>
-    <br>
     <br>
     {% timezone user_timezone %}
     {% for comment in bounty.comments.objects %}
       <div class="panel panel-default">
         <div class="panel-heading">
           {{ comment.character_name }} - {{ comment.character_realm_display }}<span class="hidden-xs">{% if comment.character_guild %} - {{ comment.character_guild }}{% endif %}</span>
+          {% if comment.is_staff %}
+            <span class="label label-info">{% trans "Staff" %}</span>
+          {% endif %}
           {% if comment.character_name == bounty.source_character and comment.character_realm == bounty.source_realm %}
             <span class="label label-primary">{% trans "Author" %}</span>
           {% elif comment.character_name == bounty.destination_character and comment.character_realm == bounty.destination_realm %}
@@ -187,7 +197,11 @@
                 <img class="img-rounded media-object character-thumbnail" src="{{ comment.character_thumbnail }}" onerror="this.onerror = null; this.src='{{ comment.character_thumbnail_fallback }}'">
               </a>
             </div>
-            <div class="media-body comment-text">{{ comment.text|safe }}{% if comment.edited %}<hr><span class="comment-edited">{% trans "Edited at" %} {{ comment.updated_date|date:"l d M Y" }} {{ comment.updated_date|time:"H:i" }}</span>{% endif %}</div>
+            {% if comment.is_hidden %}
+              <div class="media-body comment-text"><strong>{% trans "This comment has been hidden by the Bounty-O-Matic Gobelins." %}</strong></div>
+            {% else %}
+              <div class="media-body comment-text">{{ comment.text|safe }}{% if comment.edited %}<hr><span class="comment-edited">{% trans "Edited at" %} {{ comment.updated_date|date:"l d M Y" }} {{ comment.updated_date|time:"H:i" }}</span>{% endif %}</div>
+            {% endif %}
           </div>
         </div>
       </div>

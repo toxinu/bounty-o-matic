@@ -73,6 +73,8 @@ class BountyBaseView:
             objects.append({
                 'id': comment.pk,
                 'user': comment.user.pk,
+                'is_staff': comment.user.is_staff,
+                'is_hidden': comment.is_hidden,
                 'text': comment.text_as_html,
                 'edited': comment.edited,
                 'region': comment.bounty.region,
@@ -137,7 +139,7 @@ class BountyBaseView:
         comments_dict = {}
         if comments_page:
             comments_paginator = Paginator(
-                bounty.comment_set.filter(is_hidden=False).select_related('user'), 10)
+                bounty.comment_set.filter().select_related('user'), 10)
             comments_dict = {
                 'count': comments_paginator.count,
                 'num_pages': comments_paginator.num_pages,
@@ -161,6 +163,7 @@ class BountyBaseView:
             'status': bounty.status,
             'status_display': bounty.get_status_display(),
             'is_private': bounty.is_private,
+            'comments_closed': bounty.comments_closed or bounty.comments_closed_by_staff,
             'source_armory': bounty.source_armory,
             'source_realm': bounty.source_realm,
             'source_realm_display': bounty.get_source_realm_display(),
@@ -232,11 +235,16 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
         reward = self.request.POST.get('reward')
         description = self.request.POST.get('description')
         is_private = self.request.POST.get('is_private')
+        comments_closed = self.request.POST.get('comments_closed')
 
         if is_private == "true":
             is_private = True
         else:
             is_private = False
+        if comments_closed == "true":
+            comments_closed = True
+        else:
+            comments_closed = False
 
         bounty = Bounty(
             user=self.request.user,
@@ -247,7 +255,8 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
             source_character=source_character,
             destination_realm=destination_realm,
             destination_character=destination_character,
-            is_private=is_private)
+            is_private=is_private,
+            comments_closed=comments_closed)
 
         try:
             bounty.clean_fields(exclude=('destination_faction', ))
@@ -268,7 +277,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     http_method_names = ['get', 'post']
     model = Bounty
     fields = [
-        'description', 'reward', 'status', 'source_character',
+        'description', 'reward', 'status', 'source_character', 'comments_closed',
         'source_realm', 'is_private', 'winner_character', 'winner_realm']
 
     def get(self, request, *args, **kwargs):
@@ -319,6 +328,11 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
         for field in self.fields:
             value = request.POST.get(field, None)
             if field == 'is_private':
+                if value == 'true':
+                    value = True
+                else:
+                    value = False
+            elif field == 'comments_closed':
                 if value == 'true':
                     value = True
                 else:
@@ -413,7 +427,7 @@ class BountyListView(BountyBaseView, TemplateView):
         filter_kwargs = self.get_filter_kwargs(params)
 
         p = Paginator(self.model.objects.defer('description', 'reward').filter(
-            **filter_kwargs).select_related('user'), 50)
+            **filter_kwargs).select_related('user'), 20)
         try:
             bounties = self.get_serializable_bounty_list(
                 p.page(page), as_datetime=True)
@@ -514,7 +528,7 @@ class CommentAPIView(CommentBaseView, CSRFExemptMixin, View):
             character_realm=character_realm,
             user_ip=self.request.META.get('REMOTE_ADDR'))
         try:
-            comment.clean()
+            comment.clean(as_staff=request.user.is_staff)
             if akismet.verify_key():
                 if akismet.comment_check(
                         request.META.get('REMOTE_ADDR', ''),
@@ -580,7 +594,7 @@ class CommentDetailAPIView(CommentBaseView, CSRFExemptMixin, View):
             comment.character_realm = self.request.POST.get('character_realm')
 
         try:
-            comment.clean()
+            comment.clean(as_staff=request.user.is_staff)
             comment.save()
         except ValidationError as err:
             return HttpResponseBadRequest(json.dumps(

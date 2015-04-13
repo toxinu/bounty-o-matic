@@ -71,6 +71,10 @@ class Bounty(models.Model):
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("Latest update"))
 
     is_private = models.BooleanField(default=False, verbose_name=_('Is private'))
+    comments_closed = models.BooleanField(
+        default=False, verbose_name=_('Comments closed'))
+    comments_closed_by_staff = models.BooleanField(
+        default=False, verbose_name=_('Comments closed by staff'))
 
     class Meta:
         verbose_name_plural = _('bounties')
@@ -307,7 +311,13 @@ class Comment(models.Model):
         ordering = ['-added_date']
         verbose_name_plural = _('comments')
 
-    def clean(self):
+    def clean(self, as_staff=False):
+        if self.bounty.comments_closed and not as_staff:
+            raise ValidationError(_('Comments are closed.'))
+
+        if self.bounty.comments_closed_by_staff and not as_staff:
+            raise ValidationError(_('Comments are closed.'))
+
         if not is_player_character(
                 self.user,
                 self.character_name,
@@ -321,7 +331,7 @@ class Comment(models.Model):
                 _("Your character is below level 10 or on an inactive account."))
         self.character_name = character.get('name')
 
-        if not self.user.is_staff and Comment.objects.filter(
+        if not as_staff and Comment.objects.filter(
                 user=self.user,
                 added_date__gte=timezone.make_aware(
                     datetime.datetime.now(),
