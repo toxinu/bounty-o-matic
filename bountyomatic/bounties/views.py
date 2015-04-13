@@ -1,10 +1,10 @@
 import json
-
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.views.generic import View
 from django.views.generic import TemplateView
+from django.contrib.auth import logout
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
@@ -218,6 +218,12 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
         return HttpResponse(json.dumps(result), content_type='application/json')
 
     def post(self, request, *args, **kwargs):
+        if not self.request.user.is_active:
+            logout(self.request)
+            return HttpResponseForbidden(
+                json.dumps({'status': 'nok', 'reason': _('Your account is not active.')}),
+                content_type="application/json")
+
         region = self.request.POST.get('region')
         source_realm = self.request.POST.get('source_realm')
         source_character = self.request.POST.get('source_character')
@@ -302,6 +308,11 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
         if bounty.user != self.request.user:
             return HttpResponseForbidden(
                 json.dumps({'status': 'nok', 'reason': _('Bounty is not yours.')}),
+                content_type="application/json")
+        if not self.request.user.is_active:
+            logout(self.request)
+            return HttpResponseForbidden(
+                json.dumps({'status': 'nok', 'reason': _('Your account is not active.')}),
                 content_type="application/json")
 
         modified = False
@@ -453,6 +464,12 @@ class CommentBaseView:
         }
 
     def clean(self):
+        if not self.request.user.is_active:
+            logout(self.request)
+            return HttpResponseForbidden(
+                json.dumps({'status': 'nok', 'reason': _('Your account is not active.')}),
+                content_type="application/json")
+
         bounty_id = self.kwargs.get('bounty_id')
         comment_id = self.kwargs.get('comment_id')
         try:
