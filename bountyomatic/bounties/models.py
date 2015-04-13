@@ -3,7 +3,6 @@ import datetime
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-from django.utils.html import strip_tags
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -177,8 +176,6 @@ class Bounty(models.Model):
             self.winner_character = winner.get('name')
             self.winner_realm = self.winner_realm.strip()
 
-        self.reward = strip_tags(self.reward)
-        self.description = strip_tags(self.description)
         self.source_realm = self.source_realm.strip()
         self.destination_realm = self.destination_realm.strip()
 
@@ -341,7 +338,6 @@ class Comment(models.Model):
                 _("Comment limit reached. Wait before sending a new one."))
 
         self.character_realm = self.character_realm.strip()
-        self.text = strip_tags(self.text)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
