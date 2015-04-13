@@ -11,8 +11,8 @@ from ..battlenet.api import get_player_battletag
 
 class CustomUserAdmin(UserAdmin):
     list_display = (
-        'username', 'battletag', 'email',
-        'date_joined', 'last_login', 'is_staff',)
+        'username', 'battletag', 'email', 'date_joined',
+        'last_login', 'is_staff', 'is_active', )
     ordering = ('-date_joined', )
     actions = ('refresh_user_data', 'ban_user', )
 
