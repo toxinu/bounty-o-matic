@@ -208,37 +208,39 @@
     {% endfor %}
     {% endtimezone %}
     {% if bounty.comments.num_pages > 1 %}
-      <nav>
-        <ul class="pagination pagination-sm">
-          {% if bounty.comments.has_previous %}
+      <center>
+        <nav>
+          <ul class="pagination pagination-sm">
+            {% if bounty.comments.has_previous %}
+              <li>
+                <a href="?comments_page={{ bounty.comments.previous_page_number }}#comments" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+              </li>
+            {% endif %}
             <li>
-              <a href="?comments_page={{ bounty.comments.previous_page_number }}#comments" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
+              <span class="current">{% trans "Page" %} {{ bounty.comments.page }} {% trans "on" %} {{ bounty.comments.num_pages }}</span>
             </li>
-          {% else %}
-            <li class="disabled">
-              <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+            {% if bounty.comments.has_next %}
+              <li>
+                <a href="?comments_page={{ bounty.comments.next_page_number }}#comments" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% endif %}
             </li>
-          {% endif %}
-          <li>
-            <span class="current">{% trans "Page" %} {{ bounty.comments.page }} {% trans "on" %} {{ bounty.comments.num_pages }}</span>
-          </li>
-          {% if bounty.comments.has_next %}
-            <li>
-              <a href="?comments_page={{ bounty.comments.next_page_number }}#comments" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          {% else %}
-            <li class="disabled">
-              <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          {% endif %}
-          </li>
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      </center>
     {% endif %}
   </div>
 {% else %}
