@@ -326,7 +326,7 @@ class Comment(models.Model):
                 added_date__gte=timezone.make_aware(
                     datetime.datetime.now(),
                     timezone.get_current_timezone()) - datetime.timedelta(
-                        minutes=1)).exists():
+                        minutes=3)).exists() and self.pk is None:
             raise ValidationError(
                 _("Comment limit reached. Wait before sending a new one."))
 
