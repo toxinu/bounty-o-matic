@@ -60,6 +60,4 @@ def parse_bounty(raw_text):
 
 def parse_comment(raw_text):
     return markdown.markdown(
-        bleach.clean(raw_text),
-        [commentMarkdownExtension, urlizeExtension],
-        safe_mode='escape')
+        raw_text, [commentMarkdownExtension, urlizeExtension], safe_mode='escape')
