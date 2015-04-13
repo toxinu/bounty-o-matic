@@ -122,7 +122,7 @@ class BountyBaseView:
                     'guild', {}).get('name'),
                 'added_date': added_date,
                 'updated_date': updated_date,
-                'comments_count': bounty.comment_set.filter(is_hidden=False).count()
+                'comments_count': bounty.comment_set.filter().count()
             })
         return objects
 
