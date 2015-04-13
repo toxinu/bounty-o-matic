@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-13 09:03+0000\n"
+"POT-Creation-Date: 2015-04-13 09:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,12 +30,12 @@ msgstr "Rafraichire les données BattleNet"
 msgid "Ban user"
 msgstr "Bannir cet utilisateur"
 
-#: bountyomatic/accounts/views.py:46 bountyomatic/battlenet/views.py:24
+#: bountyomatic/accounts/views.py:37 bountyomatic/battlenet/views.py:24
 #: bountyomatic/battlenet/views.py:46
 msgid "Need an authenticated user."
 msgstr "Utilisateur authentifié requis."
 
-#: bountyomatic/accounts/views.py:53
+#: bountyomatic/accounts/views.py:44
 msgid "All data refreshed. You'll be able to refresh again in 5 minutes."
 msgstr ""
 "Toutes tes données ont été actualisées. Tu pourras les re-actualiser dans 5 "
@@ -458,16 +458,16 @@ msgid "View bounties"
 msgstr "Voir les primes"
 
 #: templates/accounts/login-error.html:5
-msgid "Oups! Gobelins won't you open that door?"
-msgstr "Oups ! S'il vous plait les Gobelins, allez vous m'ouvrir cette porte ?"
+msgid "Oups! Won't you open that door?"
+msgstr "Oups ! Allez vous m'ouvrir cette porte ?"
 
 #: templates/accounts/login-error.html:7
 msgid ""
-"Error during login process. Maybe it's a BattleNet error or your Bounty-O-"
-"Matic account has been banned by Gobelins.<br>This is a sad day for you."
+"Error during login process. Maybe it's a BattleNet error or Gobelins have "
+"banned your Bounty-O-Matic.<br>This is a sad day for you."
 msgstr ""
-"Erreur durant la connexion. Peut être est-ce une erreur BattleNet ou ton "
-"compte Bounty-O-Matic a été banni.<br>C'est une triste journée pour toi."
+"Erreur durant la connexion. Peut être est-ce une erreur BattleNet ou les Gobelins "
+"de Bounty-O-Matic ont banni ton compte.<br>C'est une triste journée pour toi."
 
 #: templates/base.html:7
 msgid "Bounty-O-Matic - Bounties for World of Warcraft"
