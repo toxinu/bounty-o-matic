@@ -124,9 +124,9 @@ def is_character_exists(region, realm, character):
     return False, None
 
 
-# 1 hour
-@memoize(timeout=60 * 60 * 1)
-def get_character(region, realm, character):
+# 1 day
+@memoize(timeout=60 * 60 * 24 * 1)
+def get_character(region, realm, character, seed=None):
     r = _retry('http://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
         region, realm, character))
     if not r or r.json().get('status') == 'nok':
@@ -147,8 +147,8 @@ def is_player_character(user, character, realm, regions=None):
     return False
 
 
-# 1 day
-@memoize(timeout=60 * 60 * 24 * 1)
+# 3 days
+@memoize(timeout=60 * 60 * 24 * 3)
 def get_player_characters(user, regions=None):
     if not isinstance(user, User):
         user = User.objects.get(pk=user)
