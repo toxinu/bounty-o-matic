@@ -1,8 +1,13 @@
 import time
 import schedule
-from .carotte import refresh_characters
+from carotte import Client
 
-schedule.every(20).hours.do(refresh_characters)
+
+def run_task(task_name, *args, **kwargs):
+    client = Client()
+    client.run_task(task_name, *args, **kwargs)
+
+schedule.every(20).hours.do(run_task, 'refresh_characters')
 
 while True:
     schedule.run_pending()
