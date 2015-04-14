@@ -199,8 +199,8 @@ except ImportError:
 
 from django.utils.translation import ugettext_lazy as _
 LANGUAGES = (
-    ('en_US', _('English')),
-    ('fr_FR', _('French')),
+    ('en-us', _('English')),
+    ('fr-fr', _('French')),
 )
 DEFAULT_LANGUAGE = 1
 LOCALE_PATHS = (
