@@ -5,11 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <base href="{{ SITE_URL }}">
   <style type="text/css">
-    @page {
-      margin: 0;
-      height: 140px;
-      width:450px;
-    }
+    @page {margin: 0;height: 140px;width:450px;}
     body{font-family: 'Lato', sans-serif;color: #fff; margin: 0; padding: 0;}
 
     #bloc-alliance{width:450px; height:140px;background-image: url('{% static "bountyomatic/img/export/bloc_ally.png" %}');}
@@ -28,9 +24,7 @@
   </style>
 </head>
 <body>
-{% if bounty.destination_faction == 0 %}
-  <!-- Signature Alliance -->
-  <div id="bloc-alliance">
+  <div id="{% if bounty.destination_faction == 0 %}bloc-alliance{% else %}bloc-horde{% endif %}">
     <div class="avatar">
       <div class="target"></div>
       <img src="{{ bounty.destination_thumbnail }}"/>
@@ -40,26 +34,8 @@
       {%  if bounty.destination_class_display and bounty.get_destination_realm_display %}
         <p>{{ bounty.destination_class_display }} - {{ bounty.get_destination_realm_display }}</p>
       {% endif %}
-      <p class="horde">{% trans "Prime crée le" %} 13/04 {% trans "par" %} {{ bounty.source_character }}</p>
+      <p class="{% if bounty.destination_faction == 0 %}horde{% else %}alliance{% endif %}">{% trans "Bounty was added" %} {{ bounty.added_date|date:"d/m" }} {% trans "by" %} {{ bounty.source_character }}</p>
     </div>
   </div>
-  <!-- Signature Alliance FIN -->
-{% else %}
-  <!-- Signature Horde -->
-  <div id="bloc-horde">
-    <div class="avatar">
-      <div class="target"></div>
-      <img src="{{ bounty.destination_thumbnail }}"/>
-    </div>
-    <div class="infos">
-      <h1>{{ bounty.destination_character}}{% if bounty.destination_guild %} <span class="small">- {{ bounty.destination_guild|truncatechars:22 }}</span>{% endif %}</h1>
-      {%  if bounty.destination_class_display and bounty.get_destination_realm_display %}
-        <p>{{ bounty.destination_class_display }} - {{ bounty.get_destination_realm_display }}</p>
-      {% endif %}
-      <p class="ally">{% trans "Prime crée le" %} 13/04 {% trans "par" %} {{ bounty.source_character }}</p>
-    </div>
-  </div>
-  <!-- Signature Horde FIN -->
-{% endif %}
 </body>
 </html>
