@@ -3,6 +3,7 @@
 {% load i18n %}
 
 {% block content %}
+{% get_current_language as LANGUAGE_CODE %}
 {% if bounty %}
   <h1>
     {% trans "Bounty" %} <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} - {{ bounty.destination_guild }}</small>
@@ -109,6 +110,16 @@
           <h3 class="panel-title">{% trans "Description" %}</h3>
         </div>
         <div class="panel-body" id="bounty-description">{{ bounty.description_as_html|safe }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon input-sm">{% trans "Bounty signature" %} <abbr title="{% trans 'You can use this link on forum or everywhere you want to spread this bounty!' %}"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></abbr></div>
+          <input class="form-control input-sm" onclick="this.select()" type="text" readonly value="{{ SITE_URL }}{% url 'bounty-signature' bounty.id %}?locale={{ LANGUAGE_CODE }}">
+        </div>
       </div>
     </div>
   </div>
