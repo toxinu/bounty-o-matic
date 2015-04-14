@@ -30,8 +30,8 @@ urlpatterns = patterns(
     url(r'^bounty/(?P<bounty_id>\d+)/comment/(?P<comment_id>\d+)$',
         bounties_views.CommentEditView.as_view(), name='comment-detail'),
     # API
-    url(r'^api/bounty/(?P<bounty_id>\d+)/export',
-        bounties_views.BountyExportAPIView.as_view(), name='api-bounty-export'),
+    url(r'^api/bounty/(?P<bounty_id>\d+)/signature',
+        bounties_views.BountySignatureAPIView.as_view(), name='api-bounty-signature'),
     url(r'^api/bounty/(?P<bounty_id>\d+)/comment/(?P<comment_id>\d+)',
         bounties_views.CommentDetailAPIView.as_view(), name='api-comment-detail'),
     url(r'^api/bounty/(?P<bounty_id>\d+)/comment',
