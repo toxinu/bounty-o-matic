@@ -1,17 +1,16 @@
-import datetime
-from uuid import uuid4
-
-from .api import get_character
-from ..bounties.models import Bounty
-
-from django.utils import timezone
-from django.core.cache import cache
-
-from ..carotte.app import task
+from bountyomatic.carotte import app
 
 
-@task
+@app.task
 def refresh_characters():
+    from django.utils import timezone
+    from django.core.cache import cache
+    import datetime
+    from uuid import uuid4
+
+    from .api import get_character
+    from ..bounties.models import Bounty
+
     already_refreshed = []
     # 24 hours timeout
     # It means that this task must not be longer that 4 hours

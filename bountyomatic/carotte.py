@@ -6,3 +6,5 @@ from carotte import Carotte
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bountyomatic.settings')
 
 app = Carotte()
+
+from .battlenet import tasks
