@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from .utils import markdown
+from ..storage import OverwriteStorage
 from ..battlenet.api import CLASSES
 from ..battlenet.api import FACTIONS
 from ..battlenet.api import get_character
@@ -283,10 +284,18 @@ class Bounty(models.Model):
 
 
 class BountyImage(models.Model):
-    bounty = models.OneToOneField(Bounty)
+    bounty = models.ForeignKey(Bounty)
     updated_date = models.DateTimeField(
         auto_now=True, verbose_name=_("Latest update"), db_index=True)
-    image = models.ImageField(upload_to="bounties")
+    image = models.ImageField(upload_to="bounties", storage=OverwriteStorage())
+    language = models.CharField(max_length=5, choices=settings.LANGUAGES)
+
+    class Meta:
+        unique_together = (('bounty', 'language',),)
+
+    def clean(self):
+        if self.language not in [l[0] for l in settings.LANGUAGES]:
+            raise ValidationError(_("Locale not available."))
 
     def is_expired(self, expire_at=60 * 60 * 24 * 1):
         # Default is 1 day
