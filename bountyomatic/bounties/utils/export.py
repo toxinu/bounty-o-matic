@@ -14,7 +14,7 @@ def render_bounty(bounty, language):
         bounty_image = BountyImage.objects.get(bounty=bounty, language=language)
     except BountyImage.DoesNotExist:
         pass
-    if not bounty_image or bounty_image.is_expired(expire_at=1):
+    if not bounty_image or bounty_image.is_expired():
         if not bounty_image:
             bounty_image = BountyImage(bounty=bounty, language=language)
 
