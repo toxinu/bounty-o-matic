@@ -356,7 +356,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
             content_type="application/json")
 
 
-class BountyExportAPIView(View):
+class BountySignatureAPIView(View):
     http_method_names = ['get']
 
     def get(self, request, *args, **kwargs):
@@ -389,8 +389,10 @@ class BountyDetailView(BountyBaseView, TemplateView):
 
         try:
             bounty = Bounty.objects.select_related('user').get(pk=bounty_id)
-            context.update({'bounty': self.get_serializable_bounty_detail(
-                bounty, comments_page, as_datetime=True)})
+            context.update({
+                'bounty': self.get_serializable_bounty_detail(
+                    bounty, comments_page, as_datetime=True),
+                'SITE_URL': settings.SITE_URL})
         except (Bounty.DoesNotExist, ValueError):
             pass
 
