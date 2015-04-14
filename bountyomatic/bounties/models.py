@@ -266,6 +266,14 @@ class Bounty(models.Model):
         return str(CLASSES.get(self.winner_detail.get('class', ''), '')) or None
 
     @property
+    def source_guild(self):
+        return str(self.source_detail.get('guild', {}).get('name'),)
+
+    @property
+    def destination_guild(self):
+        return str(self.destination_detail.get('guild', {}).get('name'),)
+
+    @property
     def reward_as_html(self):
         return markdown.parse_bounty(self.reward)
 
