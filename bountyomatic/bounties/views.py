@@ -360,8 +360,7 @@ class BountyExportAPIView(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            bounty = Bounty.objects.prefetch_related('comment_set').get(
-                pk=int(self.kwargs.get('bounty_id')))
+            bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
             return HttpResponse(
                 export.render_bounty(bounty), content_type="image/png")
         except ValueError:
