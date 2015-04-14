@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
 from django.core.exceptions import ValidationError
+from django.utils import translation
 from django.utils.translation import ugettext as _
 
 from .models import Bounty
@@ -360,13 +361,18 @@ class BountyExportAPIView(View):
 
     def get(self, request, *args, **kwargs):
         try:
+            language = request.GET.get('locale') or translation.get_language()
             bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
+            translation.activate(language)
             return HttpResponse(
-                export.render_bounty(bounty), content_type="image/png")
+                export.render_bounty(bounty, language), content_type="image/png")
         except ValueError:
-            return HttpResponseBadRequest(
-                json.dumps({'status': 'nok', 'reason': _('Invalid bounty.')}),
-                content_type="application/json")
+            reasons = [_('Invalid bounty.')]
+        except ValidationError as err:
+            reasons = err.messages
+        return HttpResponseBadRequest(
+            json.dumps({'status': 'nok', 'reasons': reasons}),
+            content_type="application/json")
 
 
 class BountyDetailView(BountyBaseView, TemplateView):
