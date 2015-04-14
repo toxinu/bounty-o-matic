@@ -31,3 +31,11 @@ rm -r bountyomatic/*/migrations
 ./manage.py syncdb
 ./manage.py migrate
 ```
+
+## Install fonts for bounty export (Linux)
+
+```
+mkdir -p /usr/share/fonts/truetype/google-fonts
+find static/bountyomatic/fonts/ -name "Lato-*.ttf" -exec sudo install -m644 {} /usr/share/fonts/truetype/google-fonts/ \;
+fc-cache -f
+```
