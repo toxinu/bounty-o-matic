@@ -24,6 +24,14 @@ body {margin-top:100px}
 a.character-armory-link {
 	color:white;
 }
+.target{
+  width: 30px;
+  height: 30px;
+  background-image: url('../img/export/target.png');
+  position: absolute;
+  margin-top: 52px;
+  margin-left: 50px;
+}
 dl.bounty-detail dd,dt{
 	line-height: 25px
 }
