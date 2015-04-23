@@ -1,5 +1,5 @@
 from bountyomatic.carotte import app
-print('dick')
+
 
 @app.task
 def refresh_characters():
