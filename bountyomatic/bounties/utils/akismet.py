@@ -17,8 +17,14 @@ class AkismetError(Exception):
 
 
 def __post(url, data):
-    r = requests.post(url, data=data)
-    return r.text, r.status_code
+    count = 0
+    while count < 3:
+        try:
+            r = requests.post(url, data=data)
+            return r.text, r.status_code
+        except:
+            pass
+        count += 1
 
 
 def verify_key():
