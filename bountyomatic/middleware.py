@@ -48,6 +48,9 @@ class TimezoneMiddleware:
         if data and data.get('country_code') and data.get('region'):
             _timezone = GeoIPC.time_zone_by_country_and_region(
                 data.get('country_code'), data.get('region'))
-            _timezone = pytz.timezone(_timezone)
+            if _timezone:
+                _timezone = pytz.timezone(_timezone)
+            else:
+                _timezone = pytz.timezone(timezone.get_current_timezone_name())
         response.set_cookie('timezone', _timezone.zone)
         return response
