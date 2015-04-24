@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 07:55+0000\n"
+"POT-Creation-Date: 2015-04-24 09:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -318,7 +318,7 @@ msgid "Locale not available."
 msgstr "Langue non disponible."
 
 #: bountyomatic/bounties/models.py:311 templates/bounties/comment-edit.html:18
-#: templates/bounties/detail.html:154
+#: templates/bounties/detail.html:158
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -557,7 +557,7 @@ msgid "Return to bounty"
 msgstr "Retourner sur la prime"
 
 #: templates/bounties/add.html:108 templates/bounties/comment-edit.html:31
-#: templates/bounties/detail.html:166
+#: templates/bounties/detail.html:170
 msgid "Loading..."
 msgstr "Chargement..."
 
@@ -600,34 +600,34 @@ msgid "Bounty is incorrect"
 msgstr "La prime est incorrecte"
 
 #: templates/bounties/add.html:312 templates/bounties/add.html.py:359
-#: templates/bounties/comment-edit.html:84 templates/bounties/detail.html:314
+#: templates/bounties/comment-edit.html:84 templates/bounties/detail.html:318
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
 #: templates/bounties/add.html:394 templates/bounties/comment-edit.html:93
-#: templates/bounties/detail.html:336
+#: templates/bounties/detail.html:340
 msgid "Oops, no character found!"
 msgstr "Oups, aucun personnage trouvé !"
 
-#: templates/bounties/comment-edit.html:7 templates/bounties/detail.html:146
+#: templates/bounties/comment-edit.html:7 templates/bounties/detail.html:147
 msgid "Your character"
 msgstr "Ton personnage"
 
-#: templates/bounties/comment-edit.html:21 templates/bounties/detail.html:157
+#: templates/bounties/comment-edit.html:21 templates/bounties/detail.html:161
 msgid "Markdown allowed but images and raw html won't be rendered:"
 msgstr "Markdown autorisé. Images et html non rendus :"
 
-#: templates/bounties/comment-edit.html:49 templates/bounties/detail.html:275
+#: templates/bounties/comment-edit.html:49 templates/bounties/detail.html:279
 msgid "Need a character to comment."
 msgstr "Il faut un personnage pour commenter."
 
-#: templates/bounties/comment-edit.html:51 templates/bounties/detail.html:277
+#: templates/bounties/comment-edit.html:51 templates/bounties/detail.html:281
 msgid "Comment can not be empty."
 msgstr "Ton commentaire ne peut être vide."
 
 #: templates/bounties/comment-edit.html:53
-#: templates/bounties/comment-edit.html:86 templates/bounties/detail.html:281
-#: templates/bounties/detail.html.py:316
+#: templates/bounties/comment-edit.html:86 templates/bounties/detail.html:285
+#: templates/bounties/detail.html.py:320
 msgid "Comment is incorrect"
 msgstr "Le commentaire incorrect"
 
@@ -635,12 +635,12 @@ msgstr "Le commentaire incorrect"
 msgid "Bounty"
 msgstr "Prime"
 
-#: templates/bounties/detail.html:9 templates/bounties/detail.html.py:237
+#: templates/bounties/detail.html:9 templates/bounties/detail.html.py:241
 #: templates/bounties/list.html:111
 msgid "on"
 msgstr "sur"
 
-#: templates/bounties/detail.html:11 templates/bounties/detail.html.py:198
+#: templates/bounties/detail.html:11 templates/bounties/detail.html.py:202
 #: templates/bounties/list.html:85
 msgid "Edit"
 msgstr "Éditer"
@@ -661,15 +661,15 @@ msgstr "Ajouté"
 msgid "Updated"
 msgstr "Mise à jour"
 
-#: templates/bounties/detail.html:53 templates/bounties/detail.html.py:189
+#: templates/bounties/detail.html:53 templates/bounties/detail.html.py:193
 msgid "Author"
 msgstr "Auteur"
 
-#: templates/bounties/detail.html:64 templates/bounties/detail.html.py:191
+#: templates/bounties/detail.html:64 templates/bounties/detail.html.py:195
 msgid "Target"
 msgstr "Cible"
 
-#: templates/bounties/detail.html:76 templates/bounties/detail.html.py:193
+#: templates/bounties/detail.html:76 templates/bounties/detail.html.py:197
 msgid "Winner"
 msgstr "Gagnant"
 
@@ -704,41 +704,45 @@ msgstr "Discute avec les mercenaires intéressés par cette prime."
 msgid "Add a comment"
 msgstr "Ajoute un commentaire"
 
-#: templates/bounties/detail.html:167
+#: templates/bounties/detail.html:153
+msgid "You can only comment with character from the same region as bounty."
+msgstr "Tu ne peux commenter qu'avec un personne de la même région que la prime."
+
+#: templates/bounties/detail.html:171
 msgid "Publish"
 msgstr "Publier"
 
-#: templates/bounties/detail.html:173
+#: templates/bounties/detail.html:177
 msgid "You need to be logged in to post a comment."
 msgstr "Tu dois être connecté pour poster un commentaire."
 
-#: templates/bounties/detail.html:176
+#: templates/bounties/detail.html:180
 msgid "Comments are disabled."
 msgstr "Commentaires désactivés."
 
-#: templates/bounties/detail.html:186
+#: templates/bounties/detail.html:190
 msgid "Staff"
 msgstr "Staff"
 
-#: templates/bounties/detail.html:212
+#: templates/bounties/detail.html:216
 msgid "This comment has been hidden by the Bounty-O-Matic Gobelins."
 msgstr ""
 "Ce commentaire a été caché part les Gobelins de Bounty-O-Matic pour votre "
 "bien."
 
-#: templates/bounties/detail.html:214
+#: templates/bounties/detail.html:218
 msgid "Edited at"
 msgstr "Édité le"
 
-#: templates/bounties/detail.html:237 templates/bounties/list.html:111
+#: templates/bounties/detail.html:241 templates/bounties/list.html:111
 msgid "Page"
 msgstr "Page"
 
-#: templates/bounties/detail.html:258
+#: templates/bounties/detail.html:262
 msgid "Bounty not found."
 msgstr "Cette prime ne t'appartient pas."
 
-#: templates/bounties/detail.html:279
+#: templates/bounties/detail.html:283
 msgid "Missing captcha."
 msgstr "Il manque le captcha."
 
