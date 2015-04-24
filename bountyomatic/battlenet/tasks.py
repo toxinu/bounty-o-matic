@@ -31,24 +31,21 @@ def refresh_characters():
             get_character.uncached, bounty.region,
             bounty.source_realm, bounty.source_character)
         if key not in already_refreshed:
-            cache.set(
-                key,
-                get_character(
-                    bounty.region, bounty.source_realm,
-                    bounty.source_character, seed=uuid4()),
-                timeout=timeout)
+            character = get_character(
+                bounty.region, bounty.source_realm, bounty.source_character, seed=uuid4())
+            if character is not None:
+                cache.set(key, character, timeout=timeout)
             already_refreshed.append(key)
 
         key = get_character.make_cache_key(
             get_character.uncached, bounty.region,
             bounty.destination_realm, bounty.destination_character)
         if key not in already_refreshed:
-            cache.set(
-                key,
-                get_character(
-                    bounty.region, bounty.destination_realm,
-                    bounty.destination_character, seed=uuid4()),
-                timeout=timeout)
+            character = get_character(
+                bounty.region, bounty.destination_realm,
+                bounty.destination_character, seed=uuid4())
+            if character is not None:
+                cache.set(key, character, timeout=timeout)
             already_refreshed.append(key)
 
         for comment in bounty.comment_set.all():
@@ -56,10 +53,9 @@ def refresh_characters():
                 get_character.uncached, bounty.region,
                 comment.character_realm, comment.character_name)
             if key not in already_refreshed:
-                cache.set(
-                    key,
-                    get_character(
-                        bounty.region, comment.character_realm,
-                        comment.character_name, seed=uuid4()),
-                    timeout=timeout)
+                character = get_character(
+                    bounty.region, comment.character_realm,
+                    comment.character_name, seed=uuid4())
+                if character is not None:
+                    cache.set(key, character, timeout=timeout)
                 already_refreshed.append(key)
