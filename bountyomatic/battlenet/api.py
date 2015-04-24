@@ -15,7 +15,7 @@ from ..accounts.models import User
 
 logger = logging.getLogger('battlenet-api')
 
-RETRY = 2
+RETRY = 5
 
 GENDERS = {
     0: _('Male'),
