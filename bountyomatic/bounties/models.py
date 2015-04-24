@@ -344,7 +344,8 @@ class Comment(models.Model):
         if not exists and self.pk is None and not as_staff:
             raise ValidationError(
                 _("Your character is below level 10 or on an inactive account."))
-        self.character_name = character.get('name')
+        if character:
+            self.character_name = character.get('name')
 
         if not as_staff and Comment.objects.filter(
                 user=self.user,
