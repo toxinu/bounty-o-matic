@@ -142,26 +142,30 @@
         <br>
         {% if user.is_authenticated %}
           <form id="comment-form" style="display:none">
-            <label id="player-characters-label" for="player-characters">
-              {% trans "Your character" %}
-            </label>
-            <select class="form-control" id="player-characters">
-              <option value="">---</option>
-            </select>
-            <br>
-            <br>
-            <label for="reward" id="comment-input-label">
-              {% trans "Comment" %}
-            </label>
-            <small class="help">
-              <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
-            </small>
-            <textarea
-                class="form-control"
-                id="comment-input"
-                rows="4"
-                cols="50"></textarea>
-            <br>
+            <div class="form-group">
+              <label id="player-characters-label" for="player-characters">
+                {% trans "Your character" %}
+              </label>
+              <select class="form-control" id="player-characters">
+                <option value="">---</option>
+              </select>
+              <small id="player-characters-help" class="help hidden">
+                <p class="help-block">{% trans "You can only comment with character from the same region as bounty." %}</p>
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="reward" id="comment-input-label">
+                {% trans "Comment" %}
+              </label>
+              <small class="help">
+                <p class="help-block">{% trans "Markdown allowed but images and raw html won't be rendered:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
+              </small>
+              <textarea
+                  class="form-control"
+                  id="comment-input"
+                  rows="4"
+                  cols="50"></textarea>
+            </div>
             <div id="g-captcha" class="pull-left g-recaptcha" data-sitekey="{{ RECAPTCHA_KEY }}"></div>
             <button class="btn btn-success pull-right" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
               {% trans "Publish" %}
@@ -334,6 +338,9 @@
           }).prop('selected', true);
         };
         $("select#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
+        if (!data.length) {
+          $("#player-characters-help").removeClass("hidden");
+        }
       };
 
       $("form#comment-form").submit(function(e) {
