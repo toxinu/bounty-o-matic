@@ -268,11 +268,11 @@ class Bounty(models.Model):
 
     @property
     def source_guild(self):
-        return str(self.source_detail.get('guild', {}).get('name'),)
+        return str(self.source_detail.get('guild', {}).get('name', ''))
 
     @property
     def destination_guild(self):
-        return str(self.destination_detail.get('guild', {}).get('name'),)
+        return str(self.destination_detail.get('guild', {}).get('name', ''))
 
     @property
     def reward_as_html(self):
