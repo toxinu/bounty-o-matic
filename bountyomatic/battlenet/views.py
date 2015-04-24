@@ -24,7 +24,7 @@ class PlayerCharactersAPIView(View):
                 json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
         characters = get_player_characters(
-            self.request.user.pk, self.request.GET.get('region', None))
+            self.request.user.pk, self.request.GET.get('region', None) or None)
         for character in characters:
             klass = CLASSES.get(character.get('class'))
             if klass:

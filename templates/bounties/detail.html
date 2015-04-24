@@ -352,7 +352,12 @@
         saveComment();
       });
 
-      getPlayerCharacters('{{ bounty.region }}', function(data) {
+      {% if user.is_staff %}
+        var region = '';
+      {% else %}
+        var region = '{{ bounty.region }}'
+      {% endif %}
+      getPlayerCharacters(region, function(data) {
         setPlayerCharacters(data);
       });
     });
