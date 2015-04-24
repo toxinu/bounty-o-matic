@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 09:17+0000\n"
+"POT-Creation-Date: 2015-04-24 14:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -289,7 +289,7 @@ msgstr "Cette prime ne peut être réouverte. Crées en une nouvelle."
 msgid "Target character does not exist or is below level 10."
 msgstr "Le personnage cible n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:143 bountyomatic/bounties/models.py:345
+#: bountyomatic/bounties/models.py:143 bountyomatic/bounties/models.py:346
 msgid "Your character is below level 10 or on an inactive account."
 msgstr "Ton personnage est en dessous du niveau 10 ou sur un compte inactif."
 
@@ -346,11 +346,11 @@ msgstr "commentaires"
 msgid "Comments are closed."
 msgstr "Commentaires désactivés."
 
-#: bountyomatic/bounties/models.py:339
+#: bountyomatic/bounties/models.py:340
 msgid "This character is not your."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:355
+#: bountyomatic/bounties/models.py:357
 msgid "Comment limit reached. Wait before sending a new one."
 msgstr ""
 "Limite de commentaire atteinte. Attends un instant pour en poster un nouveau."
@@ -706,7 +706,8 @@ msgstr "Ajoute un commentaire"
 
 #: templates/bounties/detail.html:153
 msgid "You can only comment with character from the same region as bounty."
-msgstr "Tu ne peux commenter qu'avec un personnage de la même région que la prime."
+msgstr ""
+"Tu ne peux commenter qu'avec un personnage de la même région que la prime."
 
 #: templates/bounties/detail.html:171
 msgid "Publish"
@@ -899,12 +900,12 @@ msgstr "Qui est derrière Bounty-O-Matic ?"
 
 #: templates/home/help.html:24
 msgid ""
-"I'm Bodoc son of Eorl, mighty warrior of the Stormwind Legion (EU - Culte de "
-"la Rive Noire). In real life, I'm Geoffrey, Python web developer and World "
-"of Warcraft player since 10 years.<br>More questions? You can reach me via "
-"email:"
+"I'm Bodoc, mighty warrior of \"La Compagnie Bras Cassé\" (EU - Culte de la "
+"Rive Noire). In real life, I'm <a href=\"http://socketubs.org\" target="
+"\"_blank\">Geoffrey</a>, Python web developer and World of Warcraft player "
+"since 10 years.<br>More questions? You can reach me via email:"
 msgstr ""
-"Je suis Bodoc fils d'Eorl, guerrier Légionnaire dans la Légion de Stormwind "
+"Je suis Bodoc, puissant guerrier dans la Compagnie Bras Cassé "
 "(EU - Culte de la Rive Noire). En vrai, je suis Geoffrey, développeur web "
 "Python et joueur depuis une dizaine d'années sur World of Warcraft. "
 "N'hésitez pas à me contacter via l'email suivante :"
