@@ -335,12 +335,13 @@ class Comment(models.Model):
         if not is_player_character(
                 self.user,
                 self.character_name,
-                self.character_realm, self.bounty.region) and self.pk is None:
+                self.character_realm, self.bounty.region) \
+                and self.pk is None and not as_staff:
             raise ValidationError(_("This character is not your."))
 
         exists, character = is_character_exists(
             self.bounty.region, self.character_realm, self.character_name)
-        if not exists and self.pk is None:
+        if not exists and self.pk is None and not as_staff:
             raise ValidationError(
                 _("Your character is below level 10 or on an inactive account."))
         self.character_name = character.get('name')
