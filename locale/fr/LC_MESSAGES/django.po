@@ -706,7 +706,7 @@ msgstr "Ajoute un commentaire"
 
 #: templates/bounties/detail.html:153
 msgid "You can only comment with character from the same region as bounty."
-msgstr "Tu ne peux commenter qu'avec un personne de la même région que la prime."
+msgstr "Tu ne peux commenter qu'avec un personnage de la même région que la prime."
 
 #: templates/bounties/detail.html:171
 msgid "Publish"
