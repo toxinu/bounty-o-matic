@@ -59,16 +59,16 @@ function getRealms(region, callback) {
     }
   }); 
 }
-function getPlayerCharacters(callback) {
+function getPlayerCharacters(region, callback) {
   $.ajax({
-    url: "/api/player-characters",
+    url: "/api/player-characters?region=" + region || '',
     dataType: 'json',
     success: function(data) {
       if (callback)
         callback(data);
     },
     error: function(xhr, status, err) {
-      console.error("/api/player-characters", status, err.toString());
+      console.error("/api/player-characters?region=" + region || '', status, err.toString());
     }
   });  
 }

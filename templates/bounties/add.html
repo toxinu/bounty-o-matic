@@ -389,7 +389,7 @@
       }
     });
 
-    getPlayerCharacters(function(data) {
+    getPlayerCharacters(null, function(data) {
       setPlayerCharacters(data);
       $("select#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
       if (getUrlParameter('update')) {

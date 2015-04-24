@@ -345,7 +345,7 @@
         saveComment();
       });
 
-      getPlayerCharacters(function(data) {
+      getPlayerCharacters('{{ bounty.region }}', function(data) {
         setPlayerCharacters(data);
       });
     });
