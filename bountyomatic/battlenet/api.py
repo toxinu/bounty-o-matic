@@ -156,7 +156,7 @@ def is_player_character(user, character, realm, regions=None):
 def get_player_characters(user, regions=None, update=False):
     if not isinstance(user, User):
         user = User.objects.get(pk=user)
-    base_key = 'battlenet:%s' % user.pk
+    base_key = 'battlenet:player-characters:%s' % user.pk
     characters = []
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return characters
@@ -164,10 +164,11 @@ def get_player_characters(user, regions=None, update=False):
         regions = [r['slug'] for r in get_regions()]
     if not isinstance(regions, list):
         regions = [regions]
+
     for region in regions:
         key = base_key + ':' + region
         r_characters = cache.get(key)
-        if r_characters is None or update:
+        if not r_characters or update:
             r_characters = []
             kwargs = {}
             base_url = 'http://%s.battle.net/api' % region
