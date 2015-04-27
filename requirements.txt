@@ -1,6 +1,5 @@
 Django==1.7.7
 Markdown==2.6.1
-bleach==1.4.1
 python-social-auth==0.2.3
 requests-oauthlib==0.4.2
 requests==2.6.0
