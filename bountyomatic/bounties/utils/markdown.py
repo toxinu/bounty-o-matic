@@ -1,4 +1,3 @@
-import bleach
 import markdown
 
 # Global Vars
@@ -55,7 +54,7 @@ commentMarkdownExtension = CommentMarkdownExtension()
 
 def parse_bounty(raw_text):
     return markdown.markdown(
-        bleach.clean(raw_text), [bountyMarkdownExtension], safe_mode='escape')
+        raw_text, [bountyMarkdownExtension], safe_mode='escape')
 
 
 def parse_comment(raw_text):
