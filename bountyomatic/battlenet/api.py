@@ -2,14 +2,12 @@ import logging
 from operator import itemgetter
 
 from django.conf import settings
+from django.core.cache import cache
 from django.utils.translation import ugettext_lazy as _
 
 from requests import Session
 from requests import Request
 from requests.exceptions import RequestException
-
-from memoize import memoize
-from memoize import delete_memoized
 
 from ..accounts.models import User
 
@@ -101,20 +99,22 @@ def get_regions():
 
 
 def refresh_player_cache(user):
-    delete_memoized(get_player_battletag, user.pk)
-    get_player_battletag(user.pk)
-    delete_memoized(get_player_characters, user.pk)
-    get_player_characters(user.pk)
+    get_player_battletag(user.pk, update=True)
+    get_player_characters(user.pk, update=True)
 
 
-# 5 days
-@memoize(timeout=60 * 60 * 24 * 5)
-def get_realms(region):
-    realms = []
-    r = _retry('http://%s.battle.net/api/wow/realm/status' % region)
-    if not r:
-        return realms
-    return r.json().get('realms')
+# CACHED
+def get_realms(region, update=False):
+    key = 'battlenet:realms:%s' % region
+    realms = cache.get(key)
+    if realms is None or update:
+        realms = []
+        r = _retry('http://%s.battle.net/api/wow/realm/status' % region)
+        if not r:
+            return realms
+        realms = r.json().get('realms')
+        cache.set(key, realms, timeout=settings.BATTLENET_CACHE.get('realms'))
+    return realms
 
 
 def is_character_exists(region, realm, character):
@@ -124,18 +124,23 @@ def is_character_exists(region, realm, character):
     return False, None
 
 
-# 1 day
-@memoize(timeout=60 * 60 * 24 * 1)
-def get_character(region, realm, character, seed=None):
-    r = _retry('http://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
-        region, realm, character))
-    if not r or r.json().get('status') == 'nok':
-        return {}
-    result = r.json()
-    for faction_id, races in FACTIONS_RACES.items():
-        if result.get('race') in races:
-            result.update({'faction': faction_id})
-    return result
+# CACHED
+def get_character(region, realm, name, update=False, keep_latest=False):
+    key = 'battlenet:character:%s:%s:%s' % (region, realm, name)
+    character = cache.get(key)
+    if character is None or update:
+        character = {}
+        r = _retry('https://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
+            region, realm, name))
+        if r and r.json().get('status') != 'nok':
+            character = r.json()
+            for faction_id, races in FACTIONS_RACES.items():
+                if character.get('race') in races:
+                    character.update({'faction': faction_id})
+        if not character and keep_latest:
+            return character
+        cache.set(key, character, timeout=settings.BATTLENET_CACHE.get('character'))
+    return character
 
 
 def is_player_character(user, character, realm, regions=None):
@@ -147,11 +152,11 @@ def is_player_character(user, character, realm, regions=None):
     return False
 
 
-# 3 days
-@memoize(timeout=60 * 60 * 24 * 3)
-def get_player_characters(user, regions=None):
+# CACHE
+def get_player_characters(user, regions=None, update=False):
     if not isinstance(user, User):
         user = User.objects.get(pk=user)
+    base_key = 'battlenet:%s' % user.pk
     characters = []
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return characters
@@ -160,49 +165,66 @@ def get_player_characters(user, regions=None):
     if not isinstance(regions, list):
         regions = [regions]
     for region in regions:
-        kwargs = {}
-        base_url = 'http://%s.battle.net/api' % region
-        if region == 'cn':
-            kwargs = {'verify': False}
-            base_url = 'http://www.battlenet.com.cn/api'
-        r = _retry(
-            '%s/wow/user/characters' % base_url,
-            params={'access_token': user.social_auth.first().access_token},
-            **kwargs)
-        try:
-            if not r or r.json().get('status') == 'nok':
+        key = base_key + ':' + region
+        r_characters = cache.get(key)
+        if r_characters is None or update:
+            r_characters = []
+            kwargs = {}
+            base_url = 'http://%s.battle.net/api' % region
+            if region == 'cn':
+                kwargs = {'verify': False}
+                base_url = 'http://www.battlenet.com.cn/api'
+            r = _retry(
+                '%s/wow/user/characters' % base_url,
+                params={'access_token': user.social_auth.first().access_token},
+                **kwargs)
+            try:
+                if not r or r.json().get('status') == 'nok':
+                    continue
+                else:
+                    r_characters = r.json().get('characters')
+                    for character in r_characters:
+                        if character.get('level') < 10:
+                            continue
+                        normalized_realm = get_normalized_realm(
+                            character.get('realm'), region)
+                        character.update({
+                            'normalized_realm': normalized_realm, 'region': region})
+                        characters.append(character)
+                    cache.set(
+                        key,
+                        r_characters,
+                        timeout=settings.BATTLENET_CACHE.get('player_characters'))
+            except ValueError:
                 continue
-            else:
-                for character in r.json().get('characters'):
-                    if character.get('level') < 10:
-                        continue
-                    normalized_realm = get_normalized_realm(
-                        character.get('realm'), region)
-                    character.update({
-                        'normalized_realm': normalized_realm, 'region': region})
-                    characters.append(character)
-        except ValueError:
-            continue
-    return sorted(characters, key=itemgetter('realm', 'name'))
+        else:
+            characters += r_characters
+        return sorted(characters, key=itemgetter('realm', 'name'))
 
 
-# 30 days
-@memoize(timeout=60 * 60 * 24 * 30)
-def get_player_battletag(user):
+# CACHED
+def get_player_battletag(user, update=False):
     if not isinstance(user, User):
         user = User.objects.get(pk=user)
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return False
-    r = _retry(
-        'http://eu.battle.net/api/account/user/battletag',
-        params={'access_token': user.social_auth.first().access_token})
-    try:
-        if not r or r.json().get('status') == 'nok':
-            return False
-        else:
-            return r.json().get('battletag')
-    except ValueError:
-        return False
+    key = 'battlenet:battletag:%s' % user.pk
+    battletag = cache.get(key)
+    if battletag is None or update:
+        battletag = False
+        r = _retry(
+            'https://eu.battle.net/api/account/user/battletag',
+            params={'access_token': user.social_auth.first().access_token})
+        try:
+            if not r or r.json().get('status') == 'nok':
+                return battletag
+            else:
+                battletag = r.json().get('battletag')
+                cache.set(
+                    key, battletag, timeout=settings.BATTLENET_CACHE.get('battletag'))
+        except ValueError:
+            return battletag
+    return battletag
 
 
 def get_normalized_realm(realm, region=None):
