@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'memoize',
     'cachalot',
     'compressor',
     'social.apps.django_app.default',
@@ -190,7 +189,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Battlenet
 SOCIAL_AUTH_BATTLENET_OAUTH2_KEY = ''
 SOCIAL_AUTH_BATTLENET_OAUTH2_SECRET = ''
-
+BATTLENET_CACHE = {
+    'realms': 60 * 60 * 24 * 5,
+    'character': 60 * 60 * 24 * 1,
+    'player_characters': 60 * 60 * 24 * 3,
+    'battletag': 60 * 60 * 24 * 30
+}
 
 try:
     from .local_settings import *
