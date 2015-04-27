@@ -48,7 +48,7 @@ class BountyAdmin(admin.ModelAdmin):
         'id', 'battletag', 'status', 'region', 'source',
         'destination', 'added_date', 'updated_date',
         'comments_counter', 'is_private', 'external', )
-    list_filter = ('added_date', 'updated_date', 'is_private', 'status', )
+    list_filter = ('added_date', 'updated_date', 'is_private', 'status', 'region', )
     search_fields = (
         'id', 'region', 'source_character', 'source_realm',
         'destination_character', 'destination_realm', )
