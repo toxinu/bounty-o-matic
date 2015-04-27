@@ -2,20 +2,31 @@ from bountyomatic.carotte import app
 
 
 @app.task
+def refresh_realms():
+    from .api import get_realms
+    from .api import get_regions
+    for region in get_regions():
+        get_realms(region.get('slug'), update=True)
+
+
+@app.task
+def refresh_battletags():
+    from .api import get_player_battletag
+    from ..accounts.models import User
+
+    for user in User.objects.all():
+        get_player_battletag(user.pk, update=True)
+
+
+@app.task
 def refresh_characters():
-    from django.utils import timezone
-    from django.core.cache import cache
     import datetime
-    from uuid import uuid4
+    from django.utils import timezone
 
     from .api import get_character
     from ..bounties.models import Bounty
 
     already_refreshed = []
-    # 24 hours timeout
-    # It means that this task must not be longer that 4 hours
-    # Because it will overlap with get_character timeout
-    timeout = 60 * 60 * 24
     # Approx. 6 month
     bounties_range = 1 * 30 * 6
     for bounty in Bounty.objects.filter(
@@ -27,35 +38,32 @@ def refresh_characters():
                 'destination_character', 'destination_realm').prefetch_related(
                     'comment_set'):
 
-        key = get_character.make_cache_key(
-            get_character.uncached, bounty.region,
-            bounty.source_realm, bounty.source_character)
+        key = '%s|%s|%s' % (bounty.region, bounty.source_realm, bounty.source_character)
         if key not in already_refreshed:
-            character = get_character(
-                bounty.region, bounty.source_realm, bounty.source_character, seed=uuid4())
-            if character is not None:
-                cache.set(key, character, timeout=timeout)
+            get_character(
+                bounty.region,
+                bounty.source_realm,
+                bounty.source_character,
+                update=True, keep_latest=True)
             already_refreshed.append(key)
 
-        key = get_character.make_cache_key(
-            get_character.uncached, bounty.region,
-            bounty.destination_realm, bounty.destination_character)
+        key = '%s|%s|%s' % (
+            bounty.region, bounty.destination_realm, bounty.destination_character)
         if key not in already_refreshed:
-            character = get_character(
-                bounty.region, bounty.destination_realm,
-                bounty.destination_character, seed=uuid4())
-            if character is not None:
-                cache.set(key, character, timeout=timeout)
+            get_character(
+                bounty.region,
+                bounty.destination_realm,
+                bounty.destination_character,
+                update=True, keep_latest=True)
             already_refreshed.append(key)
 
         for comment in bounty.comment_set.all():
-            key = get_character.make_cache_key(
-                get_character.uncached, bounty.region,
-                comment.character_realm, comment.character_name)
+            key = '%s|%s|%s' % (
+                bounty.region, comment.character_realm, comment.character_name)
             if key not in already_refreshed:
-                character = get_character(
-                    bounty.region, comment.character_realm,
-                    comment.character_name, seed=uuid4())
-                if character is not None:
-                    cache.set(key, character, timeout=timeout)
+                get_character(
+                    bounty.region,
+                    comment.character_realm,
+                    comment.character_name,
+                    update=True, keep_latest=True)
                 already_refreshed.append(key)
