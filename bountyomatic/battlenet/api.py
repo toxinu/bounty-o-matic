@@ -168,7 +168,7 @@ def get_player_characters(user, regions=None, update=False):
     for region in regions:
         key = base_key + ':' + region
         r_characters = cache.get(key)
-        if not r_characters or update:
+        if r_characters is None or update:
             r_characters = []
             kwargs = {}
             base_url = 'http://%s.battle.net/api' % region
@@ -183,24 +183,22 @@ def get_player_characters(user, regions=None, update=False):
                 if not r or r.json().get('status') == 'nok':
                     continue
                 else:
-                    r_characters = r.json().get('characters')
-                    for character in r_characters:
+                    for character in r.json().get('characters'):
                         if character.get('level') < 10:
                             continue
                         normalized_realm = get_normalized_realm(
                             character.get('realm'), region)
                         character.update({
                             'normalized_realm': normalized_realm, 'region': region})
-                        characters.append(character)
+                        r_characters.append(character)
                     cache.set(
                         key,
                         r_characters,
                         timeout=settings.BATTLENET_CACHE.get('player_characters'))
             except ValueError:
                 continue
-        else:
-            characters += r_characters
-        return sorted(characters, key=itemgetter('realm', 'name'))
+        characters += r_characters
+    return sorted(characters, key=itemgetter('realm', 'name'))
 
 
 # CACHED
