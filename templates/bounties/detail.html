@@ -304,18 +304,21 @@
             window.location = "/bounty/{{ bounty.id }}";
           },
           error: function(xhr, status, err) {
-            var jsonResponse = $.parseJSON(xhr.responseText)
             var errorMessage = '';
-            if (jsonResponse.reasons) {
-              $.map(jsonResponse.reasons, function(val) {
-                errorMessage += '\n- ' + val;
-              })
-            }
-            if (jsonResponse.reason) {
-              errorMessage += '\n- ' + jsonResponse.reason;
-            }
+            try {
+              var jsonResponse = $.parseJSON(xhr.responseText)
+              if (jsonResponse.reasons) {
+               $.map(jsonResponse.reasons, function(val) {
+                  errorMessage += '\n- ' + val;
+                })
+              }
+              if (jsonResponse.reason) {
+                errorMessage += '\n- ' + jsonResponse.reason;
+              }
+            } catch (e) {}
+
             if (!errorMessage)
-              errorMessage = '\n- {% trans "Unknown error" %}';
+              errorMessage = '\n- {% trans "Gobelins have made an error while processing your comment. Can you retry later?" %}';
 
             alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
             console.error("/api/bounty/{{ bounty.id }}/comment", status, err.toString());
