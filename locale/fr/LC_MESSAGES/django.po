@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-28 09:03+0000\n"
+"POT-Creation-Date: 2015-04-28 09:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,12 +247,12 @@ msgstr "Royaume du gagnant"
 msgid "Winner character"
 msgstr "Personnage gagnant"
 
-#: bountyomatic/bounties/models.py:70 bountyomatic/bounties/models.py:317
+#: bountyomatic/bounties/models.py:70 bountyomatic/bounties/models.py:318
 msgid "Creation date"
 msgstr "Date de création"
 
-#: bountyomatic/bounties/models.py:71 bountyomatic/bounties/models.py:289
-#: bountyomatic/bounties/models.py:319
+#: bountyomatic/bounties/models.py:71 bountyomatic/bounties/models.py:290
+#: bountyomatic/bounties/models.py:320
 msgid "Latest update"
 msgstr "Dernière mise à jour"
 
@@ -277,83 +277,87 @@ msgid "Your character and target must be different."
 msgstr "Ton personnage et la cible doivent être différentes."
 
 #: bountyomatic/bounties/models.py:109
-msgid "Bounty limit reached. Wait before sending a new one."
+msgid ""
+"Bounty limit reached. Wait before sending a new one. Something like 3 "
+"minutes..."
 msgstr ""
-"Limite de prime atteinte. Attends un instant pour en poster une nouvelle."
+"Limite de prime atteinte. Attends un instant pour en poster une nouvelle. Quelque chose comme 3 petites minutes..."
 
-#: bountyomatic/bounties/models.py:120
+#: bountyomatic/bounties/models.py:121
 msgid "Bounty can't be re-open. Create a new one."
 msgstr "Cette prime ne peut être réouverte. Crées en une nouvelle."
 
-#: bountyomatic/bounties/models.py:132
+#: bountyomatic/bounties/models.py:133
 msgid "Target character does not exist or is below level 10."
 msgstr "Le personnage cible n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:143 bountyomatic/bounties/models.py:346
+#: bountyomatic/bounties/models.py:144 bountyomatic/bounties/models.py:347
 msgid "Your character is below level 10 or on an inactive account."
 msgstr "Ton personnage est en dessous du niveau 10 ou sur un compte inactif."
 
-#: bountyomatic/bounties/models.py:150
+#: bountyomatic/bounties/models.py:151
 msgid "This character is not yours."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:157
+#: bountyomatic/bounties/models.py:158
 msgid "Winner character can't be bounty author."
 msgstr "Le gagnant ne peut être l'auteur de la prime."
 
-#: bountyomatic/bounties/models.py:161
+#: bountyomatic/bounties/models.py:162
 msgid "Winner character can't be bounty target."
 msgstr "Le gagnant ne peut être la cible de la prime."
 
-#: bountyomatic/bounties/models.py:169
+#: bountyomatic/bounties/models.py:170
 msgid "Winner character does not exist or is below level 10."
 msgstr "Le personnage gagnant n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:173
+#: bountyomatic/bounties/models.py:174
 msgid "Winner character can't be yours."
 msgstr "Le personnage gagnant ne peut être un de vos personnages."
 
-#: bountyomatic/bounties/models.py:298
+#: bountyomatic/bounties/models.py:299
 msgid "Locale not available."
 msgstr "Langue non disponible."
 
-#: bountyomatic/bounties/models.py:311 templates/bounties/comment-edit.html:18
+#: bountyomatic/bounties/models.py:312 templates/bounties/comment-edit.html:18
 #: templates/bounties/detail.html:158
 msgid "Comment"
 msgstr "Commentaire"
 
-#: bountyomatic/bounties/models.py:313
+#: bountyomatic/bounties/models.py:314
 msgid "Character realm"
 msgstr "Royaume du personnage"
 
-#: bountyomatic/bounties/models.py:315
+#: bountyomatic/bounties/models.py:316
 msgid "Character name"
 msgstr "Nom du personnage"
 
-#: bountyomatic/bounties/models.py:320
+#: bountyomatic/bounties/models.py:321
 msgid "Hidden"
 msgstr "Cachée"
 
-#: bountyomatic/bounties/models.py:322
+#: bountyomatic/bounties/models.py:323
 msgid "IP address"
 msgstr "Adresse IP"
 
-#: bountyomatic/bounties/models.py:326
+#: bountyomatic/bounties/models.py:327
 msgid "comments"
 msgstr "commentaires"
 
-#: bountyomatic/bounties/models.py:330 bountyomatic/bounties/models.py:333
+#: bountyomatic/bounties/models.py:331 bountyomatic/bounties/models.py:334
 msgid "Comments are closed."
 msgstr "Commentaires désactivés."
 
-#: bountyomatic/bounties/models.py:340
+#: bountyomatic/bounties/models.py:341
 msgid "This character is not your."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:357
-msgid "Comment limit reached. Wait before sending a new one."
+#: bountyomatic/bounties/models.py:358
+msgid ""
+"Comment limit reached. Wait before sending a new one. Something like 3 "
+"minutes."
 msgstr ""
-"Limite de commentaire atteinte. Attends un instant pour en poster un nouveau."
+"Limite de commentaire atteinte. Attends un instant pour en poster un nouveau. Quelque chose comme 3 petites minutes..."
 
 #: bountyomatic/bounties/views.py:228 bountyomatic/bounties/views.py:325
 #: bountyomatic/bounties/views.py:491
@@ -751,7 +755,9 @@ msgstr "Il manque le captcha."
 msgid ""
 "Gobelins have made an error while processing your comment. Can you retry "
 "later?"
-msgstr "Les Gobelins ont fait une erreur lors du traitement de ton commentaire. Peux-tu re-tenter plus tard ?"
+msgstr ""
+"Les Gobelins ont fait une erreur lors du traitement de ton commentaire. Peux-"
+"tu re-tenter plus tard ?"
 
 #: templates/bounties/export.html:37
 msgid "Bounty was added"
