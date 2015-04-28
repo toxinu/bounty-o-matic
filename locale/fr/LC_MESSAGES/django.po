@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 14:35+0000\n"
+"POT-Creation-Date: 2015-04-28 09:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,120 +41,120 @@ msgstr ""
 "Toutes tes données ont été actualisées. Tu pourras les re-actualiser dans 5 "
 "minutes."
 
-#: bountyomatic/battlenet/api.py:21
+#: bountyomatic/battlenet/api.py:19
 msgid "Male"
 msgstr "Homme"
 
-#: bountyomatic/battlenet/api.py:22
+#: bountyomatic/battlenet/api.py:20
 msgid "Female"
 msgstr "Femme"
 
-#: bountyomatic/battlenet/api.py:26 templates/bounties/list.html:44
+#: bountyomatic/battlenet/api.py:24 templates/bounties/list.html:44
 msgid "Alliance"
 msgstr "Alliance"
 
-#: bountyomatic/battlenet/api.py:27 templates/bounties/list.html:45
+#: bountyomatic/battlenet/api.py:25 templates/bounties/list.html:45
 msgid "Horde"
 msgstr "Horde"
 
-#: bountyomatic/battlenet/api.py:28
+#: bountyomatic/battlenet/api.py:26
 msgid "Neutral"
 msgstr "Neutre"
 
-#: bountyomatic/battlenet/api.py:38
+#: bountyomatic/battlenet/api.py:36
 msgid "Human"
 msgstr "Humain"
 
-#: bountyomatic/battlenet/api.py:39
+#: bountyomatic/battlenet/api.py:37
 msgid "Orc"
 msgstr "Orc"
 
-#: bountyomatic/battlenet/api.py:40
+#: bountyomatic/battlenet/api.py:38
 msgid "Dwarf"
 msgstr "Nain"
 
-#: bountyomatic/battlenet/api.py:41
+#: bountyomatic/battlenet/api.py:39
 msgid "Night Elf"
 msgstr "Elfe de la nuit"
 
-#: bountyomatic/battlenet/api.py:42
+#: bountyomatic/battlenet/api.py:40
 msgid "Undead"
 msgstr "Mort-vivant"
 
-#: bountyomatic/battlenet/api.py:43
+#: bountyomatic/battlenet/api.py:41
 msgid "Tauren"
 msgstr "Tauren"
 
-#: bountyomatic/battlenet/api.py:44
+#: bountyomatic/battlenet/api.py:42
 msgid "Gnome"
 msgstr "Gnome"
 
-#: bountyomatic/battlenet/api.py:45
+#: bountyomatic/battlenet/api.py:43
 msgid "Troll"
 msgstr "Troll"
 
-#: bountyomatic/battlenet/api.py:46
+#: bountyomatic/battlenet/api.py:44
 msgid "Goblin"
 msgstr "Gobelin"
 
-#: bountyomatic/battlenet/api.py:47
+#: bountyomatic/battlenet/api.py:45
 msgid "Blood Elf"
 msgstr "Elfe de sang"
 
-#: bountyomatic/battlenet/api.py:48
+#: bountyomatic/battlenet/api.py:46
 msgid "Draenei"
 msgstr "Draeneï"
 
-#: bountyomatic/battlenet/api.py:49
+#: bountyomatic/battlenet/api.py:47
 msgid "Worgen"
 msgstr "Worgen"
 
-#: bountyomatic/battlenet/api.py:50 bountyomatic/battlenet/api.py:51
-#: bountyomatic/battlenet/api.py:52
+#: bountyomatic/battlenet/api.py:48 bountyomatic/battlenet/api.py:49
+#: bountyomatic/battlenet/api.py:50
 msgid "Pandaren"
 msgstr "Pandaren"
 
-#: bountyomatic/battlenet/api.py:56
+#: bountyomatic/battlenet/api.py:54
 msgid "Warrior"
 msgstr "Guerrier"
 
-#: bountyomatic/battlenet/api.py:57
+#: bountyomatic/battlenet/api.py:55
 msgid "Paladin"
 msgstr "Paladin"
 
-#: bountyomatic/battlenet/api.py:58
+#: bountyomatic/battlenet/api.py:56
 msgid "Hunter"
 msgstr "Chasseur"
 
-#: bountyomatic/battlenet/api.py:59
+#: bountyomatic/battlenet/api.py:57
 msgid "Rogue"
 msgstr "Voleur"
 
-#: bountyomatic/battlenet/api.py:60
+#: bountyomatic/battlenet/api.py:58
 msgid "Priest"
 msgstr "Prêtre"
 
-#: bountyomatic/battlenet/api.py:61
+#: bountyomatic/battlenet/api.py:59
 msgid "Death Knight"
 msgstr "Chevalier de la mort"
 
-#: bountyomatic/battlenet/api.py:62
+#: bountyomatic/battlenet/api.py:60
 msgid "Shaman"
 msgstr "Chaman"
 
-#: bountyomatic/battlenet/api.py:63
+#: bountyomatic/battlenet/api.py:61
 msgid "Mage"
 msgstr "Mage"
 
-#: bountyomatic/battlenet/api.py:64
+#: bountyomatic/battlenet/api.py:62
 msgid "Warlock"
 msgstr "Démoniste"
 
-#: bountyomatic/battlenet/api.py:65
+#: bountyomatic/battlenet/api.py:63
 msgid "Monk"
 msgstr "Moine"
 
-#: bountyomatic/battlenet/api.py:66
+#: bountyomatic/battlenet/api.py:64
 msgid "Druid"
 msgstr "Druide"
 
@@ -398,11 +398,11 @@ msgstr "Commentaire ajouté."
 msgid "Comment updated."
 msgstr "Commentaire mis à jour."
 
-#: bountyomatic/settings.py:202
+#: bountyomatic/settings.py:208
 msgid "English"
 msgstr "Anglais"
 
-#: bountyomatic/settings.py:203
+#: bountyomatic/settings.py:209
 msgid "French"
 msgstr "Français"
 
@@ -600,12 +600,12 @@ msgid "Bounty is incorrect"
 msgstr "La prime est incorrecte"
 
 #: templates/bounties/add.html:312 templates/bounties/add.html.py:359
-#: templates/bounties/comment-edit.html:84 templates/bounties/detail.html:318
+#: templates/bounties/comment-edit.html:84
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
 #: templates/bounties/add.html:394 templates/bounties/comment-edit.html:93
-#: templates/bounties/detail.html:340
+#: templates/bounties/detail.html:343
 msgid "Oops, no character found!"
 msgstr "Oups, aucun personnage trouvé !"
 
@@ -627,7 +627,7 @@ msgstr "Ton commentaire ne peut être vide."
 
 #: templates/bounties/comment-edit.html:53
 #: templates/bounties/comment-edit.html:86 templates/bounties/detail.html:285
-#: templates/bounties/detail.html.py:320
+#: templates/bounties/detail.html.py:323
 msgid "Comment is incorrect"
 msgstr "Le commentaire incorrect"
 
@@ -746,6 +746,12 @@ msgstr "Cette prime ne t'appartient pas."
 #: templates/bounties/detail.html:283
 msgid "Missing captcha."
 msgstr "Il manque le captcha."
+
+#: templates/bounties/detail.html:321
+msgid ""
+"Gobelins have made an error while processing your comment. Can you retry "
+"later?"
+msgstr "Les Gobelins ont fait une erreur lors du traitement de ton commentaire. Peux-tu re-tenter plus tard ?"
 
 #: templates/bounties/export.html:37
 msgid "Bounty was added"
@@ -905,11 +911,11 @@ msgid ""
 "\"_blank\">Geoffrey</a>, Python web developer and World of Warcraft player "
 "since 10 years.<br>More questions? You can reach me via email:"
 msgstr ""
-"Je suis Bodoc, puissant guerrier de la Compagnie Bras Cassé "
-"(EU - Culte de la Rive Noire). En vrai, je suis <a href=\"http://socketubs.org\" target="
-"\"_blank\">Geoffrey</a>, développeur web "
-"Python et joueur depuis une dizaine d'années sur World of Warcraft. "
-"N'hésitez pas à me contacter via l'email suivante :"
+"Je suis Bodoc, puissant guerrier de la Compagnie Bras Cassé (EU - Culte de "
+"la Rive Noire). En vrai, je suis <a href=\"http://socketubs.org\" target="
+"\"_blank\">Geoffrey</a>, développeur web Python et joueur depuis une dizaine "
+"d'années sur World of Warcraft. N'hésitez pas à me contacter via l'email "
+"suivante :"
 
 #~ msgid "Korea"
 #~ msgstr "Corée"
