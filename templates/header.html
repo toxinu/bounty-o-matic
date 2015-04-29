@@ -37,10 +37,10 @@
           </li>
   		  {% endif %}
         <li>
-            <a title="{% trans 'Help' %}" href="{% url 'help' %}">
-              <span class="visible-lg visible-md visible-sm hidden-xs glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-              <span class="hidden-lg hidden-md hidden-sm visible-xs">{% trans "Help" %}</span>
-            </a>
+          <a title="{% trans 'Help' %}" href="{% url 'help' %}">
+            <span class="visible-lg visible-md visible-sm hidden-xs glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            <span class="hidden-lg hidden-md hidden-sm visible-xs">{% trans "Help" %}</span>
+          </a>
         </li>
         {% if user.is_authenticated %}
           <li>
@@ -61,4 +61,4 @@
       </ul>
     </div>
   </div>
- </nav>
+</nav>

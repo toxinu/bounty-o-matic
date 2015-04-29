@@ -15,6 +15,8 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^$', accounts_views.HomeView.as_view(), name='home'),
+    url(r'^updates/$', accounts_views.TemplateView.as_view(
+        template_name="home/updates.html"), name='updates'),
     url(r'^logout/$', 'django.contrib.auth.views.logout',
         {'next_page': '/'}, name='logout'),
     url(r'^login-error/$',

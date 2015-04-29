@@ -50,6 +50,16 @@
       getPlayerBattletag(function(data) {
         unsetProgressBar(data.battletag);
       });
+      // Show blinking version in the footer during 5 days after release
+      var now = new Date();
+      var latestReleaseDate = new Date(2015,3,29); // Warning, month start at 0
+      var stopBlinkingdate = new Date(latestReleaseDate.getTime());
+      stopBlinkingdate.setDate(stopBlinkingdate.getDate() + 5);
+      // Must be showed
+      if (stopBlinkingdate > now)
+        $(".footer a.updates").addClass("blink");
+      else
+        $(".footer a.updates").css("color", "white")
     });
   </script>
   <div class="container footer">
