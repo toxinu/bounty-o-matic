@@ -55,13 +55,6 @@ dl.bounty-detail dd,dt{
 .footer-refresh {
   color: #464545;
 }
-
-@media (max-width: 767px) {
-  #loading-bar {
-    margin: 0 auto;
-  }
-}
-
 div.chosen-container a.chosen-single {
   font-size: 15px;
   height: 43px;
@@ -112,7 +105,6 @@ div.chosen-container.chosen-container-active.chosen-with-drop a.chosen-single {
     transform: rotate(359deg);
   }
 }
-
 #loading-bar {
   margin-left:0px;
   margin-right:-5px;
@@ -124,7 +116,11 @@ div.chosen-container.chosen-container-active.chosen-with-drop a.chosen-single {
 #loading-bar .progress-bar {
   width:100%;padding-top:8px;font-weight:bold;font-size:90%
 }
-
+@media (max-width: 767px) {
+  #loading-bar {
+    margin: 0 auto;
+  }
+}
 img.character-thumbnail {
   width: 50px;
   height: 50px;
