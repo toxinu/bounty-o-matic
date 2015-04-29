@@ -30,6 +30,7 @@
         </select>
       </div>
       <div class="form-group">
+        {% if bounty.is_target_guild %}<span class="glyphicon glyphicon-tent" aria-hidden="true"></span>{% endif %}
         <label id="destination-character-label" for="destination-character">{% trans "Target name" %}</label>
         <input id="destination-character" class="form-control" type="text" />
       </div>
@@ -44,11 +45,6 @@
           <option value="0">{% trans "Alliance" %}</option>
           <option value="1">{% trans "Horde" %}</option>
         </select>
-        {% if user.is_authenticated %}
-          <div class="checkbox">
-            <label><input id="is-private-input" type="checkbox"> {% trans "Show only your bounties" %}</label>
-          </div>
-        {% endif %}
       </div>
     </div>
     <div class="col-md-6">
@@ -56,6 +52,18 @@
       <button class="btn btn-success btn-lg pull-right" id="search">
         {% trans "Search me bounties!" %}
       </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      {% if user.is_authenticated %}
+        <div class="checkbox">
+          <label><input id="is-private-input" type="checkbox"> {% trans "Show only your bounties" %}</label>
+        </div>
+      {% endif %}
+      <div class="checkbox">
+        <label><input id="is-target-guild-input" type="checkbox"> {% trans "Show only guild bounties" %}</label>
+      </div>
     </div>
   </div>
 
@@ -66,6 +74,7 @@
     {% with bounty.destination_faction as faction %}
       <li class="list-group-item clearfix {% if faction == 0 %}character-alliance{% elif faction == 1 %}character-horde{% else %}character-neutral{% endif %}">
     {% endwith %}
+    {% if bounty.is_target_guild %}<span class="glyphicon glyphicon-tent" aria-hidden="true"></span>{% endif %}
     <strong>{{ bounty.destination_character }}</strong><span class="hidden-xs"> - {{ bounty.destination_realm_display }}</span>{% if bounty.destination_guild %}<span class="hidden-xs hidden-sm"> - {{ bounty.destination_guild }}</span>{% endif %} <span class="label label-default hidden-xs hidden-sm">{{ bounty.region|upper }}</span> <span class="label label-default hidden-xs">{% trans "by" %} {{ bounty.source_character }} - {{ bounty.source_realm_display }}{% if bounty.source_guild %}<span class="hidden-sm hidden-md"> - {{ bounty.source_guild }}</span>{% endif %}</span> 
     {% if bounty.status == 1 %}
       <span class="label label-success">{{ bounty.status_display }}</span>
@@ -136,6 +145,7 @@
   var selectedRegion = null;
   var selectedRealm = null;
   var onlyOwned = false;
+  var onlyGuildBounties = false;
 
   function setRealms(data) {
     $("select#realms").text('').append("<option value=\"all\">---</option>");
@@ -154,6 +164,7 @@
     selectedFaction = $("select#factions").val();
     destinationCharacter = $("input#destination-character").val();
     onlyOwned = $("input#is-private-input").prop('checked');
+    onlyGuildBounties = $("input#is-target-guild-input").prop('checked');
 
     var url = '?'
     params = {}
@@ -177,6 +188,8 @@
       params.destination = destinationCharacter;
     if (onlyOwned)
       params.owned = true;
+    if(onlyGuildBounties)
+      params['only-guild-bounties'] = true;
     window.location = "/bounty/?" + $.param(params, true);
   }
 
@@ -200,6 +213,8 @@
       $("input#destination-character").val(getUrlParameter('destination'));
     if (getUrlParameter('owned'))
       $("input#is-private-input").prop('checked', true);
+    if (getUrlParameter('only-guild-bounties'))
+      $("input#is-target-guild-input").prop('checked', true);
 
     selectedRegion = getUrlParameter('region') || $.cookie('search-region');
     if (selectedRegion) {

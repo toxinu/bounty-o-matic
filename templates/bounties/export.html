@@ -30,10 +30,13 @@
       <img src="{{ bounty.destination_thumbnail }}"/>
     </div>
     <div class="infos">
-      <h1>{{ bounty.destination_character}}{% if bounty.destination_guild %} <span class="small">- {{ bounty.destination_guild|truncatechars:22 }}</span>{% endif %}</h1>
+      <h1>
+        {{ bounty.destination_character}}{% if bounty.destination_guild %} <span class="small">- {{ bounty.destination_guild|truncatechars:22 }}</span>{% endif %}
+      </h1>
       {%  if bounty.destination_class_display and bounty.get_destination_realm_display %}
         <p>{{ bounty.destination_class_display }} - {{ bounty.get_destination_realm_display }}</p>
       {% endif %}
+      {% if bounty.is_target_guild %}<em>{% trans "Whole guild bounty!" %}</em>{% endif %}
       <p class="{% if bounty.destination_faction == 0 %}horde{% else %}alliance{% endif %}">{% trans "Bounty was added" %} {{ bounty.added_date|date:"d/m" }} {% trans "by" %} {{ bounty.source_character }}</p>
     </div>
   </div>

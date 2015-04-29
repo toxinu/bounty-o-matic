@@ -6,7 +6,12 @@
 {% get_current_language as LANGUAGE_CODE %}
 {% if bounty %}
   <h1>
-    {% trans "Bounty" %} <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }} - {{ bounty.destination_guild }}</small>
+    {% if bounty.is_target_guild %}
+      {% trans "Guild bounty" %}
+    {% else %}
+      {% trans "Bounty" %} 
+    {% endif %}
+    <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %} - {{ bounty.destination_guild }}{% endif %}</small>
     {% if bounty.user == user.pk %}
       <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
     {% endif %}
@@ -15,6 +20,7 @@
     <strong>{% trans "This bounty is private but it's viewable if you share its url." %}</strong> 
     <br>
   {% endif %}
+
   <br>
   <div class="row">
     <div class="col-md-12">
@@ -32,11 +38,15 @@
             </div>
             <div class="col-md-10">
               <dl class="dl-horizontal bounty-detail">
+                {% if bounty.is_target_guild %}
+                  <dt>{% trans "Note" %}</dt>
+                  <dd>{% trans "This bounty is not on a specific character but on a whole guild" %}</dd>
+                {% endif %}
                 {% timezone user_timezone %}
-                <dt>{% trans "Added" %}</dt>
-                <dd>{{ bounty.added_date|date:"l d M Y" }} {{ bounty.added_date|time:"H:i" }}</dd>
-                <dt>{% trans "Updated" %}</dt>
-                <dd>{{ bounty.updated_date|date:"l d M Y" }} {{ bounty.updated_date|time:"H:i" }}</dd>
+                  <dt>{% trans "Added" %}</dt>
+                  <dd>{{ bounty.added_date|date:"l d M Y"|title }} {{ bounty.added_date|time:"H:i" }}</dd>
+                  <dt>{% trans "Updated" %}</dt>
+                  <dd>{{ bounty.updated_date|date:"l d M Y"|title }} {{ bounty.updated_date|time:"H:i" }}</dd>
                 {% endtimezone %}
                 <dt>{% trans "Region" %}</dt>
                 <dd><span class="label label-default">{{ bounty.region_display }}</span></dd>
@@ -63,6 +73,7 @@
                 </dd>
                 <dt>{% trans "Target" %}</dt>
                 <dd>
+                  {% if bounty.is_target_guild %}<span class="glyphicon glyphicon-tent" aria-hidden="true"></span>{% endif %}
                   <a class="character-armory-link" target="_blank" href="{{ bounty.destination_armory }}">
                     {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %} - {{ bounty.destination_guild }}{% endif %}</a>
                   {% if bounty.destination_faction_display %}

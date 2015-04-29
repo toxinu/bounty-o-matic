@@ -192,6 +192,7 @@ SOCIAL_AUTH_BATTLENET_OAUTH2_SECRET = ''
 BATTLENET_CACHE = {
     'realms': 60 * 60 * 24 * 5,
     'character': 60 * 60 * 24 * 1,
+    'guild': 60 * 60 * 24 * 10,
     'player_characters': 60 * 60 * 24 * 3,
     'battletag': 60 * 60 * 24 * 30
 }

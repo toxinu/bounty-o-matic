@@ -3,6 +3,7 @@ from operator import itemgetter
 
 from django.conf import settings
 from django.core.cache import cache
+from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 
 from requests import Session
@@ -126,7 +127,7 @@ def is_character_exists(region, realm, character):
 
 # CACHED
 def get_character(region, realm, name, update=False, keep_latest=False):
-    key = 'battlenet:character:%s:%s:%s' % (region, realm, name)
+    key = 'battlenet:character:%s:%s:%s' % (region, realm, slugify(name))
     character = cache.get(key)
     if character is None or update:
         character = {}
@@ -141,6 +142,28 @@ def get_character(region, realm, name, update=False, keep_latest=False):
             return character
         cache.set(key, character, timeout=settings.BATTLENET_CACHE.get('character'))
     return character
+
+
+def is_guild_exists(region, realm, guild):
+    r = get_guild(region, realm, guild)
+    if r:
+        return True, r
+    return False, None
+
+
+# CACHED
+def get_guild(region, realm, name, update=False, keep_latest=False):
+    key = 'battlenet:guild:%s:%s:%s' % (region, realm, slugify(name))
+    guild = cache.get(key)
+    if guild is None or update:
+        guild = {}
+        r = _retry('https://%s.battle.net/api/wow/guild/%s/%s' % (region, realm, name))
+        if r and r.json().get('status') != 'nok':
+            guild = r.json()
+        if not guild and keep_latest:
+            return guild
+        cache.set(key, guild, timeout=settings.BATTLENET_CACHE.get('guild'))
+    return guild
 
 
 def is_player_character(user, character, realm, regions=None):
@@ -254,6 +277,13 @@ def get_pretty_realm(realm, region=None):
     return False
 
 
+def get_guild_thumbnail(region, realm, guild):
+    detail = get_guild(region, realm, guild)
+    if detail.get('side') == 0:
+        return settings.STATIC_URL + "bountyomatic/img/thumbnails/1-0.jpg"
+    return settings.STATIC_URL + "bountyomatic/img/thumbnails/2-0.jpg"
+
+
 def get_character_thumbnail(region, realm, character):
     base_url = "https://%s.battle.net/static-render/%s/" % (region, region)
     if region == "cn":
@@ -279,3 +309,10 @@ def get_character_armory(region, realm, character):
     if region == "cn":
         base_url = "http://www.battlenet.com.cn/wow/cn/character/"
     return base_url + realm + "/" + character + "/simple"
+
+
+def get_guild_armory(region, realm, guild):
+    base_url = "http://%s.battle.net/wow/%s/guild/" % (region, region)
+    if region == "cn":
+        base_url = "http://www.battlenet.com.cn/wow/cn/guild/"
+    return base_url + realm + "/" + guild + "/"

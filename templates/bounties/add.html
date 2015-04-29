@@ -61,9 +61,20 @@
 
   <div class="form-group">
     <label id="destination-character-label" for="realms" class="hidden">
-      {% trans "Write his name" %}
+      {% trans "Write his name (can be a guild name)" %}
     </label>
     <input id="destination-character" class="form-control hidden" type="text" />
+  </div>
+
+  <div class="form-group hidden" id="is-target-guild">
+    <div class="checkbox">
+      <label>
+        <input id="is-target-guild-input" type="checkbox"> {% trans "Is your bounty on a whole guild?" %}
+      </label>
+    </div>
+    <small class="help hidden">
+      <p class="help-block">{% trans "Your bounty will be visible as a guild bounty for every mercenaries." %}</p>
+    </small>
   </div>
 
   <div class="form-group">
@@ -71,7 +82,7 @@
       {% trans "Choose the reward" %}
     </label>
     <small class="help hidden">
-      <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
+      <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**</p>
     </small>
     <textarea class="form-control hidden" id="reward" rows="4" cols="50"></textarea>
   </div>
@@ -81,21 +92,25 @@
       {% trans "Describe the bounty motivation and kill conditions" %}
     </label>
     <small class="help hidden">
-      <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**, [link](http://www.google.com)</p>
+      <p class="help-block">{% trans "Markdown allowed:" %} *<i>italic</i>*, **<b>bold</b>**</p>
     </small>
     <textarea class="form-control hidden" id="description" rows="4" cols="50"></textarea>
   </div>
 
   <div class="form-group hidden" id="comments-closed">
-    <label>
-      <input id="comments-closed-input" type="checkbox"> {% trans "Are comments closed?" %}
-    </label>
+    <div class="checkbox">
+      <label>
+        <input id="comments-closed-input" type="checkbox"> {% trans "Are comments closed?" %}
+      </label>
+    </div>
   </div>
 
   <div class="form-group hidden" id="is-private">
-    <label>
-      <input id="is-private-input" type="checkbox"> {% trans "Is your bounty private?" %}
-    </label>
+    <div class="checkbox">
+      <label>
+        <input id="is-private-input" type="checkbox"> {% trans "Is your bounty private?" %}
+      </label>
+    </div>
     <small class="help hidden">
       <p class="help-block">{% trans "Your bounty will not be visible in other unless you share link." %}</p>
     </small>
@@ -127,6 +142,7 @@
   var reward = '';
   var description = '';
   var isPrivate = false;
+  var isTargetGuild = false;
   var commentsClosed = false;
 
   function loadBounty(id) {
@@ -148,7 +164,8 @@
           description = data.description;
           selectedStatus = data.status;
           isPrivate = data.is_private;
-          commentsClosed = data.comments_closed
+          isTargetGuild = data.is_target_guild;
+          commentsClosed = data.comments_closed;
 
           // Set bounty
           $("#bounty-return").attr('href', '/bounty/' + id).removeClass('hidden');
@@ -175,6 +192,8 @@
           $("div#bounty-status-box").removeClass("hidden");
           if (isPrivate)
             $("input#is-private-input").prop('checked', true);
+          if (isTargetGuild)
+            $("input#is-target-guild-input").prop('checked', true);
           if (commentsClosed)
             $("input#comments-closed-input").prop('checked', true);
           if (selectedStatus == "2") {
@@ -224,6 +243,7 @@
     };
     $("select#realms").removeClass("hidden");
     $("label#realms-label").removeClass("hidden");
+    $("div#is-target-guild").removeClass("hidden");
     $("input#destination-character").removeClass("hidden");
     $("label#destination-character-label").removeClass("hidden");
     $("textarea#reward").removeClass("hidden");
@@ -245,6 +265,7 @@
     description = $("textarea#description").val();
     selectedStatus = $("select#bounty-status").val();
     isPrivate = $("input#is-private-input").prop('checked');
+    isTargetGuild = $("input#is-target-guild-input").prop('checked');
     commentsClosed = $("input#comments-closed-input").prop('checked');
 
     var errorMessage = '';
@@ -285,6 +306,7 @@
       reward: reward,
       status: selectedStatus,
       is_private: isPrivate,
+      is_target_guild: isTargetGuild,
       comments_closed: commentsClosed,
     };
 
@@ -337,6 +359,7 @@
       description: description,
       reward: reward,
       is_private: isPrivate,
+      is_target_guild: isTargetGuild,
       comments_closed: commentsClosed,
     };
     $.ajax({

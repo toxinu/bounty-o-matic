@@ -60,6 +60,10 @@ class BountyBaseView:
             filter_kwargs.update({'user': self.request.user.pk})
         else:
             filter_kwargs.update({'is_private': False})
+
+        if 'only-guild-bounties' in self.request.GET:
+            filter_kwargs.update({'is_target_guild': True})
+
         return filter_kwargs
 
     def get_serializable_comment_list(self, qs, as_datetime=False):
@@ -109,6 +113,7 @@ class BountyBaseView:
                 'status': bounty.status,
                 'status_display': bounty.get_status_display(),
                 'is_private': bounty.is_private,
+                'is_target_guild': bounty.is_target_guild,
                 'source_realm': bounty.source_realm,
                 'source_realm_display': bounty.get_source_realm_display(),
                 'source_armory': bounty.source_armory,
@@ -118,9 +123,8 @@ class BountyBaseView:
                 'destination_realm': bounty.destination_realm,
                 'destination_realm_display': bounty.get_destination_realm_display(),
                 'destination_armory': bounty.destination_armory,
-                'destination_faction': bounty.destination_detail.get('faction'),
-                'destination_faction_display': bounty.destination_detail.get(
-                    'faction_display'),
+                'destination_faction': bounty.destination_faction,
+                'destination_faction_display': bounty.get_destination_faction_display(),
                 'destination_guild': bounty.destination_detail.get(
                     'guild', {}).get('name'),
                 'added_date': added_date,
@@ -164,6 +168,7 @@ class BountyBaseView:
             'status': bounty.status,
             'status_display': bounty.get_status_display(),
             'is_private': bounty.is_private,
+            'is_target_guild': bounty.is_target_guild,
             'comments_closed': bounty.comments_closed or bounty.comments_closed_by_staff,
             'source_armory': bounty.source_armory,
             'source_realm': bounty.source_realm,
@@ -180,8 +185,8 @@ class BountyBaseView:
             'destination_realm': bounty.destination_realm,
             'destination_realm_display': bounty.get_destination_realm_display(),
             'destination_armory': bounty.destination_armory,
-            'destination_faction': bounty.destination_detail.get('faction'),
-            'destination_faction_display': bounty.destination_faction_display,
+            'destination_faction': bounty.destination_faction,
+            'destination_faction_display': bounty.get_destination_faction_display(),
             'destination_class_display': bounty.destination_class_display,
             'destination_guild': bounty.destination_detail.get('guild', {}).get('name'),
             'destination_level': bounty.destination_detail.get('level'),
@@ -236,8 +241,13 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
         reward = self.request.POST.get('reward')
         description = self.request.POST.get('description')
         is_private = self.request.POST.get('is_private')
+        is_target_guild = self.request.POST.get('is_target_guild')
         comments_closed = self.request.POST.get('comments_closed')
 
+        if is_target_guild == "true":
+            is_target_guild = True
+        else:
+            is_target_guild = False
         if is_private == "true":
             is_private = True
         else:
@@ -257,6 +267,7 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
             destination_realm=destination_realm,
             destination_character=destination_character,
             is_private=is_private,
+            is_target_guild=is_target_guild,
             comments_closed=comments_closed)
 
         try:
@@ -277,9 +288,9 @@ class BountyListAPIView(BountyBaseView, CSRFExemptMixin, View):
 class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     http_method_names = ['get', 'post']
     model = Bounty
-    fields = [
+    fields = (
         'description', 'reward', 'status', 'source_character', 'comments_closed',
-        'source_realm', 'is_private', 'winner_character', 'winner_realm']
+        'source_realm', 'is_private', 'winner_character', 'winner_realm', )
 
     def get(self, request, *args, **kwargs):
         try:
@@ -340,6 +351,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
                     value = False
             elif field == 'status':
                 value = int(value)
+            # Check if value is modified
             if value is not None and value != getattr(bounty, field):
                 setattr(bounty, field, value)
                 modified = True

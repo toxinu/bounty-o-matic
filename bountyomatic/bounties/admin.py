@@ -46,9 +46,11 @@ class CommentAdmin(admin.ModelAdmin):
 class BountyAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'status', 'region', 'source',
-        'destination', 'added_date', 'updated_date',
-        'comments_counter', 'is_private', 'external', )
-    list_filter = ('added_date', 'updated_date', 'is_private', 'status', 'region', )
+        'destination', 'destination_faction', 'added_date', 'updated_date',
+        'comments_counter', 'is_target_guild', 'is_private', 'external', )
+    list_filter = (
+        'added_date', 'updated_date', 'is_private',
+        'is_target_guild', 'destination_faction', 'status', 'region', )
     search_fields = (
         'id', 'region', 'source_character', 'source_realm',
         'destination_character', 'destination_realm', )
