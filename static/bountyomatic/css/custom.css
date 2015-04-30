@@ -105,7 +105,6 @@ div.chosen-container.chosen-container-active.chosen-with-drop a.chosen-single {
     transform: rotate(359deg);
   }
 }
-
 #loading-bar {
   margin-left:0px;
   margin-right:-5px;
@@ -117,7 +116,7 @@ div.chosen-container.chosen-container-active.chosen-with-drop a.chosen-single {
 #loading-bar .progress-bar {
   width:100%;padding-top:8px;font-weight:bold;font-size:90%
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   #loading-bar {
     margin: 0 auto;
   }
@@ -126,6 +125,7 @@ img.character-thumbnail {
   width: 50px;
   height: 50px;
 }
+
 label, button, select, .chosen-results li, .chosen-container, .navbar {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
