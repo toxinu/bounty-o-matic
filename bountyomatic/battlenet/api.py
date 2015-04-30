@@ -280,8 +280,8 @@ def get_pretty_realm(realm, region=None):
 def get_guild_thumbnail(region, realm, guild):
     detail = get_guild(region, realm, guild)
     if detail.get('side') == 0:
-        return settings.STATIC_URL + "bountyomatic/img/thumbnails/1-0.jpg"
-    return settings.STATIC_URL + "bountyomatic/img/thumbnails/2-0.jpg"
+        return settings.STATIC_URL + "bountyomatic/img/alliance_guild.png"
+    return settings.STATIC_URL + "bountyomatic/img/horde_guild.png"
 
 
 def get_character_thumbnail(region, realm, character):
