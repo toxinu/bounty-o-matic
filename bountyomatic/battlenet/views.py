@@ -46,10 +46,10 @@ class PlayerBattleTagAPIView(View):
             return HttpResponseForbidden(
                 json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
-        battletag = get_player_battletag(self.request.user)
+        battletag, error = get_player_battletag(self.request.user)
         if battletag:
             return HttpResponse(
-                json.dumps({"battletag": get_player_battletag(self.request.user)}),
+                json.dumps({"battletag": battletag}),
                 content_type="application/json")
         return HttpResponseBadRequest(
             json.dumps({'status': 'nok', 'reason': _(

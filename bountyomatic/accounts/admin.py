@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.filters import SimpleListFilter
 
 from .models import User
+from ..battlenet.api import get_player_battletag
 from ..battlenet.api import refresh_player_cache
 
 
@@ -30,7 +31,8 @@ class NullBattleTagFilter(SimpleListFilter):
 
 class CustomUserAdmin(UserAdmin):
     list_display = (
-        'username', 'battletag', 'date_joined', 'last_login', 'is_staff', 'is_active', )
+        'username', 'battletag', 'date_joined', 'last_login',
+        'is_staff', 'is_active', 'battlenet_error')
     list_filter = (NullBattleTagFilter, 'is_active', 'is_superuser', 'is_staff', )
     ordering = ('-date_joined', )
     actions = ('refresh_user_data', 'ban_user', )
@@ -45,6 +47,12 @@ class CustomUserAdmin(UserAdmin):
         except:
             return '%s (%s)' % (obj, _("Battletag not found"))
     battletag.allow_tags = True
+
+    def battlenet_error(self, obj):
+        if not obj.battletag:
+            battletag, error = get_player_battletag(obj)
+            return error
+    battlenet_error.short_description = _('BattleNet error')
 
     def refresh_user_data(self, request, queryset):
         for user in queryset.all():

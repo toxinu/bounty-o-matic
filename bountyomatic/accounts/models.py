@@ -9,4 +9,4 @@ class User(AbstractUser):
         from ..battlenet.api import get_player_battletag
 
         super().clean()
-        self.battletag = get_player_battletag(self)
+        self.battletag, error = get_player_battletag(self)

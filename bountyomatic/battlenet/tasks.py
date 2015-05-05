@@ -15,7 +15,7 @@ def refresh_battletags():
     from ..accounts.models import User
 
     for user in User.objects.all():
-        battletag = get_player_battletag(user, update=True)
+        battletag, error = get_player_battletag(user, update=True)
         if battletag != user.battletag:
             user.battletag = battletag
             user.save()
