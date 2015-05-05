@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 13:29+0000\n"
+"POT-Creation-Date: 2015-05-05 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: bountyomatic/accounts/admin.py:14
+msgid "BattleTag"
+msgstr "BattleTag"
 
 #: bountyomatic/accounts/admin.py:19
 msgid "Has value"
@@ -42,8 +46,12 @@ msgstr "Rafraichire les données BattleNet"
 msgid "Ban user"
 msgstr "Bannir cet utilisateur"
 
+#: bountyomatic/accounts/admin.py:75
+msgid "Force new BattleNet authentication"
+msgstr "Forcer une nouvelle authentification à BattleNet"
+
 #: bountyomatic/accounts/views.py:37 bountyomatic/battlenet/views.py:25
-#: bountyomatic/battlenet/views.py:47
+#: bountyomatic/battlenet/views.py:49
 msgid "Need an authenticated user."
 msgstr "Utilisateur authentifié requis."
 
@@ -170,16 +178,16 @@ msgstr "Moine"
 msgid "Druid"
 msgstr "Druide"
 
-#: bountyomatic/battlenet/api.py:233
+#: bountyomatic/battlenet/api.py:232
 msgid "No social authentication attached"
-msgstr ""
+msgstr "Aucune authentification à Battlenet trouvée"
 
-#: bountyomatic/battlenet/views.py:56
+#: bountyomatic/battlenet/views.py:60
 msgid "Error while contacting BattleNet. Maybe try logout/login."
 msgstr ""
 "Erreur durant la connexion à BattleNet. Essai de te déconnecter/reconnecter."
 
-#: bountyomatic/battlenet/views.py:66
+#: bountyomatic/battlenet/views.py:70
 msgid "Need region parameter."
 msgstr "Une région est requise."
 
@@ -437,11 +445,11 @@ msgstr "Commentaire ajouté."
 msgid "Comment updated."
 msgstr "Commentaire mis à jour."
 
-#: bountyomatic/settings.py:210
+#: bountyomatic/settings.py:246
 msgid "English"
 msgstr "Anglais"
 
-#: bountyomatic/settings.py:211
+#: bountyomatic/settings.py:247
 msgid "French"
 msgstr "Français"
 
