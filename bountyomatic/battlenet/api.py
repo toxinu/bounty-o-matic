@@ -100,8 +100,8 @@ def get_regions():
 
 
 def refresh_player_cache(user):
-    get_player_battletag(user.pk, update=True)
-    get_player_characters(user.pk, update=True)
+    get_player_battletag(user, update=True)
+    get_player_characters(user, update=True)
 
 
 # CACHED
@@ -226,8 +226,6 @@ def get_player_characters(user, regions=None, update=False):
 
 # CACHED
 def get_player_battletag(user, update=False):
-    if not isinstance(user, User):
-        user = User.objects.get(pk=user)
     if not hasattr(user, 'social_auth') or not user.social_auth.exists():
         return False
     key = 'battlenet:battletag:%s' % user.pk
@@ -238,14 +236,12 @@ def get_player_battletag(user, update=False):
             'https://eu.battle.net/api/account/user/battletag',
             params={'access_token': user.social_auth.first().access_token})
         try:
-            if not r or r.json().get('status') == 'nok':
-                return battletag
-            else:
+            if r or r.json().get('status') != 'nok':
                 battletag = r.json().get('battletag')
-                cache.set(
-                    key, battletag, timeout=settings.BATTLENET_CACHE.get('battletag'))
         except ValueError:
-            return battletag
+            pass
+        cache.set(
+            key, battletag, timeout=settings.BATTLENET_CACHE.get('battletag'))
     return battletag
 
 

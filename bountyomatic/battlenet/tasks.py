@@ -15,7 +15,7 @@ def refresh_battletags():
     from ..accounts.models import User
 
     for user in User.objects.all():
-        get_player_battletag(user.pk, update=True)
+        get_player_battletag(user, update=True)
 
 
 @app.task

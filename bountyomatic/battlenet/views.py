@@ -46,7 +46,7 @@ class PlayerBattleTagAPIView(View):
                 json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
         return HttpResponse(
-            json.dumps({"battletag": get_player_battletag(self.request.user.pk)}),
+            json.dumps({"battletag": get_player_battletag(self.request.user)}),
             content_type="application/json")
 
 
