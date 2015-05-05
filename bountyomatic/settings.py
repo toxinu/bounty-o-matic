@@ -79,6 +79,7 @@ WSGI_APPLICATION = 'bountyomatic.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.battlenet.BattleNetOAuth2',
+    'bountyomatic.accounts.auth.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
