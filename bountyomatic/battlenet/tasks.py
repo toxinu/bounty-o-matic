@@ -15,7 +15,10 @@ def refresh_battletags():
     from ..accounts.models import User
 
     for user in User.objects.all():
-        get_player_battletag(user, update=True)
+        battletag = get_player_battletag(user, update=True)
+        if battletag != user.battletag:
+            user.battletag = battletag
+            user.save()
 
 
 @app.task
