@@ -3,16 +3,35 @@ from django.contrib.auth.admin import UserAdmin
 from django.core.urlresolvers import reverse
 from django.contrib.sessions.models import Session
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.filters import SimpleListFilter
 
 from .models import User
 from ..battlenet.api import refresh_player_cache
-from ..battlenet.api import get_player_battletag
+
+
+class NullBattleTagFilter(SimpleListFilter):
+    title = 'Null BattleTag'
+    parameter_name = 'battletag'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('1', _('Has value'), ),
+            ('0', _('None'), ),
+        )
+
+    def queryset(self, request, queryset):
+        kwargs = {self.parameter_name: None}
+        if self.value() == '0':
+            return queryset.filter(**kwargs)
+        if self.value() == '1':
+            return queryset.exclude(**kwargs)
+        return queryset
 
 
 class CustomUserAdmin(UserAdmin):
     list_display = (
-        'username', 'battletag', 'email', 'date_joined',
-        'last_login', 'is_staff', 'is_active', )
+        'username', 'battletag', 'date_joined', 'last_login', 'is_staff', 'is_active', )
+    list_filter = (NullBattleTagFilter, 'is_active', 'is_superuser', 'is_staff', )
     ordering = ('-date_joined', )
     actions = ('refresh_user_data', 'ban_user', )
 
@@ -22,7 +41,7 @@ class CustomUserAdmin(UserAdmin):
                 reverse('admin:%s_%s_change' % (
                     obj._meta.app_label, obj._meta.model_name),
                     args=(obj.id,)),
-                get_player_battletag(obj))
+                obj.battletag)
         except:
             return '%s (%s)' % (obj, _("Battletag not found"))
     battletag.allow_tags = True

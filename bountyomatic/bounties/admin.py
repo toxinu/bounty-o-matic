@@ -5,8 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Bounty
 from .models import Comment
 
-from ..battlenet.api import get_player_battletag
-
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
@@ -25,7 +23,7 @@ class CommentAdmin(admin.ModelAdmin):
             reverse('admin:%s_%s_change' % (
                     obj.user._meta.app_label, obj.user._meta.module_name),
                     args=(obj.user.id,)),
-            get_player_battletag(obj.user))
+            obj.user.battletag)
     battletag.allow_tags = True
 
     def external(self, obj):
@@ -61,7 +59,7 @@ class BountyAdmin(admin.ModelAdmin):
                 reverse('admin:%s_%s_change' % (
                     obj.user._meta.app_label, obj.user._meta.module_name),
                     args=(obj.user.id,)),
-                get_player_battletag(obj.user))
+                obj.user.battletag)
         except:
             return '%s (%s)' % (obj.user, _("Battletag not found"))
     battletag.allow_tags = True
