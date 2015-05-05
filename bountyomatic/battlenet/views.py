@@ -1,6 +1,7 @@
 import json
 
 from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
 from django.views.generic import View
 from django.utils.translation import ugettext as _
@@ -42,11 +43,17 @@ class PlayerBattleTagAPIView(View):
 
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated():
-            return HttpResponseBadRequest(
+            return HttpResponseForbidden(
                 json.dumps({'status': 'nok', 'reason': _('Need an authenticated user.')}),
                 content_type="application/json")
-        return HttpResponse(
-            json.dumps({"battletag": get_player_battletag(self.request.user)}),
+        battletag = get_player_battletag(self.request.user)
+        if battletag:
+            return HttpResponse(
+                json.dumps({"battletag": get_player_battletag(self.request.user)}),
+                content_type="application/json")
+        return HttpResponseBadRequest(
+            json.dumps({'status': 'nok', 'reason': _(
+                'Error while contacting BattleNet. Maybe try logout/login.')}),
             content_type="application/json")
 
 

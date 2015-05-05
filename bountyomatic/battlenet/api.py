@@ -237,7 +237,7 @@ def get_player_battletag(user, update=False):
             params={'access_token': user.social_auth.first().access_token})
         try:
             if r or r.json().get('status') != 'nok':
-                battletag = r.json().get('battletag')
+                battletag = r.json().get('battletag', battletag)
         except ValueError:
             pass
         cache.set(
