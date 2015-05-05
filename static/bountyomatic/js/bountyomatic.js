@@ -8,7 +8,8 @@ function setProgressBar(text) {
   battletag.addClass("progress-bar-striped");
   battletag.addClass("progress-bar-warning");
 }
-function unsetProgressBar(text) {
+function unsetProgressBar(text, status) {
+  var status = status || "success"
   var battletag = $("div.battletag");
   battletag.text(text);
   battletag.removeClass("active");
@@ -29,6 +30,8 @@ function getPlayerBattletag(callback) {
       unsetProgressBar(data.battletag);
     },
     error: function(xhr, status, err) {
+      if(xhr.status == 400)
+        unsetProgressBar(xhr.responseJSON.reason, "error");
       console.error("/api/player-battletag", status, err.toString());
     },
   });

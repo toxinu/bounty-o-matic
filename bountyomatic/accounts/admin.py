@@ -11,7 +11,7 @@ from ..battlenet.api import refresh_player_cache
 
 
 class NullBattleTagFilter(SimpleListFilter):
-    title = 'Null BattleTag'
+    title = _('BattleTag')
     parameter_name = 'battletag'
 
     def lookups(self, request, model_admin):
@@ -31,7 +31,7 @@ class NullBattleTagFilter(SimpleListFilter):
 
 class CustomUserAdmin(UserAdmin):
     list_display = (
-        'username', 'battletag', 'date_joined', 'last_login',
+        'id', 'username', 'battletag', 'date_joined', 'last_login',
         'is_staff', 'is_active', 'battlenet_error')
     list_filter = (NullBattleTagFilter, 'is_active', 'is_superuser', 'is_staff', )
     ordering = ('-date_joined', )

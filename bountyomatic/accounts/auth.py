@@ -24,3 +24,11 @@ class EmailBackend(BasicBackend):
                 user = None
         if user and user.check_password(password):
             return user
+
+
+def get_username(backend, details, response, *args, **kwargs):
+    username = response.get('accountId')
+    user = User.objects.filter(username=username)
+    if user:
+        return {'username': response.get('accountId'), 'user': user[0]}
+    return {'username': response.get('accountId')}

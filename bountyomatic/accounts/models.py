@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    battletag = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    battletag = models.CharField(max_length=20, null=True, blank=True)
 
     def clean(self):
         from ..battlenet.api import get_player_battletag
