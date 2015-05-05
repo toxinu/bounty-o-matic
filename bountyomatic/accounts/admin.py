@@ -35,7 +35,7 @@ class CustomUserAdmin(UserAdmin):
         'is_staff', 'is_active', 'battlenet_error')
     list_filter = (NullBattleTagFilter, 'is_active', 'is_superuser', 'is_staff', )
     ordering = ('-date_joined', )
-    actions = ('refresh_user_data', 'ban_user', )
+    actions = ('refresh_user_data', 'ban_user', 'new_social_auth', )
 
     def battletag(self, obj):
         try:
@@ -67,5 +67,11 @@ class CustomUserAdmin(UserAdmin):
             user.is_active = False
             user.save()
     ban_user.short_description = _("Ban user")
+
+    def new_social_auth(self, request, queryset):
+        for user in queryset.all():
+            if hasattr(user, 'social_auth') and user.social_auth.exists():
+                user.social_auth.all().delete()
+    new_social_auth.short_description = _("Force new BattleNet authentication")
 
 admin.site.register(User, CustomUserAdmin)
