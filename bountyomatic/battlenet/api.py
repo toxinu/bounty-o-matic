@@ -240,9 +240,9 @@ def get_player_battletag(user, update=False):
             'https://eu.battle.net/api/account/user/battletag',
             params={'access_token': user.social_auth.first().access_token})
         try:
-            if r or r.json().get('status') != 'nok':
+            if r.json().get('status') != 'nok':
                 battletag = r.json().get('battletag', battletag)
-            if r and r.json().get('error_description'):
+            if r.json().get('error_description'):
                 error = r.json().get('error_description')
         except ValueError:
             pass
