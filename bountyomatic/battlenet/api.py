@@ -100,7 +100,10 @@ def get_regions():
 
 
 def refresh_player_cache(user):
-    get_player_battletag(user, update=True)
+    battletag = get_player_battletag(user, update=True)
+    if battletag != user.battletag:
+        user.battletag = battletag
+        user.save()
     get_player_characters(user, update=True)
 
 
