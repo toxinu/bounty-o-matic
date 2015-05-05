@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 08:32+0000\n"
+"POT-Creation-Date: 2015-05-05 13:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: bountyomatic/accounts/admin.py:27 bountyomatic/bounties/admin.py:66
+#: bountyomatic/accounts/admin.py:19
+msgid "Has value"
+msgstr "A une valeur"
+
+#: bountyomatic/accounts/admin.py:20
+msgid "None"
+msgstr "Vide"
+
+#: bountyomatic/accounts/admin.py:48 bountyomatic/bounties/admin.py:64
 msgid "Battletag not found"
 msgstr "Battletag non trouvé"
 
-#: bountyomatic/accounts/admin.py:33
+#: bountyomatic/accounts/admin.py:55
+msgid "BattleNet error"
+msgstr "Erreur BattleNet"
+
+#: bountyomatic/accounts/admin.py:60
 msgid "Refresh user BattleNet data"
 msgstr "Rafraichire les données BattleNet"
 
-#: bountyomatic/accounts/admin.py:42
+#: bountyomatic/accounts/admin.py:69
 msgid "Ban user"
 msgstr "Bannir cet utilisateur"
 
@@ -158,27 +170,32 @@ msgstr "Moine"
 msgid "Druid"
 msgstr "Druide"
 
+#: bountyomatic/battlenet/api.py:233
+msgid "No social authentication attached"
+msgstr ""
+
 #: bountyomatic/battlenet/views.py:56
 msgid "Error while contacting BattleNet. Maybe try logout/login."
-msgstr "Erreur durant la connexion à BattleNet. Essai de te déconnecter/reconnecter."
+msgstr ""
+"Erreur durant la connexion à BattleNet. Essai de te déconnecter/reconnecter."
 
 #: bountyomatic/battlenet/views.py:66
 msgid "Need region parameter."
 msgstr "Une région est requise."
 
-#: bountyomatic/bounties/admin.py:21
+#: bountyomatic/bounties/admin.py:19
 msgid "Hide selected comment(s)"
 msgstr "Cacher les commentaires sélectionnés"
 
-#: bountyomatic/bounties/admin.py:34 templates/bounties/list.html:96
+#: bountyomatic/bounties/admin.py:32 templates/bounties/list.html:96
 msgid "View"
 msgstr "Voir"
 
-#: bountyomatic/bounties/admin.py:36 bountyomatic/bounties/admin.py:90
+#: bountyomatic/bounties/admin.py:34 bountyomatic/bounties/admin.py:88
 msgid "Context"
 msgstr "Contexte"
 
-#: bountyomatic/bounties/admin.py:83
+#: bountyomatic/bounties/admin.py:81
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -420,11 +437,11 @@ msgstr "Commentaire ajouté."
 msgid "Comment updated."
 msgstr "Commentaire mis à jour."
 
-#: bountyomatic/settings.py:209
+#: bountyomatic/settings.py:210
 msgid "English"
 msgstr "Anglais"
 
-#: bountyomatic/settings.py:210
+#: bountyomatic/settings.py:211
 msgid "French"
 msgstr "Français"
 
