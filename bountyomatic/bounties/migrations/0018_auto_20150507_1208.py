@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='bounty',
             name='slug',
-            field=models.UUIDField(unique=True, default=uuid.uuid4),
+            field=models.UUIDField(default=uuid.uuid4),
         ),
     ]
