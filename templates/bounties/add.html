@@ -145,9 +145,9 @@
   var isTargetGuild = false;
   var commentsClosed = false;
 
-  function loadBounty(id) {
+  function loadBounty(slug) {
     $.ajax({
-      url: "/api/bounty/" + id,
+      url: "/api/bounty/" + slug,
       dataType: 'json',
       success: function(data) {
         getRealms(data.region, function(realms_data) {
@@ -168,10 +168,11 @@
           commentsClosed = data.comments_closed;
 
           // Set bounty
-          $("#bounty-return").attr('href', '/bounty/' + id).removeClass('hidden');
+          $("#bounty-return").attr('href', '/bounty/' + slug).removeClass('hidden');
           $("select#player-characters option").filter(function() {
-              return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
+            return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
+          $("select#player-characters").trigger('chosen:updated');;
           $("select#realms option").filter(function() {
               return $(this).val() == data.destination_realm; 
           }).prop('selected', true);
@@ -204,7 +205,7 @@
         });
       },
       error: function(xhr, status, err) {
-        console.error("/api/bounty/" + id, status, err.toString());
+        console.error("/api/bounty/" + slug, status, err.toString());
       }
     });
   };
@@ -320,7 +321,7 @@
       type: 'POST',
       data: bounty,
       success: function(data) {
-        window.location = "/bounty/" + data.id;
+        window.location = "/bounty/" + data.slug;
       },
       error: function(xhr, status, err) {
         var jsonResponse = $.parseJSON(xhr.responseText)
@@ -368,16 +369,24 @@
       type: 'POST',
       data: bounty,
       success: function(data) {
-        window.location = "/bounty/" + data.id;
+        window.location = "/bounty/" + data.slug;
       },
       error: function(xhr, status, err) {
-        var jsonResponse = $.parseJSON(xhr.responseText)
         var errorMessage = '';
-        if (jsonResponse.reasons) {
-          $.map(jsonResponse.reasons, function(val) {
-            errorMessage += '\n- ' + val;
-          })
-        }
+        try {
+          var jsonResponse = $.parseJSON(xhr.responseText)
+          if (jsonResponse.reasons) {
+           $.map(jsonResponse.reasons, function(val) {
+              errorMessage += '\n- ' + val;
+            })
+          }
+          if (jsonResponse.reasons) {
+            $.map(jsonResponse.reasons, function(val) {
+              errorMessage += '\n- ' + val;
+            })
+          }
+        } catch (e) {}
+
         if (!errorMessage)
           errorMessage = '\n- {% trans "Unknown error" %}';
 

@@ -13,7 +13,7 @@
     {% endif %}
     <small>{% trans "on" %} {{ bounty.destination_character }} - {{ bounty.destination_realm_display }}{% if bounty.destination_guild %} - {{ bounty.destination_guild }}{% endif %}</small>
     {% if bounty.user == user.pk %}
-      <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
+      <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.slug }}">{% trans "Edit" %}</a>
     {% endif %}
   </h1>
   {% if bounty.is_private %}
@@ -132,7 +132,7 @@
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-addon input-sm">{% trans "Bounty signature" %} <abbr title="{% trans 'You can use this link on forum or everywhere you want to spread this bounty!' %}"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></abbr></div>
-          <input class="form-control input-sm" onclick="this.select()" type="text" readonly value="{{ SITE_URL }}{% url 'bounty-signature' bounty.id %}?locale={{ LANGUAGE_CODE }}">
+          <input class="form-control input-sm" onclick="this.select()" type="text" readonly value="{{ SITE_URL }}{% url 'bounty-signature' bounty.slug %}?locale={{ LANGUAGE_CODE }}">
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@
           <span class="pull-right">
             <small>
               {% if comment.user == request.user.id %}
-                <a href="{% url 'comment-detail' bounty.id comment.id %}">{% trans "Edit" %}</a> | 
+                <a href="{% url 'comment-detail' bounty.slug comment.id %}">{% trans "Edit" %}</a> | 
               {% endif %}
               {{ comment.added_date|date:"l d M Y" }} {{ comment.added_date|time:"H:i" }}
             </small>
@@ -308,13 +308,13 @@
         }
 
         $.ajax({
-          url: "/api/bounty/{{ bounty.id }}/comment",
+          url: "/api/bounty/{{ bounty.slug }}/comment",
           dataType: 'json',
           type: 'POST',
           data: comment,
           success: function(data) {
             $.cookie('comment-character', character, {expires: 21});
-            window.location = "/bounty/{{ bounty.id }}";
+            window.location = "/bounty/{{ bounty.slug }}";
           },
           error: function(xhr, status, err) {
             var errorMessage = '';
@@ -334,7 +334,7 @@
               errorMessage = '\n- {% trans "Gobelins have made an error while processing your comment. Can you retry later?" %}';
 
             alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
-            console.error("/api/bounty/{{ bounty.id }}/comment", status, err.toString());
+            console.error("/api/bounty/{{ bounty.slug }}/comment", status, err.toString());
             $("button#comment-save").button("reset");
           }
         }); 

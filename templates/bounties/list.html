@@ -91,9 +91,9 @@
         <span class="label label-default">{% trans "Private" %}</span>
       {% endif %}
       {% if bounty.user == user.id %}
-        <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.id }}">{% trans "Edit" %}</a>
+        <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.slug }}">{% trans "Edit" %}</a>
       {% endif %}
-      <a class="btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.id %}">{% trans "View" %}</a>
+      <a class="btn btn-default btn-xs" href="{% url 'bounty-detail' bounty.slug %}">{% trans "View" %}</a>
     </span>
     </li>
   {% empty %}

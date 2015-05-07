@@ -1,3 +1,4 @@
+import uuid
 import datetime
 
 from django.db import models
@@ -69,6 +70,7 @@ class Bounty(models.Model):
         default=False, verbose_name=_('Comments closed by staff'))
     is_target_guild = models.BooleanField(
         default=False, verbose_name=_("Target guild"))
+    slug = models.UUIDField(default=uuid.uuid4, unique=True)
 
     ##########
     # Source #

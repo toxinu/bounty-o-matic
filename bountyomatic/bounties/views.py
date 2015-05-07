@@ -106,7 +106,7 @@ class BountyBaseView:
                 updated_date = str(updated_date)
 
             objects.append({
-                'id': bounty.pk,
+                'slug': str(bounty.slug),
                 'user': bounty.user.pk,
                 'region': bounty.region,
                 'region_display': bounty.get_region_display(),
@@ -161,7 +161,7 @@ class BountyBaseView:
                     'has_next': True,
                     'next_page_number': comments_page + 1})
         return {
-            'id': bounty.pk,
+            'slug': str(bounty.slug),
             'user': bounty.user.pk,
             'region': bounty.region,
             'region_display': bounty.get_region_display(),
@@ -295,7 +295,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
     def get(self, request, *args, **kwargs):
         try:
             bounty = Bounty.objects.prefetch_related('comment_set').get(
-                pk=int(self.kwargs.get('bounty_id')))
+                slug=self.kwargs.get('bounty_slug'))
         except ValueError:
             return HttpResponseBadRequest(
                 json.dumps({'status': 'nok', 'reason': _('Invalid bounty.')}),
@@ -316,7 +316,7 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
 
     def post(self, request, *args, **kwargs):
         try:
-            bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
+            bounty = Bounty.objects.get(slug=self.kwargs.get('bounty_slug'))
         except ValueError:
             return HttpResponseBadRequest(
                 json.dumps({'status': 'nok', 'reason': _('Invalid bounty.')}),
@@ -374,7 +374,7 @@ class BountySignatureAPIView(View):
     def get(self, request, *args, **kwargs):
         try:
             language = request.GET.get('locale') or translation.get_language()
-            bounty = Bounty.objects.get(pk=int(self.kwargs.get('bounty_id')))
+            bounty = Bounty.objects.get(slug=self.kwargs.get('bounty_slug'))
             translation.activate(language)
             return HttpResponse(
                 export.render_bounty(bounty, language), content_type="image/png")
@@ -390,7 +390,7 @@ class BountySignatureAPIView(View):
 class BountyDetailView(BountyBaseView, TemplateView):
     template_name = "bounties/detail.html"
 
-    def get_context_data(self, bounty_id):
+    def get_context_data(self, bounty_slug):
         context = super().get_context_data()
         context.update({'user_timezone': self.get_user_timezone()})
 
@@ -400,7 +400,7 @@ class BountyDetailView(BountyBaseView, TemplateView):
             comments_page = 1
 
         try:
-            bounty = Bounty.objects.select_related('user').get(pk=bounty_id)
+            bounty = Bounty.objects.select_related('user').get(slug=bounty_slug)
             context.update({
                 'bounty': self.get_serializable_bounty_detail(
                     bounty, comments_page, as_datetime=True),
@@ -503,18 +503,18 @@ class CommentBaseView:
                 json.dumps({'status': 'nok', 'reason': _('Your account is not active.')}),
                 content_type="application/json")
 
-        bounty_id = self.kwargs.get('bounty_id')
+        bounty_slug = self.kwargs.get('bounty_slug')
         comment_id = self.kwargs.get('comment_id')
         try:
             comment = Comment.objects\
                 .select_related('bounty', 'user')\
                 .only('user__id', 'bounty__id')\
                 .get(pk=int(comment_id))
-            bounty_id = int(bounty_id)
+            bounty = Bounty.objects.get(slug=bounty_slug)
         except (Comment.DoesNotExist, ValueError):
             raise ValidationError(_("Can't found this comment."))
 
-        if bounty_id != comment.bounty.id:
+        if bounty.id != comment.bounty.id:
             raise ValidationError(_("Can't found this comment."))
 
         if comment.user != self.request.user:
@@ -527,13 +527,13 @@ class CommentAPIView(CommentBaseView, CSRFExemptMixin, View):
 
     def post(self, request, *args, **kwargs):
         text = self.request.POST.get('comment')
-        bounty_id = self.kwargs.get('bounty_id')
+        bounty_slug = self.kwargs.get('bounty_slug')
         character_name = self.request.POST.get('character_name')
         character_realm = self.request.POST.get('character_realm')
         captcha = self.request.POST.get('captcha')
 
         try:
-            bounty = Bounty.objects.get(pk=int(bounty_id))
+            bounty = Bounty.objects.get(slug=bounty_slug)
         except (Bounty.DoesNotExist, ValueError):
             return HttpResponseBadRequest(
                 json.dumps({'status': 'nok', 'reason': _('Bounty does not exist.')}),

@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from .bounties import views as bounties_views
 from .accounts import views as accounts_views
 from .battlenet import views as battlenet_views
+from .bounties import redirect_views as redirect_views
 
 urlpatterns = patterns(
     '',
@@ -27,18 +28,21 @@ urlpatterns = patterns(
         bounties_views.BountyListView.as_view(), name='bounty-list'),
     url(r'^bounty/add$',
         TemplateView.as_view(template_name="bounties/add.html"), name='bounty-add'),
-    url(r'^bounty/(?P<bounty_id>\d+)$',
-        bounties_views.BountyDetailView.as_view(), name='bounty-detail'),
-    url(r'^bounty/(?P<bounty_id>\d+)/comment/(?P<comment_id>\d+)$',
-        bounties_views.CommentEditView.as_view(), name='comment-detail'),
-    url(r'^bounty/(?P<bounty_id>\d+)/signature',
-        bounties_views.BountySignatureAPIView.as_view(), name='bounty-signature'),
+
+    url(r'^bounty/(?P<bounty_id>\d+)$', redirect_views.BountyDetailView.as_view()),
+    url(r'^bounty/(?P<bounty_id>\d+)/signature', redirect_views.BountySignatureAPIView.as_view()),
+    url(r'^bounty/(?P<bounty_id>\d+)/comment/(?P<comment_id>\d+)$', redirect_views.CommentEditView.as_view(),),
+
+    url(r'^bounty/(?P<bounty_slug>[-\w]+)$', bounties_views.BountyDetailView.as_view(), name='bounty-detail'),
+    url(r'^bounty/(?P<bounty_slug>[-\w]+)/signature', bounties_views.BountySignatureAPIView.as_view(), name='bounty-signature'),
+    url(r'^bounty/(?P<bounty_slug>[-\w]+)/comment/(?P<comment_id>\d+)$', bounties_views.CommentEditView.as_view(), name='comment-detail'),
+
     # API
-    url(r'^api/bounty/(?P<bounty_id>\d+)/comment/(?P<comment_id>\d+)',
+    url(r'^api/bounty/(?P<bounty_slug>[-\w]+)/comment/(?P<comment_id>\d+)',
         bounties_views.CommentDetailAPIView.as_view(), name='api-comment-detail'),
-    url(r'^api/bounty/(?P<bounty_id>\d+)/comment',
+    url(r'^api/bounty/(?P<bounty_slug>[-\w]+)/comment',
         bounties_views.CommentAPIView.as_view(), name='api-comment'),
-    url(r'^api/bounty/(?P<bounty_id>\d+)',
+    url(r'^api/bounty/(?P<bounty_slug>[-\w]+)',
         bounties_views.BountyDetailAPIView.as_view(), name='api-bounty-detail'),
     url(r'^api/bounty',
         bounties_views.BountyListAPIView.as_view(), name='api-bounty-list'),

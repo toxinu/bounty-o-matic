@@ -27,7 +27,7 @@
       cols="50">{{ comment.text }}</textarea>
   <br>
   <div class="pull-right">
-  	<a href="{% url 'bounty-detail' bounty.id %}#comments" class="btn btn-link">{% trans "Return to bounty" %}</a>
+  	<a href="{% url 'bounty-detail' bounty.slug %}#comments" class="btn btn-link">{% trans "Return to bounty" %}</a>
   	<button class="btn btn-success" data-loading-text="{% trans 'Loading...' %}" id="comment-save">
     	{% trans "Save" %}
   	</button>
@@ -62,12 +62,12 @@
     }
 
     $.ajax({
-    	url: "{% url 'api-comment-detail' bounty.id comment.id %}",
+    	url: "{% url 'api-comment-detail' bounty.slug comment.id %}",
       dataType: 'json',
       type: 'POST',
       data: comment,
       success: function(data) {
-        window.location = "{% url 'bounty-detail' bounty.id %}";
+        window.location = "{% url 'bounty-detail' bounty.slug %}";
       },
       error: function(xhr, status, err) {
         var jsonResponse = $.parseJSON(xhr.responseText)
@@ -84,7 +84,7 @@
           errorMessage = '\n- {% trans "Unknown error" %}';
 
         alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
-        console.error("{% url 'api-comment-detail' bounty.id comment.id %}", status, err.toString());
+        console.error("{% url 'api-comment-detail' bounty.slug comment.id %}", status, err.toString());
         $("button#comment-save").button("reset");
       }
     }); 

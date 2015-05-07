@@ -1,8 +1,8 @@
-Django==1.7.7
-Markdown==2.6.1
+Django==1.8.1
+Markdown==2.6.2
 python-social-auth==0.2.3
 requests-oauthlib==0.4.2
-requests==2.6.0
+requests==2.7.0
 django-cachalot==1.0.0
 django-compressor==1.4
 WeasyPrint==0.23
