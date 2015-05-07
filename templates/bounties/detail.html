@@ -198,7 +198,7 @@
     {% for comment in bounty.comments.objects %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          {{ comment.character_name }} - {{ comment.character_realm_display }}<span class="hidden-xs">{% if comment.character_guild %} - {{ comment.character_guild }}{% endif %}</span>
+          <a href="{{ comment.character_armory }}" target="_blank">{{ comment.character_name }} - {{ comment.character_realm_display }}<span class="hidden-xs">{% if comment.character_guild %} - {{ comment.character_guild }}{% endif %}</span></a>
           {% if comment.is_staff %}
             <span class="label label-info">{% trans "Staff" %}</span>
           {% endif %}
