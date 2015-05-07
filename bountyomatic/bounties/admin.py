@@ -50,7 +50,7 @@ class BountyAdmin(admin.ModelAdmin):
         'added_date', 'updated_date', 'is_private',
         'is_target_guild', 'destination_faction', 'status', 'region', )
     search_fields = (
-        'id', 'region', 'source_character', 'source_realm',
+        'id', 'slug', 'source_character', 'source_realm',
         'destination_character', 'destination_realm', )
 
     def battletag(self, obj):
