@@ -33,7 +33,8 @@ class BountySignatureAPIView(View):
         bounty = Bounty.objects.filter(pk=bounty_id).only('slug')
         if not bounty:
             return HttpResponseNotFound()
-        return redirect(reverse('bounty-detail', kwargs={'bounty_slug': bounty[0].slug}))
+        return redirect(
+            reverse('bounty-signature', kwargs={'bounty_slug': bounty[0].slug}))
 
 
 class CommentEditView(View):
