@@ -21,7 +21,7 @@ class CommentAdmin(admin.ModelAdmin):
     def battletag(self, obj):
         return '<a href="%s" target="_blank">%s</a>' % (
             reverse('admin:%s_%s_change' % (
-                    obj.user._meta.app_label, obj.user._meta.module_name),
+                    obj.user._meta.app_label, obj.user._meta.model_name),
                     args=(obj.user.id,)),
             obj.user.battletag)
     battletag.allow_tags = True
@@ -57,10 +57,11 @@ class BountyAdmin(admin.ModelAdmin):
         try:
             return '<a href="%s" target="_blank">%s</a>' % (
                 reverse('admin:%s_%s_change' % (
-                    obj.user._meta.app_label, obj.user._meta.module_name),
+                    obj.user._meta.app_label, obj.user._meta.model_name),
                     args=(obj.user.id,)),
                 obj.user.battletag)
         except:
+            raise
             return '%s (%s)' % (obj.user, _("Battletag not found"))
     battletag.allow_tags = True
 
