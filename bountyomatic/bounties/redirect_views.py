@@ -9,6 +9,10 @@ from .models import Bounty
 class BountyDetailView(View):
     def dispatch(self, request, *args, **kwargs):
         bounty_id = self.kwargs.get('bounty_id')
+        try:
+            bounty_id = int(bounty_id)
+        except ValueError:
+            bounty_id = 100000
         if bounty_id > 136:
             return HttpResponseNotFound()
         bounty = Bounty.objects.filter(pk=bounty_id).only('slug')
@@ -20,6 +24,10 @@ class BountyDetailView(View):
 class BountySignatureAPIView(View):
     def dispatch(self, request, *args, **kwargs):
         bounty_id = self.kwargs.get('bounty_id')
+        try:
+            bounty_id = int(bounty_id)
+        except ValueError:
+            bounty_id = 100000
         if bounty_id > 136:
             return HttpResponseNotFound()
         bounty = Bounty.objects.filter(pk=bounty_id).only('slug')
@@ -32,6 +40,10 @@ class CommentEditView(View):
     def dispatch(self, request, *args, **kwargs):
         bounty_id = self.kwargs.get('bounty_id')
         comment_id = self.kwargs.get('comment_id')
+        try:
+            bounty_id = int(bounty_id)
+        except ValueError:
+            bounty_id = 100000
         if bounty_id > 136:
             return HttpResponseNotFound()
         bounty = Bounty.objects.filter(pk=bounty_id).only('slug')
