@@ -111,6 +111,7 @@ div.chosen-container.chosen-container-active.chosen-with-drop a.chosen-single {
   margin-top:13px;
   margin-bottom:-16px;
   height:36px;
+  background-color: transparent !important;
 }
 #loading-bar .progress-bar {
   width:100%;
