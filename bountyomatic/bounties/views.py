@@ -295,7 +295,8 @@ class BountyDetailAPIView(BountyBaseView, CSRFExemptMixin, View):
 
     def get(self, request, *args, **kwargs):
         try:
-            bounty = Bounty.objects.prefetch_related('comment_set').get(
+            bounty = Bounty.objects.prefetch_related(
+                'comment_set').exclude(is_hidden=True).get(
                 slug=self.kwargs.get('bounty_slug'))
         except ValueError:
             return HttpResponseBadRequest(
@@ -401,7 +402,8 @@ class BountyDetailView(BountyBaseView, TemplateView):
             comments_page = 1
 
         try:
-            bounty = Bounty.objects.select_related('user').get(slug=bounty_slug)
+            bounty = Bounty.objects.select_related('user').exclude(
+                is_hidden=True).get(slug=bounty_slug)
             context.update({
                 'bounty': self.get_serializable_bounty_detail(
                     bounty, comments_page, as_datetime=True),
