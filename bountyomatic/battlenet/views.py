@@ -53,7 +53,6 @@ class PlayerBattleTagAPIView(View):
             return HttpResponse(
                 json.dumps({"battletag": battletag}),
                 content_type="application/json")
-        print(error)
         logout(request)
         return HttpResponseBadRequest(
             json.dumps({'status': 'nok', 'reason': _(
