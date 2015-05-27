@@ -71,6 +71,7 @@ class Bounty(models.Model):
     is_target_guild = models.BooleanField(
         default=False, verbose_name=_("Target guild"))
     slug = models.UUIDField(default=uuid.uuid4, unique=True)
+    is_hidden = models.BooleanField(default=False, verbose_name=_("Hidden"))
 
     ##########
     # Source #
