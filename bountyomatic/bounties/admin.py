@@ -28,7 +28,7 @@ class CommentAdmin(admin.ModelAdmin):
 
     def external(self, obj):
         return '<a href="%s#comments" target="_blank">%s</a>' % (
-            reverse('bounty-detail', args=(obj.bounty.pk,)),
+            reverse('bounty-detail', args=(obj.bounty.slug,)),
             _('View'))
     external.allow_tags = True
     external.short_description = _("Context")
@@ -45,9 +45,9 @@ class BountyAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'status', 'region', 'source',
         'destination', 'destination_faction', 'added_date', 'updated_date',
-        'comments_counter', 'is_target_guild', 'is_private', 'external', )
+        'comments_counter', 'is_target_guild', 'is_private', 'is_hidden', 'external', )
     list_filter = (
-        'added_date', 'updated_date', 'is_private',
+        'added_date', 'updated_date', 'is_private', 'is_hidden',
         'is_target_guild', 'destination_faction', 'status', 'region', )
     search_fields = (
         'id', 'slug', 'source_character', 'source_realm',
@@ -83,7 +83,7 @@ class BountyAdmin(admin.ModelAdmin):
 
     def external(self, obj):
         return '<a href="%s" target="_blank">%s</a>' % (
-            reverse('bounty-detail', args=(obj.pk,)),
+            reverse('bounty-detail', args=(obj.slug,)),
             'View')
     external.allow_tags = True
     external.short_description = _("Context")
