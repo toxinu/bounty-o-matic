@@ -33,7 +33,8 @@ class BountyBaseView:
         return get_timezone_from_ip(self.request.META['REMOTE_ADDR'])
 
     def get_filter_kwargs(self, extra_params={}):
-        filter_kwargs = extra_params
+        filter_kwargs = {'is_hidden': False}
+        filter_kwargs.update(extra_params)
         region = self.request.GET.get('region', None)
         status = self.request.GET.get('status', None)
         realm = self.request.GET.get('realm', None)
