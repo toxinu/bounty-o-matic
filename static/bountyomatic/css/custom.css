@@ -140,6 +140,13 @@ label, button, select, .chosen-results li, .chosen-container, .navbar {
   -ms-user-select: none;
   user-select: none;
 }
+.chosen-disabled {
+  opacity: 1!important;
+}
+.chosen-disabled > .chosen-single {
+  cursor: not-allowed;
+  background-color: #ebebeb;
+}
 .blink {
     -webkit-animation-name: blinker;
     -webkit-animation-duration: 1s;
