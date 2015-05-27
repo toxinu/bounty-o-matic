@@ -169,38 +169,42 @@
 
           // Set bounty
           $("#bounty-return").attr('href', '/bounty/' + slug).removeClass('hidden');
-          $("select#player-characters option").filter(function() {
+          $("#player-characters option").filter(function() {
             return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
-          $("select#player-characters").trigger('chosen:updated');;
-          $("select#realms option").filter(function() {
+          $("#player-characters").trigger('chosen:updated');;
+
+          $("#realms").attr("disabled", "");
+          $("#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
+          $("#realms option").filter(function() {
               return $(this).val() == data.destination_realm; 
           }).prop('selected', true);
-          $("select#winner-realms option").filter(function() {
+          $("#realms").trigger('chosen:updated');
+
+          $("#winner-realms option").filter(function() {
               return $(this).val() == data.winner_realm; 
           }).prop('selected', true);
-          $("select#realms").attr('disabled', '');
-          $("input#destination-character").val(selectedDestinationCharacter).attr('disabled', '');
-          $("input#winner-character").val(selectedWinnerCharacter);
-          $("textarea#reward").text(reward);
-          $("textarea#description").text(description);
-          $("select#player-characters option").filter(function() {
+          $("#destination-character").val(selectedDestinationCharacter).attr('disabled', '');
+          $("#winner-character").val(selectedWinnerCharacter);
+          $("#reward").text(reward);
+          $("#description").text(description);
+          $("#player-characters option").filter(function() {
               return $(this).val() == data.region + '|' + data.source_realm + '|' + data.source_character; 
           }).prop('selected', true);
-          $("select#bounty-status option").filter(function() {
+          $("#bounty-status option").filter(function() {
               return $(this).val() == data.status; 
           }).prop('selected', true);
-          $("div#bounty-status-box").removeClass("hidden");
+          $("#bounty-status-box").removeClass("hidden");
           if (isPrivate)
-            $("input#is-private-input").prop('checked', true);
+            $("#is-private-input").prop('checked', true);
           if (isTargetGuild)
-            $("input#is-target-guild-input").prop('checked', true);
+            $("#is-target-guild-input").prop('checked', true);
           if (commentsClosed)
-            $("input#comments-closed-input").prop('checked', true);
+            $("#comments-closed-input").prop('checked', true);
           if (selectedStatus == "2") {
-            $("div#winner-box").removeClass("hidden");
+            $("#winner-box").removeClass("hidden");
           }
-          $("select#winner-realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
+          $("#winner-realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
 
         });
       },
@@ -211,63 +215,68 @@
   };
 
   function setPlayerCharacters(data) {
+    var playerCharacters = $("#player-characters");
+    var playerCharactersText = '';
     $.map(data, function(val) {
-      $("select#player-characters").append(
-        "<option value=\"" + val.region + "|" + val.normalized_realm +
+      playerCharactersText += "<option value=\"" + val.region + "|" + val.normalized_realm +
         "|"  + val.name + "\">" + val.name + " - " + val.realm +
-        " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>");
+        " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>";
     });
-    $("div#loading").addClass("hidden");
-    $("select#player-characters").removeClass("hidden");
-    $("label#player-characters-label").removeClass("hidden");
+    playerCharacters.html(playerCharactersText);
+    playerCharacters.removeClass("hidden");
+    $("#loading").addClass("hidden");
+    $("#player-characters-label").removeClass("hidden");
   };
 
   function setRealms(data) {
-    $("select#realms").text('');
+    var realms = $("#realms");
+    var realmsText = '';
     $.map(data, function(val) {
-      $("select#realms").append(
-        "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+      realmsText += "<option value=\"" + val.slug + "\">" + val.name + "</option>";
     });
+    realms.html(realmsText);
+    var winnerRealms = $("#winner-realms");
+    var winnerRealmsText = '';
     $.map(data, function(val) {
-      $("select#winner-realms").append(
-        "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+      winnerRealmsText += "<option value=\"" + val.slug + "\">" + val.name + "</option>";
     });
+    winnerRealms.html(winnerRealmsText);
     if (selectedDestinationRealm) {
-      $("select#realms option").filter(function() {
+      $("#realms option").filter(function() {
         return $(this).val() == selectedDestinationRealm; 
       }).prop('selected', true);  
     };
     if (selectedWinnerRealm) {
-      $("select#winner-realms option").filter(function() {
+      $("#winner-realms option").filter(function() {
           return $(this).val() == selectedWinnerRealm; 
       }).prop('selected', true);
     };
-    $("select#realms").removeClass("hidden");
-    $("label#realms-label").removeClass("hidden");
-    $("div#is-target-guild").removeClass("hidden");
-    $("input#destination-character").removeClass("hidden");
-    $("label#destination-character-label").removeClass("hidden");
-    $("textarea#reward").removeClass("hidden");
-    $("label#reward-label").removeClass("hidden");
-    $("textarea#description").removeClass("hidden");
-    $("label#description-label").removeClass("hidden");
-    $("button#save").removeClass("hidden");
+    $("#realms").removeClass("hidden");
+    $("#realms-label").removeClass("hidden");
+    $("#is-target-guild").removeClass("hidden");
+    $("#destination-character").removeClass("hidden");
+    $("#destination-character-label").removeClass("hidden");
+    $("#reward").removeClass("hidden");
+    $("#reward-label").removeClass("hidden");
+    $("#description").removeClass("hidden");
+    $("#description-label").removeClass("hidden");
+    $("#save").removeClass("hidden");
     $(".help").removeClass("hidden");
-    $("div#is-private").removeClass("hidden");
-    $("div#comments-closed").removeClass("hidden");
+    $("#is-private").removeClass("hidden");
+    $("#comments-closed").removeClass("hidden");
   }
 
   function checkFields() {
-    selectedDestinationRealm = $("select#realms").val();
-    selectedDestinationCharacter = $("input#destination-character").val();
-    selectedWinnerRealm = $("select#winner-realms").val();
-    selectedWinnerCharacter = $("input#winner-character").val();
-    reward = $("textarea#reward").val();
-    description = $("textarea#description").val();
-    selectedStatus = $("select#bounty-status").val();
-    isPrivate = $("input#is-private-input").prop('checked');
-    isTargetGuild = $("input#is-target-guild-input").prop('checked');
-    commentsClosed = $("input#comments-closed-input").prop('checked');
+    selectedDestinationRealm = $("#realms").val();
+    selectedDestinationCharacter = $("#destination-character").val();
+    selectedWinnerRealm = $("#winner-realms").val();
+    selectedWinnerCharacter = $("#winner-character").val();
+    reward = $("#reward").val();
+    description = $("#description").val();
+    selectedStatus = $("#bounty-status").val();
+    isPrivate = $("#is-private-input").prop('checked');
+    isTargetGuild = $("#is-target-guild-input").prop('checked');
+    commentsClosed = $("#comments-closed-input").prop('checked');
 
     var errorMessage = '';
     if (!selectedRegion)
@@ -289,11 +298,11 @@
   }
 
   function updateBounty() {
-    $("button#save").button("loading");
+    $("#save").button("loading");
     var errors = checkFields();
     if (errors) {
       alert(errors);
-      $("button#save").button("reset");
+      $("#save").button("reset");
       return;
     }
 
@@ -336,17 +345,17 @@
 
         alert("{% trans 'Bounty is incorrect' %}:\n" + errorMessage);
         console.error("/api/bounty/" + getUrlParameter('update'), status, err.toString());
-        $("button#save").button("reset");
+        $("#save").button("reset");
       }
     }); 
   }
 
   function saveBounty() {
-    $("button#save").button("loading");
+    $("#save").button("loading");
     var errors = checkFields();
     if (errors) {
       alert(errors);
-      $("button#save").button("reset");
+      $("#save").button("reset");
       return;
     };
 
@@ -392,7 +401,7 @@
 
         alert("{% trans 'Bounty is incorrect' %}:\n" + errorMessage);
         console.error("/api/bounty", status, err.toString());
-        $("button#save").button("reset");
+        $("#save").button("reset");
       }
     }); 
   };
@@ -400,46 +409,46 @@
   $(function() {
     // Init choosen
     // When select character
-    $("select#player-characters").change(function() {
+    $("#player-characters").change(function() {
       var character = $(this).val()
       selectedRegion = character.split('|')[0];
       selectedSourceRealm = character.split('|')[1];
       selectedSourceCharacter = character.split('|')[2];
       getRealms(selectedRegion, function(data) {
         setRealms(data);
-        $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
-        $("select#realms").trigger('list:updated');;
+        $("#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"});
+        $("#realms").trigger('chosen:updated');;
       });
     });
     // When change status
-    $("select#bounty-status").change(function() {
+    $("#bounty-status").change(function() {
       // If bounty is set to closed, display winner input
       if ($(this).val() == "2") {
-        $("div#winner-box").removeClass("hidden");
+        $("#winner-box").removeClass("hidden");
       } else {
-        $("div#winner-box").addClass("hidden");
+        $("#winner-box").addClass("hidden");
       }
     });
 
     getPlayerCharacters(null, function(data) {
       setPlayerCharacters(data);
-      $("select#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
+      $("#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
       if (getUrlParameter('update')) {
         loadBounty(getUrlParameter('update'));
-        $("form#bounty-form").submit(function(e) {
+        $("#bounty-form").submit(function(e) {
           e.preventDefault();
           updateBounty();
         });
-        $("button#save").click(function(e) {
+        $("#save").click(function(e) {
           e.preventDefault();
           updateBounty();
         });
       } else {
-        $("form#bounty-form").submit(function(e) {
+        $("#bounty-form").submit(function(e) {
           e.preventDefault();
           saveBounty();
         });
-        $("button#save").click(function(e) {
+        $("#save").click(function(e) {
           e.preventDefault();
           saveBounty();
         });

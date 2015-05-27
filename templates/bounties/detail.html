@@ -280,11 +280,11 @@
   <script>
     $(function() {
       function saveComment() {
-        $("button#comment-save").button("loading");
-        var character = $("select#player-characters").val()
+        $("#comment-save").button("loading");
+        var character = $("#player-characters").val()
         var characterRealm = character.split('|')[1];
         var characterName = character.split('|')[2];
-        var comment = $("textarea#comment-input").val();
+        var comment = $("#comment-input").val();
         var captcha = $("#g-recaptcha-response").val();
 
         var errorMessage = '';
@@ -296,7 +296,7 @@
           errorMessage += '\n- {% trans "Missing captcha." %}';
         if (errorMessage) {
           alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
-          $("button#comment-save").button("reset");
+          $("#comment-save").button("reset");
           return;
         }
 
@@ -335,35 +335,37 @@
 
             alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
             console.error("/api/bounty/{{ bounty.slug }}/comment", status, err.toString());
-            $("button#comment-save").button("reset");
+            $("#comment-save").button("reset");
           }
         }); 
       };
 
       function setPlayerCharacters(data) {
+        var playerCharacters = $("#player-characters");
+        var playerCharactersText = '';
         $.map(data, function(val) {
-          $("select#player-characters").append(
+          playerCharactersText +=
             "<option value=\"" + val.region + "|" + val.normalized_realm +
             "|"  + val.name + "\">" + val.name + " - " + val.realm +
-            " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>");
+            " (" + val.class_display + ") (" + val.level + ") (" + val.faction_display + ")</option>";
         });
-        $("form#comment-form").css("display", "block");
+        playerCharacters.html(playerCharactersText);
+        $("#comment-form").css("display", "block");
         if ($.cookie('comment-character')) {
-          $("select#player-characters option").filter(function() {
+          $("#player-characters option").filter(function() {
             return $(this).val() == $.cookie('comment-character');
           }).prop('selected', true);
         };
-        $("select#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
-        if (!data.length) {
+        $("#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
+        if (!data.length)
           $("#player-characters-help").removeClass("hidden");
-        }
       };
 
-      $("form#comment-form").submit(function(e) {
+      $("#comment-form").submit(function(e) {
         e.preventDefault();
         saveComment();
       });
-      $("button#comment-save").click(function(e) {
+      $("#comment-save").click(function(e) {
         e.preventDefault();
         saveComment();
       });

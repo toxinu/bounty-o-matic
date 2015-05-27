@@ -38,11 +38,11 @@
 {% block javascripts %}
 <script>
 	function updateComment() {
-    $("button#comment-save").button("loading");
-    var character = $("select#player-characters").val()
+    $("#comment-save").button("loading");
+    var character = $("#player-characters").val()
     var characterRealm = character.split('|')[1];
     var characterName = character.split('|')[2];
-    var comment = $("textarea#comment-input").val();
+    var comment = $("#comment-input").val();
 
     var errorMessage = '';
     if (!characterName || !characterRealm)
@@ -51,7 +51,7 @@
       errorMessage += '\n- {% trans "Comment can not be empty." %}';
     if (errorMessage) {
       alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
-      $("button#comment-save").button("reset");
+      $("#comment-save").button("reset");
       return;
     }
 
@@ -85,13 +85,13 @@
 
         alert("{% trans 'Comment is incorrect' %}:\n" + errorMessage);
         console.error("{% url 'api-comment-detail' bounty.slug comment.id %}", status, err.toString());
-        $("button#comment-save").button("reset");
+        $("#comment-save").button("reset");
       }
     }); 
   };
   $(function() {
     $("#player-characters").chosen({no_results_text: "{% trans 'Oops, no character found!' %}"});
-		$("button#comment-save").click(function(e) {
+		$("#comment-save").click(function(e) {
       e.preventDefault();
       updateComment();
     });

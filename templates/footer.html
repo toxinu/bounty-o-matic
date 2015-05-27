@@ -13,15 +13,16 @@
 
 <script>
   $(function() {
-    $("a#refresh-link").click(function(e) {
+    var refreshLink = $("#refresh-link");
+    refreshLink.click(function(e) {
       e.preventDefault();
           setProgressBar("{% trans 'Refreshing your BattleNet data...' %}");
-          $("a#refresh-link").text("");
+          refreshLink.text("");
       $.ajax({
         url: "/api/player-refresh",
         type: 'GET',
         success: function(data) {
-          $("a#refresh-link").text(data.reasons[0]);
+          refreshLink.text(data.reasons[0]);
             getPlayerBattletag(function(data) {
             unsetProgressBar(data.battletag);
           });

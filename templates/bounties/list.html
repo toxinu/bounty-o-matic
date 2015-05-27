@@ -148,23 +148,25 @@
   var onlyGuildBounties = false;
 
   function setRealms(data) {
-    $("select#realms").text('').append("<option value=\"all\">---</option>");
+    var realms = $("#realms");
+    var realmsText = "<option value=\"all\">---</option>";
     $.map(data, function(val) {
-      $("select#realms").append(
-        "<option value=\"" + val.slug + "\">" + val.name + "</option>");
+      realmsText += 
+        "<option value=\"" + val.slug + "\">" + val.name + "</option>";
     });
-    $("select#realms").removeAttr('disabled');
-    $("select#realms").chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"}).trigger('chosen:updated');
+    realms.html(realmsText);
+    realms.removeAttr('disabled');
+    realms.chosen({no_results_text: "{% trans 'Oops, no realm found!' %}"}).trigger('chosen:updated');
   };
 
   function updateBounties() {
-    selectedStatus = $("select#bounty-status").val();
-    selectedRegion = $("select#regions").val();
-    selectedRealm = $("select#realms").val();
-    selectedFaction = $("select#factions").val();
-    destinationCharacter = $("input#destination-character").val();
-    onlyOwned = $("input#is-private-input").prop('checked');
-    onlyGuildBounties = $("input#is-target-guild-input").prop('checked');
+    selectedStatus = $("#bounty-status").val();
+    selectedRegion = $("#regions").val();
+    selectedRealm = $("#realms").val();
+    selectedFaction = $("#factions").val();
+    destinationCharacter = $("#destination-character").val();
+    onlyOwned = $("#is-private-input").prop('checked');
+    onlyGuildBounties = $("#is-target-guild-input").prop('checked');
 
     var url = '?'
     params = {}
@@ -197,51 +199,51 @@
     // Update form based on url parameters or cookie
     selectedStatus = getUrlParameter('status') || $.cookie('search-status');
     if (selectedStatus) {
-      $("select#bounty-status option").filter(function() {
+      $("#bounty-status option").filter(function() {
         return $(this).val() == selectedStatus; 
       }).prop('selected', true);
     };
 
     selectedFaction = getUrlParameter('faction') || $.cookie('search-faction');
     if (selectedFaction) {
-      $("select#factions option").filter(function() {
+      $("#factions option").filter(function() {
         return $(this).val() == selectedFaction; 
       }).prop('selected', true);
     };
 
     if (getUrlParameter('destination'))
-      $("input#destination-character").val(getUrlParameter('destination'));
+      $("#destination-character").val(getUrlParameter('destination'));
     if (getUrlParameter('owned'))
-      $("input#is-private-input").prop('checked', true);
+      $("#is-private-input").prop('checked', true);
     if (getUrlParameter('only-guild-bounties'))
-      $("input#is-target-guild-input").prop('checked', true);
+      $("#is-target-guild-input").prop('checked', true);
 
     selectedRegion = getUrlParameter('region') || $.cookie('search-region');
     if (selectedRegion) {
-      $("select#regions option").filter(function() {
-            return $(this).val() == selectedRegion; 
+      $("#regions option").filter(function() {
+        return $(this).val() == selectedRegion; 
       }).prop('selected', true);
       if (selectedRegion != "all") {
-        getRealms(selectedRegion || $("select#regions").val(), function(realms_data) {
+        getRealms(selectedRegion || $("#regions").val(), function(realms_data) {
           setRealms(realms_data);
 
           selectedRealm = getUrlParameter('realm') || $.cookie('search-realm');
           if (selectedRealm) {
-            $("select#realms option").filter(function() {
+            $("#realms option").filter(function() {
               if ($(this).val() == selectedRealm)
                 return $(this).val() == selectedRealm; 
             }).prop('selected', true);
-            $("select#realms").trigger('chosen:updated');;
+            $("#realms").trigger('chosen:updated');;
           };
         });
       };
     };
-    $("select#regions").change(function() {
+    $("#regions").change(function() {
       getRealms($(this).val(), function(data) {
         setRealms(data);
       });
     });
-    $("button#search").on('click', function() {
+    $("#search").on('click', function() {
       updateBounties();
     });
     $(document).keypress(function(e) {
