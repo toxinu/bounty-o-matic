@@ -50,7 +50,7 @@ $(function() {
   }
   });
 
-  $(window).on('location', function(e) {
+  window.onbeforeunload = function() {
     $.xhrPool.abortAll();
-  });
+  }
 });
