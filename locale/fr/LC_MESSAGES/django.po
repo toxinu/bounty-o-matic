@@ -810,7 +810,7 @@ msgstr "Page"
 
 #: templates/bounties/detail.html:275
 msgid "Bounty not found."
-msgstr "Cette prime ne t'appartient pas."
+msgstr "Cette prime est introuvable."
 
 #: templates/bounties/detail.html:296
 msgid "Missing captcha."
