@@ -9,13 +9,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="Description" content="{% trans 'Bounty-O-Matic is a bounties system for World of Warcraft. Post a bounty on a player and find mercenaries to kill him.' %}">
   <meta name="google-site-verification" content="-KyKXaYciXFPQCJ5PsPh8hWXUBtypech3gRIgUzOAw4" />
-
   <link rel="icon" href="{% static 'bountyomatic/img/favicon.gif' %}" type="image/gif">
   {% compress css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/chosen.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/fonts.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/custom.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/chosen.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/custom.css' %}">
   {% endcompress %}
 </head>
 <body>
@@ -71,10 +70,8 @@
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
       ga('create', '{{ GOOGLE_ANALYTICS }}', 'auto');
       ga('send', 'pageview');
-
     </script>
   {% endif %}
 </body>
