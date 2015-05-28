@@ -20,7 +20,7 @@
     	<ul class="nav navbar-nav navbar-left">
     		{% if user.is_authenticated %}
           <div id="loading-bar" class="nav navbar-text progress">
-            <div class="progress-bar progress-bar-warning progress-bar-striped active battletag" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{% trans 'Loading data from Blizzard...' %}</div>
+            <div class="progress-bar battletag" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{ request.user.battletag }}</div>
           </div>
       	{% endif %}
     	</ul>
