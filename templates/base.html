@@ -16,6 +16,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/fonts.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bountyomatic/css/custom.css' %}">
   {% endcompress %}
+  <script>
+    var BATTLETAG = null;
+    {% if request.user.is_authenticated %}
+      BATTLETAG = "{{ request.user.battletag }}";
+    {% endif %}
+  </script>
 </head>
 <body>
 	{% include "header.html" %}
@@ -46,9 +52,9 @@
         });
       };
       loadLanguageSwitcher();
-      getPlayerBattletag(function(data) {
-        unsetProgressBar(data.battletag);
-      });
+      if (BATTLETAG) {
+        unsetProgressBar(BATTLETAG);
+      }
       // Show blinking version in the footer during 5 days after release
       var now = new Date();
       var latestReleaseDate = new Date(2015,3,29); // Warning, month start at 0
