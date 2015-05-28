@@ -83,7 +83,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/bounty"
 SITE_URL = "https://bounty-o-matic.com"
 LOGIN_URL = "/login-error"
 
