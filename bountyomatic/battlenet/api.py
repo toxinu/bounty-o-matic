@@ -74,11 +74,12 @@ def _retry(url, params={}, **kwargs):
         try:
             req = Request('GET', url, params=params)
             prepped = req.prepare()
-            logger.info(prepped.url)
             resp = s.send(prepped, **kwargs)
             resp.json().get('status')
+            logger.info("%s %s" % (prepped.url, resp.status_code))
             return resp
         except (RequestException, ValueError):
+            logger.info(prepped.url)
             pass
         count += 1
 
