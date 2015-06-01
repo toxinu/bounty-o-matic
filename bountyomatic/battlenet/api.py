@@ -117,6 +117,13 @@ def get_realms(region, update=False):
         if not r:
             return realms
         realms = r.json().get('realms')
+        # Dirty fix for Burning Legion
+        if region == "eu":
+            for realm in realms:
+                if realm.get('slug') == 'internal-record-3713':
+                    realm['slug'] = 'burning-legion'
+                    realm['name'] = 'Burning Legion'
+                    realm['connected_realms'] = ['burning-legion']
         cache.set(key, realms, timeout=settings.BATTLENET_CACHE.get('realms'))
     return realms
 
