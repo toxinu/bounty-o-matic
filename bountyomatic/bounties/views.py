@@ -45,14 +45,20 @@ class BountyBaseView:
                 filter_kwargs.update({'region': region})
         if status:
             if status != "all":
-                filter_kwargs.update({'status': status})
+                try:
+                    status = int(status)
+                except ValueError:
+                    filter_kwargs.update({'status': status})
         if realm:
             if realm != "all":
                 filter_kwargs.update({'destination_realm__in': get_connected_realms(
                     filter_kwargs.get('region'), realm)})
         if faction:
             if faction != "all":
-                filter_kwargs.update({'destination_faction': faction})
+                try:
+                    faction = int(faction)
+                except ValueError:
+                    filter_kwargs.update({'destination_faction': faction})
         if destination_character:
             filter_kwargs.update(
                 {'destination_character__icontains': destination_character})
@@ -450,6 +456,7 @@ class BountyListView(BountyBaseView, TemplateView):
 
         p = Paginator(self.model.objects.defer('description', 'reward').filter(
             **filter_kwargs).select_related('user'), 20)
+
         try:
             bounties = self.get_serializable_bounty_list(
                 p.page(page), as_datetime=True)
