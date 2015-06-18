@@ -417,7 +417,7 @@ class BountyDetailView(BountyBaseView, TemplateView):
                 'admin_url': reverse('admin:%s_%s_change' % (
                     bounty._meta.app_label, bounty._meta.model_name), args=(bounty.pk,)),
                 'comments_admin_url': '%s?q=%s' % (reverse('admin:%s_%s_changelist' % (
-                    Comment._meta.app_label, Comment._meta.model_name)), bounty.slug.hex)})
+                    Comment._meta.app_label, Comment._meta.model_name)), bounty.slug)})
             context.update({
                 'bounty': serialized_bounty,
                 'SITE_URL': settings.SITE_URL})

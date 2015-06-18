@@ -86,7 +86,7 @@ class BountyAdmin(admin.ModelAdmin):
         return '<a href="%s?q=%s" target="_blank">%s</a>' % (
             reverse('admin:%s_%s_changelist' % (
                 Comment._meta.app_label, Comment._meta.model_name)),
-            obj.slug.hex,
+            obj.slug,
             _("View"))
     comments_admin.allow_tags = True
     comments_admin.short_description = _("Admin")
