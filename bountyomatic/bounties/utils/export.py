@@ -29,3 +29,22 @@ def render_bounty(bounty, language):
         bounty_image.save()
         return bounty_image.image.read()
     return bounty_image.image.read(-1)
+
+
+def bounty_to_lua(bounty):
+    return """{{
+    slug="{slug}",
+    region="{region}",
+    status={status},
+    is_target_guild="{is_target_guild}",
+    source_realm="{source_realm}",
+    source_character="{source_character}",
+    destination_realm="{}",
+    destination_character="{}",
+}}""".format(
+        slug=bounty.slug,
+        region=bounty.region,
+        status=bounty.status,
+        is_target_guild=bounty.is_target_guild,
+        source_realm=bounty.source_realm,
+        source_character=bounty.source_character)

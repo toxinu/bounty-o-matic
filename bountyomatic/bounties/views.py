@@ -2,6 +2,7 @@ import json
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
+from django.core.urlresolvers import reverse
 from django.views.generic import View
 from django.views.generic import TemplateView
 from django.contrib.auth import logout
@@ -410,9 +411,15 @@ class BountyDetailView(BountyBaseView, TemplateView):
         try:
             bounty = Bounty.objects.select_related('user').exclude(
                 is_hidden=True).get(slug=bounty_slug)
+            serialized_bounty = self.get_serializable_bounty_detail(
+                bounty, comments_page, as_datetime=True)
+            serialized_bounty.update({
+                'admin_url': reverse('admin:%s_%s_change' % (
+                    bounty._meta.app_label, bounty._meta.model_name), args=(bounty.pk,)),
+                'comments_admin_url': '%s?q=%s' % (reverse('admin:%s_%s_changelist' % (
+                    Comment._meta.app_label, Comment._meta.model_name)), bounty.slug.hex)})
             context.update({
-                'bounty': self.get_serializable_bounty_detail(
-                    bounty, comments_page, as_datetime=True),
+                'bounty': serialized_bounty,
                 'SITE_URL': settings.SITE_URL})
         except (Bounty.DoesNotExist, ValueError):
             pass

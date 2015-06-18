@@ -9,9 +9,9 @@ from .models import Comment
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'character', 'bounty',
-        'added_date', 'is_hidden', 'external', )
+        'added_date', 'external', 'is_hidden', )
     list_filter = ('added_date', 'is_hidden', )
-    search_fields = ('id', 'character_name', 'character_realm', )
+    search_fields = ('id', 'character_name', 'character_realm', 'bounty__slug', )
     actions = ('hide_comment', )
 
     def hide_comment(self, request, queryset):
@@ -45,12 +45,13 @@ class BountyAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'battletag', 'status', 'region', 'source',
         'destination', 'destination_faction', 'added_date', 'updated_date',
-        'comments_counter', 'is_target_guild', 'is_private', 'is_hidden', 'external', )
+        'comments_counter', 'is_target_guild', 'is_private', 'is_hidden',
+        'external', 'comments_admin', )
     list_filter = (
         'added_date', 'updated_date', 'is_private', 'is_hidden',
         'is_target_guild', 'destination_faction', 'status', 'region', )
     search_fields = (
-        'id', 'slug', 'source_character', 'source_realm',
+        'slug', 'source_character', 'source_realm',
         'destination_character', 'destination_realm', )
 
     def battletag(self, obj):
@@ -81,10 +82,19 @@ class BountyAdmin(admin.ModelAdmin):
         return obj.comment_set.count()
     comments_counter.short_description = _("Comments")
 
+    def comments_admin(self, obj):
+        return '<a href="%s?q=%s" target="_blank">%s</a>' % (
+            reverse('admin:%s_%s_changelist' % (
+                Comment._meta.app_label, Comment._meta.model_name)),
+            obj.slug.hex,
+            _("View"))
+    comments_admin.allow_tags = True
+    comments_admin.short_description = _("Admin")
+
     def external(self, obj):
         return '<a href="%s" target="_blank">%s</a>' % (
             reverse('bounty-detail', args=(obj.slug,)),
-            'View')
+            _('View'))
     external.allow_tags = True
     external.short_description = _("Context")
 
