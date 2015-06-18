@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 16:05+0000\n"
+"POT-Creation-Date: 2015-06-18 09:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "A une valeur"
 msgid "None"
 msgstr "Vide"
 
-#: bountyomatic/accounts/admin.py:48 bountyomatic/bounties/admin.py:64
+#: bountyomatic/accounts/admin.py:48 bountyomatic/bounties/admin.py:66
 msgid "Battletag not found"
 msgstr "Battletag non trouvé"
 
@@ -178,16 +178,16 @@ msgstr "Moine"
 msgid "Druid"
 msgstr "Druide"
 
-#: bountyomatic/battlenet/api.py:232
+#: bountyomatic/battlenet/api.py:240
 msgid "No social authentication attached"
 msgstr "Aucune authentification à Battlenet trouvée"
 
-#: bountyomatic/battlenet/views.py:60
+#: bountyomatic/battlenet/views.py:59
 msgid "Error while contacting BattleNet. Maybe try logout/login."
 msgstr ""
 "Erreur durant la connexion à BattleNet. Essai de te déconnecter/reconnecter."
 
-#: bountyomatic/battlenet/views.py:70
+#: bountyomatic/battlenet/views.py:69
 msgid "Need region parameter."
 msgstr "Une région est requise."
 
@@ -195,117 +195,126 @@ msgstr "Une région est requise."
 msgid "Hide selected comment(s)"
 msgstr "Cacher les commentaires sélectionnés"
 
-#: bountyomatic/bounties/admin.py:32 templates/bounties/list.html:96
+#: bountyomatic/bounties/admin.py:32 bountyomatic/bounties/admin.py:90
+#: bountyomatic/bounties/admin.py:97 templates/bounties/list.html:96
 msgid "View"
 msgstr "Voir"
 
-#: bountyomatic/bounties/admin.py:34 bountyomatic/bounties/admin.py:88
+#: bountyomatic/bounties/admin.py:34 bountyomatic/bounties/admin.py:99
 msgid "Context"
 msgstr "Contexte"
 
-#: bountyomatic/bounties/admin.py:81
+#: bountyomatic/bounties/admin.py:83
 msgid "Comments"
 msgstr "Commentaires"
 
-#: bountyomatic/bounties/models.py:31 templates/bounties/list.html:20
+#: bountyomatic/bounties/admin.py:92 templates/footer.html:5
+msgid "Admin"
+msgstr "Admin"
+
+#: bountyomatic/bounties/models.py:32 templates/bounties/list.html:20
 msgid "Europe"
 msgstr "Europe"
 
-#: bountyomatic/bounties/models.py:32 templates/bounties/list.html:21
+#: bountyomatic/bounties/models.py:33 templates/bounties/list.html:21
 msgid "US"
 msgstr "US"
 
-#: bountyomatic/bounties/models.py:40 templates/bounties/add.html:18
+#: bountyomatic/bounties/models.py:41 templates/bounties/add.html:18
 #: templates/bounties/list.html:11
 msgid "Open"
 msgstr "Ouverte"
 
-#: bountyomatic/bounties/models.py:41 templates/bounties/add.html:19
+#: bountyomatic/bounties/models.py:42 templates/bounties/add.html:19
 #: templates/bounties/list.html:12
 msgid "Closed"
 msgstr "Fermée"
 
-#: bountyomatic/bounties/models.py:42 templates/bounties/add.html:20
+#: bountyomatic/bounties/models.py:43 templates/bounties/add.html:20
 #: templates/bounties/list.html:13
 msgid "Cancelled"
 msgstr "Annulée"
 
-#: bountyomatic/bounties/models.py:56 templates/bounties/detail.html:116
+#: bountyomatic/bounties/models.py:57 templates/bounties/detail.html:119
 msgid "Reward"
 msgstr "Récompense"
 
-#: bountyomatic/bounties/models.py:57 templates/bounties/detail.html:124
+#: bountyomatic/bounties/models.py:58 templates/bounties/detail.html:127
 msgid "Description"
 msgstr "Description"
 
-#: bountyomatic/bounties/models.py:59 templates/bounties/detail.html:55
+#: bountyomatic/bounties/models.py:60 templates/bounties/detail.html:58
 #: templates/bounties/list.html:8
 msgid "Status"
 msgstr "Statut"
 
-#: bountyomatic/bounties/models.py:61 templates/bounties/detail.html:53
+#: bountyomatic/bounties/models.py:62 templates/bounties/detail.html:56
 #: templates/bounties/list.html:17
 msgid "Region"
 msgstr "Région"
 
-#: bountyomatic/bounties/models.py:62 bountyomatic/bounties/models.py:372
+#: bountyomatic/bounties/models.py:63 bountyomatic/bounties/models.py:375
 msgid "Creation date"
 msgstr "Date de création"
 
-#: bountyomatic/bounties/models.py:63 bountyomatic/bounties/models.py:344
-#: bountyomatic/bounties/models.py:374
+#: bountyomatic/bounties/models.py:64 bountyomatic/bounties/models.py:347
+#: bountyomatic/bounties/models.py:377
 msgid "Latest update"
 msgstr "Dernière mise à jour"
 
-#: bountyomatic/bounties/models.py:65 templates/bounties/list.html:91
+#: bountyomatic/bounties/models.py:66 templates/bounties/list.html:91
 msgid "Private"
 msgstr "Privée"
 
-#: bountyomatic/bounties/models.py:67
+#: bountyomatic/bounties/models.py:68
 msgid "Comments closed"
 msgstr "Commentaires désactivés"
 
-#: bountyomatic/bounties/models.py:69
+#: bountyomatic/bounties/models.py:70
 msgid "Comments closed by staff"
 msgstr "Commentaires désactivés par un modérateur"
 
-#: bountyomatic/bounties/models.py:71
+#: bountyomatic/bounties/models.py:72
 msgid "Target guild"
 msgstr "La cible est une guilde"
 
-#: bountyomatic/bounties/models.py:77
+#: bountyomatic/bounties/models.py:74 bountyomatic/bounties/models.py:378
+msgid "Hidden"
+msgstr "Cachée"
+
+#: bountyomatic/bounties/models.py:80
 msgid "Source realm"
 msgstr "Royaume de la source"
 
-#: bountyomatic/bounties/models.py:78
+#: bountyomatic/bounties/models.py:81
 msgid "Source character"
 msgstr "Personnage source"
 
-#: bountyomatic/bounties/models.py:84 templates/bounties/list.html:27
+#: bountyomatic/bounties/models.py:87 templates/bounties/list.html:27
 msgid "Target realm"
 msgstr "Royaume de la cible"
 
-#: bountyomatic/bounties/models.py:86 templates/bounties/list.html:34
+#: bountyomatic/bounties/models.py:89 templates/bounties/list.html:34
 msgid "Target name"
 msgstr "Nom de la cible"
 
-#: bountyomatic/bounties/models.py:88
+#: bountyomatic/bounties/models.py:91
 msgid "Faction"
 msgstr "Faction"
 
-#: bountyomatic/bounties/models.py:94 templates/bounties/add.html:28
+#: bountyomatic/bounties/models.py:97 templates/bounties/add.html:28
 msgid "Winner realm"
 msgstr "Royaume du gagnant"
 
-#: bountyomatic/bounties/models.py:96
+#: bountyomatic/bounties/models.py:99
 msgid "Winner character"
 msgstr "Personnage gagnant"
 
-#: bountyomatic/bounties/models.py:99
+#: bountyomatic/bounties/models.py:102
 msgid "bounties"
 msgstr "primes"
 
-#: bountyomatic/bounties/models.py:122
+#: bountyomatic/bounties/models.py:125
 msgid ""
 "Bounty limit reached. Wait before sending a new one. Something like 3 "
 "minutes..."
@@ -313,88 +322,84 @@ msgstr ""
 "Limite de prime atteinte. Attends un instant pour en poster une nouvelle. "
 "Quelque chose comme 3 petites minutes..."
 
-#: bountyomatic/bounties/models.py:134
+#: bountyomatic/bounties/models.py:137
 msgid "Bounty can't be re-open. Create a new one."
 msgstr "Cette prime ne peut être réouverte. Crées en une nouvelle."
 
-#: bountyomatic/bounties/models.py:147
+#: bountyomatic/bounties/models.py:150
 msgid "Target character does not exist or is below level 10."
 msgstr "Le personnage cible n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:159
+#: bountyomatic/bounties/models.py:162
 msgid "Target guild does not exist."
 msgstr "Cette guilde n'existe pas."
 
-#: bountyomatic/bounties/models.py:171 bountyomatic/bounties/models.py:401
+#: bountyomatic/bounties/models.py:174 bountyomatic/bounties/models.py:404
 msgid "Your character is below level 10 or on an inactive account."
 msgstr "Ton personnage est en dessous du niveau 10 ou sur un compte inactif."
 
-#: bountyomatic/bounties/models.py:179
+#: bountyomatic/bounties/models.py:182
 msgid "This character is not yours."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:186
+#: bountyomatic/bounties/models.py:189
 msgid "Winner character can't be bounty author."
 msgstr "Le gagnant ne peut être l'auteur de la prime."
 
-#: bountyomatic/bounties/models.py:192
+#: bountyomatic/bounties/models.py:195
 msgid "Winner character can't be bounty target."
 msgstr "Le gagnant ne peut être la cible de la prime."
 
-#: bountyomatic/bounties/models.py:200
+#: bountyomatic/bounties/models.py:203
 msgid "Winner character does not exist or is below level 10."
 msgstr "Le personnage gagnant n'existe pas ou est en dessous du niveau 10."
 
-#: bountyomatic/bounties/models.py:204
+#: bountyomatic/bounties/models.py:207
 msgid "Winner character can't be yours."
 msgstr "Le personnage gagnant ne peut être un de vos personnages."
 
-#: bountyomatic/bounties/models.py:219
+#: bountyomatic/bounties/models.py:222
 msgid "Your character and target must be different."
 msgstr "Ton personnage et la cible doivent être différentes."
 
-#: bountyomatic/bounties/models.py:229
+#: bountyomatic/bounties/models.py:232
 msgid "Your guild target can't be your guild."
-msgstr ""
+msgstr "La guilde ciblée ne peut être votre guilde."
 
-#: bountyomatic/bounties/models.py:353
+#: bountyomatic/bounties/models.py:356
 msgid "Locale not available."
 msgstr "Langue non disponible."
 
-#: bountyomatic/bounties/models.py:366 templates/bounties/comment-edit.html:18
-#: templates/bounties/detail.html:171
+#: bountyomatic/bounties/models.py:369 templates/bounties/comment-edit.html:18
+#: templates/bounties/detail.html:178
 msgid "Comment"
 msgstr "Commentaire"
 
-#: bountyomatic/bounties/models.py:368
+#: bountyomatic/bounties/models.py:371
 msgid "Character realm"
 msgstr "Royaume du personnage"
 
-#: bountyomatic/bounties/models.py:370
+#: bountyomatic/bounties/models.py:373
 msgid "Character name"
 msgstr "Nom du personnage"
 
-#: bountyomatic/bounties/models.py:375
-msgid "Hidden"
-msgstr "Cachée"
-
-#: bountyomatic/bounties/models.py:377
+#: bountyomatic/bounties/models.py:380
 msgid "IP address"
 msgstr "Adresse IP"
 
-#: bountyomatic/bounties/models.py:381
+#: bountyomatic/bounties/models.py:384
 msgid "comments"
 msgstr "commentaires"
 
-#: bountyomatic/bounties/models.py:385 bountyomatic/bounties/models.py:388
+#: bountyomatic/bounties/models.py:388 bountyomatic/bounties/models.py:391
 msgid "Comments are closed."
 msgstr "Commentaires désactivés."
 
-#: bountyomatic/bounties/models.py:395
+#: bountyomatic/bounties/models.py:398
 msgid "This character is not your."
 msgstr "Ce personnage ne t'appartient pas."
 
-#: bountyomatic/bounties/models.py:412
+#: bountyomatic/bounties/models.py:415
 msgid ""
 "Comment limit reached. Wait before sending a new one. Something like 3 "
 "minutes."
@@ -402,46 +407,46 @@ msgstr ""
 "Limite de commentaire atteinte. Attends un instant pour en poster un "
 "nouveau. Quelque chose comme 3 petites minutes..."
 
-#: bountyomatic/bounties/views.py:233 bountyomatic/bounties/views.py:336
-#: bountyomatic/bounties/views.py:503
+#: bountyomatic/bounties/views.py:241 bountyomatic/bounties/views.py:345
+#: bountyomatic/bounties/views.py:520
 msgid "Your account is not active."
 msgstr "Ton compte n'est pas actif."
 
-#: bountyomatic/bounties/views.py:301 bountyomatic/bounties/views.py:322
-#: bountyomatic/bounties/views.py:382
+#: bountyomatic/bounties/views.py:310 bountyomatic/bounties/views.py:331
+#: bountyomatic/bounties/views.py:391
 msgid "Invalid bounty."
 msgstr "Prime invalide."
 
-#: bountyomatic/bounties/views.py:305 bountyomatic/bounties/views.py:326
-#: bountyomatic/bounties/views.py:539
+#: bountyomatic/bounties/views.py:314 bountyomatic/bounties/views.py:335
+#: bountyomatic/bounties/views.py:556
 msgid "Bounty does not exist."
 msgstr "Cette prime n'existe pas."
 
-#: bountyomatic/bounties/views.py:331
+#: bountyomatic/bounties/views.py:340
 msgid "Bounty is not yours."
 msgstr "Cette prime ne t'appartient pas."
 
-#: bountyomatic/bounties/views.py:515 bountyomatic/bounties/views.py:518
+#: bountyomatic/bounties/views.py:532 bountyomatic/bounties/views.py:535
 msgid "Can't found this comment."
 msgstr "Commentaire introuvable."
 
-#: bountyomatic/bounties/views.py:521
+#: bountyomatic/bounties/views.py:538
 msgid "This comment is not yours."
 msgstr "Ce commentaire ne t'appartient pas."
 
-#: bountyomatic/bounties/views.py:560
+#: bountyomatic/bounties/views.py:577
 msgid "Your comment is a spam."
 msgstr "Ton commentaire est un spam."
 
-#: bountyomatic/bounties/views.py:566
+#: bountyomatic/bounties/views.py:583
 msgid "Bad captcha"
 msgstr "Mauvaise captcha"
 
-#: bountyomatic/bounties/views.py:576
+#: bountyomatic/bounties/views.py:593
 msgid "Comment added."
 msgstr "Commentaire ajouté."
 
-#: bountyomatic/bounties/views.py:624
+#: bountyomatic/bounties/views.py:641
 msgid "Comment updated."
 msgstr "Commentaire mis à jour."
 
@@ -612,7 +617,7 @@ msgid "Return to bounty"
 msgstr "Retourner sur la prime"
 
 #: templates/bounties/add.html:123 templates/bounties/comment-edit.html:31
-#: templates/bounties/detail.html:183
+#: templates/bounties/detail.html:190
 msgid "Loading..."
 msgstr "Chargement..."
 
@@ -620,69 +625,69 @@ msgstr "Chargement..."
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: templates/bounties/add.html:202 templates/bounties/add.html.py:401
-#: templates/bounties/list.html:157
+#: templates/bounties/add.html:178 templates/bounties/add.html.py:207
+#: templates/bounties/add.html:419 templates/bounties/list.html:159
 msgid "Oops, no realm found!"
 msgstr "Oups, aucun royaume trouvé !"
 
-#: templates/bounties/add.html:273
+#: templates/bounties/add.html:283
 msgid "Missing region"
 msgstr "Région manquante"
 
-#: templates/bounties/add.html:275
+#: templates/bounties/add.html:285
 msgid "Your character is missing"
 msgstr "Il manque ton personnage"
 
-#: templates/bounties/add.html:277
+#: templates/bounties/add.html:287
 msgid "Missing target realm"
 msgstr "Royaume de la cible manquant"
 
-#: templates/bounties/add.html:279
+#: templates/bounties/add.html:289
 msgid "Missing target name"
 msgstr "Nom de la cible manquant"
 
-#: templates/bounties/add.html:281
+#: templates/bounties/add.html:291
 msgid "Missing reward"
 msgstr "Récompense manquante"
 
-#: templates/bounties/add.html:283
+#: templates/bounties/add.html:293
 msgid "Missing description"
 msgstr "Description manquante"
 
-#: templates/bounties/add.html:286 templates/bounties/add.html.py:336
-#: templates/bounties/add.html:384
+#: templates/bounties/add.html:296 templates/bounties/add.html.py:346
+#: templates/bounties/add.html:402
 msgid "Bounty is incorrect"
 msgstr "La prime est incorrecte"
 
-#: templates/bounties/add.html:334 templates/bounties/add.html.py:382
+#: templates/bounties/add.html:344 templates/bounties/add.html.py:400
 #: templates/bounties/comment-edit.html:84
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: templates/bounties/add.html:417 templates/bounties/comment-edit.html:93
-#: templates/bounties/detail.html:356
+#: templates/bounties/add.html:435 templates/bounties/comment-edit.html:93
+#: templates/bounties/detail.html:366
 msgid "Oops, no character found!"
 msgstr "Oups, aucun personnage trouvé !"
 
-#: templates/bounties/comment-edit.html:7 templates/bounties/detail.html:160
+#: templates/bounties/comment-edit.html:7 templates/bounties/detail.html:167
 msgid "Your character"
 msgstr "Ton personnage"
 
-#: templates/bounties/comment-edit.html:21 templates/bounties/detail.html:174
+#: templates/bounties/comment-edit.html:21 templates/bounties/detail.html:181
 msgid "Markdown allowed but images and raw html won't be rendered:"
 msgstr "Markdown autorisé. Images et html non rendus :"
 
-#: templates/bounties/comment-edit.html:49 templates/bounties/detail.html:292
+#: templates/bounties/comment-edit.html:49 templates/bounties/detail.html:299
 msgid "Need a character to comment."
 msgstr "Il faut un personnage pour commenter."
 
-#: templates/bounties/comment-edit.html:51 templates/bounties/detail.html:294
+#: templates/bounties/comment-edit.html:51 templates/bounties/detail.html:301
 msgid "Comment can not be empty."
 msgstr "Ton commentaire ne peut être vide."
 
 #: templates/bounties/comment-edit.html:53
-#: templates/bounties/comment-edit.html:86 templates/bounties/detail.html:298
-#: templates/bounties/detail.html.py:336
+#: templates/bounties/comment-edit.html:86 templates/bounties/detail.html:305
+#: templates/bounties/detail.html.py:343
 msgid "Comment is incorrect"
 msgstr "Le commentaire incorrect"
 
@@ -694,129 +699,133 @@ msgstr "Prime de guilde"
 msgid "Bounty"
 msgstr "Prime"
 
-#: templates/bounties/detail.html:14 templates/bounties/detail.html.py:254
+#: templates/bounties/detail.html:14 templates/bounties/detail.html.py:261
 #: templates/bounties/list.html:120
 msgid "on"
 msgstr "sur"
 
-#: templates/bounties/detail.html:16 templates/bounties/detail.html.py:215
+#: templates/bounties/detail.html:16 templates/bounties/detail.html.py:222
 #: templates/bounties/list.html:94
 msgid "Edit"
 msgstr "Éditer"
 
-#: templates/bounties/detail.html:20
+#: templates/bounties/detail.html:19 templates/bounties/detail.html.py:147
+msgid "Edit in admin"
+msgstr "Éditer dans l'admin"
+
+#: templates/bounties/detail.html:23
 msgid "This bounty is private but it's viewable if you share its url."
 msgstr "Cette prime est privée mais elle est visible si tu partages son lien."
 
-#: templates/bounties/detail.html:29
+#: templates/bounties/detail.html:32
 msgid "Details"
 msgstr "Détails"
 
-#: templates/bounties/detail.html:44
+#: templates/bounties/detail.html:47
 msgid "Note"
 msgstr "Note"
 
-#: templates/bounties/detail.html:45
+#: templates/bounties/detail.html:48
 msgid "This bounty is not on a specific character but on a whole guild"
 msgstr ""
 "Cette prime n'est pas sur un personnage en particulier mais sur toute une "
 "guilde"
 
-#: templates/bounties/detail.html:48
+#: templates/bounties/detail.html:51
 msgid "Added"
 msgstr "Ajouté"
 
-#: templates/bounties/detail.html:50
+#: templates/bounties/detail.html:53
 msgid "Updated"
 msgstr "Mise à jour"
 
-#: templates/bounties/detail.html:65 templates/bounties/detail.html.py:206
+#: templates/bounties/detail.html:68 templates/bounties/detail.html.py:213
 msgid "Author"
 msgstr "Auteur"
 
-#: templates/bounties/detail.html:76 templates/bounties/detail.html.py:208
+#: templates/bounties/detail.html:79 templates/bounties/detail.html.py:215
 msgid "Target"
 msgstr "Cible"
 
-#: templates/bounties/detail.html:89 templates/bounties/detail.html.py:210
+#: templates/bounties/detail.html:92 templates/bounties/detail.html.py:217
 msgid "Winner"
 msgstr "Gagnant"
 
-#: templates/bounties/detail.html:101
+#: templates/bounties/detail.html:104
 msgid "Not mentioned"
 msgstr "Non mentionné"
 
-#: templates/bounties/detail.html:134
+#: templates/bounties/detail.html:137
 msgid "Bounty signature"
 msgstr "Signature de la prime"
 
-#: templates/bounties/detail.html:134
+#: templates/bounties/detail.html:137
 msgid ""
 "You can use this link on forum or everywhere you want to spread this bounty!"
 msgstr ""
 "Tu peux utiliser ce lien pour partager sur un forum ou n'importe où cette "
 "prime !"
 
-#: templates/bounties/detail.html:142
+#: templates/bounties/detail.html:145
 msgid "Discussion"
 msgstr "Discussion"
 
-#: templates/bounties/detail.html:145
+#: templates/bounties/detail.html:151
 msgid "You can comment only because you are a staff user."
 msgstr "Tu peux commenter seulement parce que tu es modérateur."
 
-#: templates/bounties/detail.html:148
+#: templates/bounties/detail.html:154
 msgid "Discuss with other mercenaries interested in this bounty."
 msgstr "Discute avec les mercenaires intéressés par cette prime."
 
-#: templates/bounties/detail.html:151
+#: templates/bounties/detail.html:157
 msgid "Add a comment"
 msgstr "Ajoute un commentaire"
 
-#: templates/bounties/detail.html:166
+#: templates/bounties/detail.html:173
 msgid "You can only comment with character from the same region as bounty."
 msgstr ""
 "Tu ne peux commenter qu'avec un personnage de la même région que la prime."
 
-#: templates/bounties/detail.html:184
+#: templates/bounties/detail.html:191
 msgid "Publish"
 msgstr "Publier"
 
-#: templates/bounties/detail.html:190
+#: templates/bounties/detail.html:197
 msgid "You need to be logged in to post a comment."
 msgstr "Tu dois être connecté pour poster un commentaire."
 
-#: templates/bounties/detail.html:193
+#: templates/bounties/detail.html:200
 msgid "Comments are disabled."
 msgstr "Commentaires désactivés."
 
-#: templates/bounties/detail.html:203
+#: templates/bounties/detail.html:210
 msgid "Staff"
 msgstr "Staff"
 
-#: templates/bounties/detail.html:229
+#: templates/bounties/detail.html:236
 msgid "This comment has been hidden by the Bounty-O-Matic Gobelins."
 msgstr ""
 "Ce commentaire a été caché part les Gobelins de Bounty-O-Matic pour votre "
 "bien."
 
-#: templates/bounties/detail.html:231
+#: templates/bounties/detail.html:238
 msgid "Edited at"
 msgstr "Édité le"
 
-#: templates/bounties/detail.html:254 templates/bounties/list.html:120
+#: templates/bounties/detail.html:261 templates/bounties/list.html:120
 msgid "Page"
 msgstr "Page"
 
-#: templates/bounties/detail.html:275
+#: templates/bounties/detail.html:282
 msgid "Bounty not found."
 msgstr "Cette prime est introuvable."
 
-#: templates/bounties/detail.html:296
+#: templates/bounties/detail.html:303
 msgid "Missing captcha."
 msgstr "Il manque le captcha."
 
-#: templates/bounties/detail.html:334
+#: templates/bounties/detail.html:341
 msgid ""
 "Gobelins have made an error while processing your comment. Can you retry "
 "later?"
@@ -862,10 +871,6 @@ msgid "for"
 msgstr "pour"
 
 #: templates/footer.html:5
-msgid "Admin"
-msgstr "Admin"
-
-#: templates/footer.html:5
 msgid "Refresh your BattleNet data"
 msgstr "Rafraichir tes données BattleNet"
 
@@ -879,17 +884,13 @@ msgstr ""
 "des marques déposées de Blizzard Entertainment, Inc. aux États-Unis "
 "d’Amérique et/ou dans d’autres pays."
 
-#: templates/footer.html:18
+#: templates/footer.html:19
 msgid "Refreshing your BattleNet data..."
 msgstr "Rafraichissement des données..."
 
 #: templates/header.html:9
 msgid "Toggle navigation"
 msgstr "Basculer la navigation"
-
-#: templates/header.html:23
-msgid "Loading data from Blizzard..."
-msgstr "Chargement des données depuis Blizzard..."
 
 #: templates/header.html:28
 msgid "Bounties"
@@ -1048,6 +1049,9 @@ msgid ""
 "\t\t</ul>\n"
 "\t"
 msgstr ""
+
+#~ msgid "Loading data from Blizzard..."
+#~ msgstr "Chargement des données depuis Blizzard..."
 
 #~ msgid "Korea"
 #~ msgstr "Corée"
