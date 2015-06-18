@@ -15,6 +15,9 @@
     {% if bounty.user == user.pk %}
       <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.slug }}">{% trans "Edit" %}</a>
     {% endif %}
+    {% if request.user.is_staff %}
+      <a class="btn btn-warning btn-xs" href="{{ bounty.admin_url }}">{% trans "Edit in admin" %}</a>
+    {% endif %}
   </h1>
   {% if bounty.is_private %}
     <strong>{% trans "This bounty is private but it's viewable if you share its url." %}</strong> 
@@ -140,6 +143,9 @@
   <hr>
   <div id="comments">
     <h3>{% trans "Discussion" %} <small>{% if bounty.comments.count %}({{ bounty.comments.count }}){% endif %}</small></h3> 
+    {% if request.user.is_staff %}
+      <a class="btn btn-warning btn-xs" href="{{ bounty.comments_admin_url }}" target="_blank">{% trans "Edit in admin" %}</a>
+    {% endif %}
     {% if not bounty.comments_closed or request.user.is_staff %}
       {% if bounty.comments_closed %}
         <p class="text-danger"><strong>{% trans "You can comment only because you are a staff user." %}</strong></p>
@@ -150,6 +156,7 @@
       <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#addCommentCollapse" aria-expanded="false" aria-controls="collapseExample">
         {% trans "Add a comment" %} <span class="caret"></span>
       </button>
+
       <br>
       <div class="collapse" id="addCommentCollapse">
         <br>
