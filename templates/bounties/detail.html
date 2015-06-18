@@ -16,7 +16,7 @@
       <a class="btn btn-warning btn-xs" href="{% url 'bounty-add' %}?update={{ bounty.slug }}">{% trans "Edit" %}</a>
     {% endif %}
     {% if request.user.is_staff %}
-      <a class="btn btn-warning btn-xs" href="{{ bounty.admin_url }}">{% trans "Edit in admin" %}</a>
+      <a class="btn btn-warning btn-xs" href="{{ bounty.admin_url }}">{% trans "Moderate bounty" %}</a>
     {% endif %}
   </h1>
   {% if bounty.is_private %}
@@ -144,7 +144,7 @@
   <div id="comments">
     <h3>{% trans "Discussion" %} <small>{% if bounty.comments.count %}({{ bounty.comments.count }}){% endif %}</small></h3> 
     {% if request.user.is_staff %}
-      <a class="btn btn-warning btn-xs" href="{{ bounty.comments_admin_url }}" target="_blank">{% trans "Edit in admin" %}</a>
+      <a class="btn btn-warning btn-xs" href="{{ bounty.comments_admin_url }}" target="_blank">{% trans "Moderate comments" %}</a>
     {% endif %}
     {% if not bounty.comments_closed or request.user.is_staff %}
       {% if bounty.comments_closed %}

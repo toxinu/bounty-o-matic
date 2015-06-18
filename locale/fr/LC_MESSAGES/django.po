@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-18 09:48+0000\n"
+"POT-Creation-Date: 2015-06-18 10:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -709,9 +709,9 @@ msgstr "sur"
 msgid "Edit"
 msgstr "Éditer"
 
-#: templates/bounties/detail.html:19 templates/bounties/detail.html.py:147
-msgid "Edit in admin"
-msgstr "Éditer dans l'admin"
+#: templates/bounties/detail.html:19
+msgid "Moderate bounty"
+msgstr "Modérer la prime"
 
 #: templates/bounties/detail.html:23
 msgid "This bounty is private but it's viewable if you share its url."
@@ -769,6 +769,10 @@ msgstr ""
 #: templates/bounties/detail.html:145
 msgid "Discussion"
 msgstr "Discussion"
+
+#: templates/bounties/detail.html:147
+msgid "Moderate comments"
+msgstr "Modérer les commentaires"
 
 #: templates/bounties/detail.html:151
 msgid "You can comment only because you are a staff user."
@@ -1049,6 +1053,9 @@ msgid ""
 "\t\t</ul>\n"
 "\t"
 msgstr ""
+
+#~ msgid "Edit in admin"
+#~ msgstr "Éditer dans l'admin"
 
 #~ msgid "Loading data from Blizzard..."
 #~ msgstr "Chargement des données depuis Blizzard..."
