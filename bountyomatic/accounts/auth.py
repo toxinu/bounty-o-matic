@@ -1,3 +1,7 @@
+import requests
+
+from social.backends.battlenet import BattleNetOAuth2
+
 from .models import User
 
 
@@ -27,8 +31,26 @@ class EmailBackend(BasicBackend):
 
 
 def get_username(backend, details, response, *args, **kwargs):
-    username = response.get('accountId')
+    access_token = response.get('access_token')
+    try:
+        user_response = requests.get(
+            'https://eu.api.battle.net/account/user?access_token=%s' % access_token)
+        username = user_response.json().get('id')
+    except:
+        username = None
+
     user = User.objects.filter(username=username)
     if user:
-        return {'username': response.get('accountId'), 'user': user[0]}
-    return {'username': response.get('accountId')}
+        return {'username': username, 'user': user[0]}
+    return {'username': username}
+
+
+class CustomBattleNetOAuth2(BattleNetOAuth2):
+    def get_user_id(self, details, response):
+        access_token = response.get('access_token')
+        try:
+            r = requests.get(
+                'https://eu.api.battle.net/account/user?access_token=%s' % access_token)
+            return r.json().get('id')
+        except:
+            return None

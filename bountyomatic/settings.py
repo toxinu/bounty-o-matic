@@ -78,7 +78,7 @@ ROOT_URLCONF = 'bountyomatic.urls'
 WSGI_APPLICATION = 'bountyomatic.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.battlenet.BattleNetOAuth2',
+    'bountyomatic.accounts.auth.CustomBattleNetOAuth2',
     'bountyomatic.accounts.auth.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -204,14 +204,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_user',
     # Make up a username for this person, appends a random string at the end if
     # there's any collision.
-    'bountyomatic.accounts.auth.get_username',
     # 'social.pipeline.user.get_username',
-    # Send a validation email to the user to verify its email address.
-    # Disabled by default.
-    # 'social.pipeline.mail.mail_validation',
-    # Associates the current social details with another user account with
-    # a similar email address. Disabled by default.
-    # 'social.pipeline.social_auth.associate_by_email',
+    'bountyomatic.accounts.auth.get_username',
     # Create a user account if we haven't found one yet.
     'social.pipeline.user.create_user',
     # Create the record that associated the social account with this user.

@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
+import bountyomatic.storage
+import uuid
 
 
 class Migration(migrations.Migration):
@@ -15,57 +17,65 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Bounty',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('reward', models.TextField(verbose_name='Reward')),
                 ('description', models.TextField(verbose_name='Description')),
-                ('status', models.PositiveSmallIntegerField(verbose_name='Status', choices=[(1, 'Open'), (2, 'Closed'), (3, 'Cancelled')], default=1)),
-                ('region', models.CharField(verbose_name='Region', choices=[('eu', 'Europe'), ('us', 'US')], default='eu', max_length=2)),
-                ('source_realm', models.CharField(verbose_name='Source realm', max_length=50)),
-                ('source_character', models.CharField(verbose_name='Source character', max_length=50)),
-                ('destination_realm', models.CharField(verbose_name='Target realm', max_length=50)),
-                ('destination_character', models.CharField(verbose_name='Target character', max_length=50)),
-                ('winner_realm', models.CharField(verbose_name='Winner realm', blank=True, max_length=50, null=True)),
-                ('winner_character', models.CharField(verbose_name='Winner character', blank=True, max_length=50, null=True)),
-                ('added_date', models.DateTimeField(verbose_name='Creation date', auto_now_add=True)),
-                ('updated_date', models.DateTimeField(verbose_name='Latest update', auto_now=True)),
-                ('is_private', models.BooleanField(default=False)),
+                ('status', models.PositiveSmallIntegerField(choices=[(1, 'Open'), (2, 'Closed'), (3, 'Cancelled')], default=1, verbose_name='Status')),
+                ('region', models.CharField(max_length=2, choices=[('eu', 'Europe'), ('us', 'US')], default='eu', verbose_name='Region')),
+                ('added_date', models.DateTimeField(auto_now_add=True, verbose_name='Creation date')),
+                ('updated_date', models.DateTimeField(auto_now=True, verbose_name='Latest update')),
+                ('is_private', models.BooleanField(default=False, verbose_name='Private')),
+                ('comments_closed', models.BooleanField(default=False, verbose_name='Comments closed')),
+                ('comments_closed_by_staff', models.BooleanField(default=False, verbose_name='Comments closed by staff')),
+                ('is_target_guild', models.BooleanField(default=False, verbose_name='Target guild')),
+                ('slug', models.UUIDField(default=uuid.uuid4, unique=True)),
+                ('is_hidden', models.BooleanField(default=False, verbose_name='Hidden')),
+                ('source_realm', models.CharField(max_length=50, verbose_name='Source realm')),
+                ('source_character', models.CharField(max_length=50, verbose_name='Source character')),
+                ('destination_realm', models.CharField(max_length=50, verbose_name='Target realm', null=True)),
+                ('destination_character', models.CharField(max_length=50, verbose_name='Target name', null=True)),
+                ('destination_faction', models.PositiveSmallIntegerField(null=True, choices=[(0, 'Alliance'), (1, 'Horde'), (2, 'Neutral')], verbose_name='Faction')),
+                ('winner_realm', models.CharField(max_length=50, blank=True, null=True, verbose_name='Winner realm')),
+                ('winner_character', models.CharField(max_length=50, blank=True, null=True, verbose_name='Winner character')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name_plural': 'bounties',
                 'ordering': ['-updated_date'],
+                'verbose_name_plural': 'bounties',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='BountyImage',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('updated_date', models.DateTimeField(verbose_name='Latest update', auto_now=True, db_index=True)),
-                ('image', models.ImageField(upload_to='bounties')),
-                ('bounty', models.OneToOneField(to='bounties.Bounty')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('updated_date', models.DateTimeField(auto_now=True, db_index=True, verbose_name='Latest update')),
+                ('image', models.ImageField(storage=bountyomatic.storage.OverwriteStorage(), upload_to='bounties')),
+                ('language', models.CharField(max_length=5, choices=[('en-us', 'English'), ('fr-fr', 'French')])),
+                ('bounty', models.ForeignKey(to='bounties.Bounty')),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('text', models.TextField(verbose_name='Comment')),
-                ('character_realm', models.CharField(verbose_name='Character realm', max_length=50)),
-                ('character_name', models.CharField(verbose_name='Character name', max_length=50)),
-                ('added_date', models.DateTimeField(verbose_name='Creation date', auto_now_add=True, db_index=True)),
-                ('is_hidden', models.BooleanField(verbose_name='Hidden', default=False)),
-                ('user_ip', models.GenericIPAddressField(verbose_name='IP address', unpack_ipv4=True, blank=True, null=True)),
+                ('character_realm', models.CharField(max_length=50, verbose_name='Character realm')),
+                ('character_name', models.CharField(max_length=50, verbose_name='Character name')),
+                ('added_date', models.DateTimeField(db_index=True, auto_now_add=True, verbose_name='Creation date')),
+                ('updated_date', models.DateTimeField(auto_now=True, db_index=True, verbose_name='Latest update')),
+                ('is_hidden', models.BooleanField(default=False, verbose_name='Hidden')),
+                ('user_ip', models.GenericIPAddressField(blank=True, unpack_ipv4=True, null=True, verbose_name='IP address')),
                 ('bounty', models.ForeignKey(to='bounties.Bounty')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ['-added_date'],
+                'verbose_name_plural': 'comments',
             },
-            bases=(models.Model,),
+        ),
+        migrations.AlterUniqueTogether(
+            name='bountyimage',
+            unique_together=set([('bounty', 'language')]),
         ),
         migrations.AlterUniqueTogether(
             name='bounty',
