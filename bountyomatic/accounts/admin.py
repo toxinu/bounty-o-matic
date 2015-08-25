@@ -36,6 +36,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = (NullBattleTagFilter, 'is_active', 'is_superuser', 'is_staff', )
     ordering = ('-date_joined', )
     actions = ('refresh_user_data', 'ban_user', 'new_social_auth', )
+    search_fields = ('id', 'battletag', 'username', )
 
     def battletag(self, obj):
         try:
