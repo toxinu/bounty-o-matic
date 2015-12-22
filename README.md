@@ -48,3 +48,11 @@ Just add:
 - `./manage.py refresh_realms`
 
 to your crontabs.
+
+For example:
+
+```
+* */20 * * * /var/www/bounty-o-matic.com/venv/bin/python /var/www/bounty-o-matic.com/manage.py refresh_realms
+* */20 * * * /var/www/bounty-o-matic.com/venv/bin/python /var/www/bounty-o-matic.com/manage.py refresh_characters
+* */20 * * * /var/www/bounty-o-matic.com/venv/bin/python /var/www/bounty-o-matic.com/manage.py refresh_battletags
+```
