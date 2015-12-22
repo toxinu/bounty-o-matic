@@ -39,3 +39,12 @@ mkdir -p /usr/share/fonts/truetype/google-fonts
 find static/bountyomatic/fonts/ -name "Lato-*.ttf" -exec sudo install -m644 {} /usr/share/fonts/truetype/google-fonts/ \;
 fc-cache -f
 ```
+
+# Scheduled tasks
+
+Just add:
+- `./manage.py refresh_characters`
+- `./manage.py refresh_battletags`
+- `./manage.py refresh_realms`
+
+to your crontabs.
