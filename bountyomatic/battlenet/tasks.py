@@ -1,7 +1,13 @@
-from bountyomatic.carotte import app
+import asyncio
 
 
-@app.task
+def delay(task_method, *args, **kwargs):
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(task_method(*args, **kwargs))
+    loop.close()
+
+
+@asyncio.coroutine
 def refresh_realms():
     from .api import get_realms
     from .api import get_regions
@@ -9,7 +15,7 @@ def refresh_realms():
         get_realms(region.get('slug'), update=True)
 
 
-@app.task
+@asyncio.coroutine
 def refresh_battletags():
     from .api import get_player_battletag
     from ..accounts.models import User
@@ -21,8 +27,10 @@ def refresh_battletags():
             user.save()
 
 
-@app.task
+@asyncio.coroutine
 def refresh_characters():
+    import time
+    time.sleep(50)
     import datetime
     from django.utils import timezone
 
@@ -41,7 +49,8 @@ def refresh_characters():
                 'destination_character', 'destination_realm').prefetch_related(
                     'comment_set'):
 
-        key = '%s|%s|%s' % (bounty.region, bounty.source_realm, bounty.source_character)
+        key = '%s|%s|%s' % (
+            bounty.region, bounty.source_realm, bounty.source_character)
         if key not in already_refreshed:
             get_character(
                 bounty.region,
@@ -51,7 +60,9 @@ def refresh_characters():
             already_refreshed.append(key)
 
         key = '%s|%s|%s' % (
-            bounty.region, bounty.destination_realm, bounty.destination_character)
+            bounty.region,
+            bounty.destination_realm,
+            bounty.destination_character)
         if key not in already_refreshed:
             get_character(
                 bounty.region,
