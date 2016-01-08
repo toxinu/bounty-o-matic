@@ -327,3 +327,25 @@ def get_guild_armory(region, realm, guild):
     if region == "cn":
         base_url = "http://www.battlenet.com.cn/wow/cn/guild/"
     return base_url + realm + "/" + guild + "/"
+
+
+def is_token_valid(user):
+    if not hasattr(user, 'social_auth') or not user.social_auth.exists():
+        return False
+
+    s = Session()
+    params = {
+        'apikey': settings.SOCIAL_AUTH_BATTLENET_OAUTH2_KEY,
+        'access_token': user.social_auth.first().access_token}
+    req = Request(
+        'GET',
+        'https://eu.battle.net/api/account/user/battletag',
+        params=params)
+    prepped = req.prepare()
+    resp = s.send(prepped)
+    logger.info("%s %s" % (prepped.url, resp.status_code))
+    if resp.status_code == 200:
+        return True
+    if resp.status_code == 401:
+        return False
+    return True

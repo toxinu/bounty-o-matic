@@ -8,6 +8,15 @@ def delay(task_method, *args, **kwargs):
 
 
 @asyncio.coroutine
+def refresh_tokens():
+    from .api import is_token_valid
+    from ..accounts.models import User
+    for user in User.objects.all():
+        if not is_token_valid(user):
+            user.reset_social_auth()
+
+
+@asyncio.coroutine
 def refresh_realms():
     from .api import get_realms
     from .api import get_regions

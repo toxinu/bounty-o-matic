@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.core.urlresolvers import reverse
-from django.contrib.sessions.models import Session
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.filters import SimpleListFilter
 
@@ -33,7 +32,8 @@ class CustomUserAdmin(UserAdmin):
     list_display = (
         'id', 'username', 'battletag', 'date_joined', 'last_login',
         'is_staff', 'is_active', 'battlenet_error')
-    list_filter = (NullBattleTagFilter, 'is_active', 'is_superuser', 'is_staff', )
+    list_filter = (
+        NullBattleTagFilter, 'is_active', 'is_superuser', 'is_staff', )
     ordering = ('-date_joined', )
     actions = ('refresh_user_data', 'ban_user', 'new_social_auth', )
     search_fields = ('id', 'battletag', 'username', )
@@ -62,17 +62,12 @@ class CustomUserAdmin(UserAdmin):
 
     def ban_user(self, request, queryset):
         for user in queryset.all().only('id'):
-            for s in Session.objects.all():
-                if s.get_decoded().get('_auth_user_id') == user.id:
-                    s.delete()
-            user.is_active = False
-            user.save()
+            user.ban()
     ban_user.short_description = _("Ban user")
 
     def new_social_auth(self, request, queryset):
         for user in queryset.all():
-            if hasattr(user, 'social_auth') and user.social_auth.exists():
-                user.social_auth.all().delete()
+            user.reset_social_auth()
     new_social_auth.short_description = _("Force new BattleNet authentication")
 
 admin.site.register(User, CustomUserAdmin)
