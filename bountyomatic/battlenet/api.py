@@ -113,7 +113,7 @@ def get_realms(region, update=False):
     realms = cache.get(key)
     if realms is None or update:
         realms = []
-        r = _retry('http://%s.api.battle.net/wow/realm/status' % region)
+        r = _retry('https://%s.api.battle.net/wow/realm/status' % region)
         if not r:
             return realms
         realms = r.json().get('realms')
@@ -204,10 +204,10 @@ def get_player_characters(user, regions=None, update=False):
         if r_characters is None or update:
             r_characters = []
             kwargs = {}
-            base_url = 'http://%s.api.battle.net' % region
+            base_url = 'https://%s.api.battle.net' % region
             if region == 'cn':
                 kwargs = {'verify': False}
-                base_url = 'http://cn.api.battlenet.com.cn'
+                base_url = 'https://cn.api.battlenet.com'
             r = _retry(
                 '%s/wow/user/characters' % base_url,
                 params={'access_token': user.social_auth.first().access_token},
