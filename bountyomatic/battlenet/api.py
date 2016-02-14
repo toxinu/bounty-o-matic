@@ -113,7 +113,7 @@ def get_realms(region, update=False):
     realms = cache.get(key)
     if realms is None or update:
         realms = []
-        r = _retry('http://%s.battle.net/api/wow/realm/status' % region)
+        r = _retry('http://%s.api.battle.net/wow/realm/status' % region)
         if not r:
             return realms
         realms = r.json().get('realms')
@@ -141,7 +141,7 @@ def get_character(region, realm, name, update=False, keep_latest=False):
     character = cache.get(key)
     if character is None or update:
         character = {}
-        r = _retry('https://%s.battle.net/api/wow/character/%s/%s?fields=guild' % (
+        r = _retry('https://%s.api.battle.net/wow/character/%s/%s?fields=guild' % (
             region, realm, name))
         if r and r.json().get('status') != 'nok':
             character = r.json()
@@ -167,7 +167,7 @@ def get_guild(region, realm, name, update=False, keep_latest=False):
     guild = cache.get(key)
     if guild is None or update:
         guild = {}
-        r = _retry('https://%s.battle.net/api/wow/guild/%s/%s' % (region, realm, name))
+        r = _retry('https://%s.api.battle.net/wow/guild/%s/%s' % (region, realm, name))
         if r and r.json().get('status') != 'nok':
             guild = r.json()
         if not guild and keep_latest:
@@ -204,10 +204,10 @@ def get_player_characters(user, regions=None, update=False):
         if r_characters is None or update:
             r_characters = []
             kwargs = {}
-            base_url = 'http://%s.battle.net/api' % region
+            base_url = 'http://%s.api.battle.net' % region
             if region == 'cn':
                 kwargs = {'verify': False}
-                base_url = 'http://www.battlenet.com.cn/api'
+                base_url = 'http://cn.api.battlenet.com.cn'
             r = _retry(
                 '%s/wow/user/characters' % base_url,
                 params={'access_token': user.social_auth.first().access_token},
@@ -244,7 +244,7 @@ def get_player_battletag(user, update=False, keep_latest=False):
     if battletag is None or update:
         battletag = None
         r = _retry(
-            'https://eu.battle.net/api/account/user/battletag',
+            'https://eu.api.battle.net/account/user',
             params={'access_token': user.social_auth.first().access_token})
         try:
             if r.json().get('status') != 'nok':
@@ -339,7 +339,7 @@ def is_token_valid(user):
         'access_token': user.social_auth.first().access_token}
     req = Request(
         'GET',
-        'https://eu.battle.net/api/account/user/battletag',
+        'https://eu.api.battle.net/account/user',
         params=params)
     prepped = req.prepare()
     resp = s.send(prepped)
